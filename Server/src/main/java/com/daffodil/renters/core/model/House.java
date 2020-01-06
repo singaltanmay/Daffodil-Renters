@@ -1,10 +1,10 @@
-package core.model;
+package com.daffodil.renters.core.model;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "houses")
+@Table(name = "house")
 public class House {
 
     @Id
@@ -20,6 +20,7 @@ public class House {
     private double longitude;
 
     // Children
+    @OneToMany(mappedBy = "house")
     List<Room> rooms;
 
 }

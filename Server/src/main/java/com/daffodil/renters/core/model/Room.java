@@ -1,10 +1,10 @@
-package core.model;
+package com.daffodil.renters.core.model;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "rooms")
+@Table(name = "room")
 public class Room {
 
     @Id
@@ -15,9 +15,11 @@ public class Room {
     private long rent;
 
     // Children
+    @OneToMany(mappedBy = "room")
     private List<Occupant> occupants;
 
     // Parent
+    @ManyToOne
     private House house;
 
     public long getRent() {
