@@ -88,6 +88,10 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
+    <state x="765" y="221" key="#com.intellij.ide.util.MemberChooser" timestamp="1578303868542">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="765" y="221" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1578303868542" />
     <state width="914" height="281" key="GridCell.Tab.0.bottom" timestamp="1578300321256">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -108,5 +112,9 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="461" y="163" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1578301290445" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1578301634767">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1578301634767" />
   </component>
 </project>

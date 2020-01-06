@@ -1,4 +1,4 @@
-package core.model;
+package core.service;
 
 /**
  * <p>Represents a point on the surface of a sphere. (The Earth is almost
@@ -14,7 +14,7 @@ package core.model;
  * @author Jan Philip Matuschek
  * @version 22 September 2010
  */
-public class GeoLocation {
+public class GeoLocationService {
 
     private double radLat;  // latitude in radians
     private double radLon;  // longitude in radians
@@ -27,15 +27,15 @@ public class GeoLocation {
     private static final double MIN_LON = Math.toRadians(-180d); // -PI
     private static final double MAX_LON = Math.toRadians(180d);  //  PI
 
-    private GeoLocation() {
+    private GeoLocationService() {
     }
 
     /**
      * @param latitude  the latitude, in degrees.
      * @param longitude the longitude, in degrees.
      */
-    public static GeoLocation fromDegrees(double latitude, double longitude) {
-        GeoLocation result = new GeoLocation();
+    public static GeoLocationService fromDegrees(double latitude, double longitude) {
+        GeoLocationService result = new GeoLocationService();
         result.radLat = Math.toRadians(latitude);
         result.radLon = Math.toRadians(longitude);
         result.degLat = latitude;
@@ -48,8 +48,8 @@ public class GeoLocation {
      * @param latitude  the latitude, in radians.
      * @param longitude the longitude, in radians.
      */
-    public static GeoLocation fromRadians(double latitude, double longitude) {
-        GeoLocation result = new GeoLocation();
+    public static GeoLocationService fromRadians(double latitude, double longitude) {
+        GeoLocationService result = new GeoLocationService();
         result.radLat = latitude;
         result.radLon = longitude;
         result.degLat = Math.toDegrees(latitude);
@@ -108,7 +108,7 @@ public class GeoLocation {
      * @return the distance, measured in the same unit as the radius
      * argument.
      */
-    public double distanceTo(GeoLocation location, Double radius) {
+    public double distanceTo(GeoLocationService location, Double radius) {
         if (radius == null) radius = 6371.01;
         return Math.acos(Math.sin(radLat) * Math.sin(location.radLat) +
                 Math.cos(radLat) * Math.cos(location.radLat) *
@@ -148,7 +148,7 @@ public class GeoLocation {
      * array element.</li>
      * </ul>
      */
-    public GeoLocation[] boundingCoordinates(double distance, Double radius) {
+    public GeoLocationService[] boundingCoordinates(double distance, Double radius) {
 
         if (radius == null) radius = 6371.01;
 
@@ -177,7 +177,7 @@ public class GeoLocation {
             maxLon = MAX_LON;
         }
 
-        return new GeoLocation[]{fromRadians(minLat, minLon),
+        return new GeoLocationService[]{fromRadians(minLat, minLon),
                 fromRadians(maxLat, maxLon)};
     }
 
