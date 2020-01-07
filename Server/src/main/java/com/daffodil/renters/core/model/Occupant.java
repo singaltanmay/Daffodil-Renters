@@ -1,12 +1,7 @@
 package com.daffodil.renters.core.model;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Date;
-import java.util.UUID;
 
 @Entity
 @Table(name = "occupant")
@@ -29,18 +24,9 @@ public class Occupant {
     // Parents
     @ManyToOne
     private Room room;
-//    @OneToOne /*Unidirectional OneToOne*/
-//    private House house;
-
-    @Transient
-    private long rent = room.getRent() / room.getNumberOfOccupants();
-
-    @Transient
-    private LocalDate dateRentDue = LocalDateTime.from(timeLastRentPaid.toInstant()).plusDays(30).toLocalDate();
 
     public Occupant(Room room) {
         this.room = room;
-//        this.house = room.getHouse();
     }
 
     public String getFirstName() {
