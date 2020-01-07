@@ -1,4 +1,4 @@
-package com.daffodil.renters.core.model;
+package com.daffodil.renters.core.model.entities;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -7,7 +7,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "occupant")
-public class Occupant {
+public class OccupantEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,17 +25,17 @@ public class Occupant {
 
     // Parents
     @ManyToOne
-    private Room room;
+    private RoomEntity roomEntity;
 
 
     @Transient
-    private long rent = room.getRent() / room.getNumberOfOccupants();
+    private long rent = roomEntity.getRent() / roomEntity.getNumberOfOccupants();
 
     @Transient
     private LocalDate dateRentDue = LocalDateTime.from(timeLastRentPaid.toInstant()).plusDays(30).toLocalDate();
 
-    public Occupant(Room room) {
-        this.room = room;
+    public OccupantEntity(RoomEntity roomEntity) {
+        this.roomEntity = roomEntity;
     }
 
     public String getFirstName() {
@@ -78,11 +78,11 @@ public class Occupant {
         this.timeLastRentPaid = timeLastRentPaid;
     }
 
-    public Room getRoom() {
-        return room;
+    public RoomEntity getRoomEntity() {
+        return roomEntity;
     }
 
-    public void setRoom(Room room) {
-        this.room = room;
+    public void setRoomEntity(RoomEntity roomEntity) {
+        this.roomEntity = roomEntity;
     }
 }

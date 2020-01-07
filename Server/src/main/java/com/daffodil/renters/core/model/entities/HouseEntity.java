@@ -1,11 +1,11 @@
-package com.daffodil.renters.core.model;
+package com.daffodil.renters.core.model.entities;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "house")
-public class House {
+public class HouseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,27 +21,27 @@ public class House {
 
     // Children
     @OneToMany(mappedBy = "house", cascade = CascadeType.ALL)
-    List<Room> rooms;
+    List<RoomEntity> roomEntities;
 
-    public House(String address, double latitude, double longitude) {
+    public HouseEntity(String address, double latitude, double longitude) {
         this.address = address;
         this.latitude = latitude;
         this.longitude = longitude;
     }
 
-    public House(long id, String address, double latitude, double longitude, List<Room> rooms) {
+    public HouseEntity(long id, String address, double latitude, double longitude, List<RoomEntity> roomEntities) {
         this.id = id;
         this.address = address;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.rooms = rooms;
+        this.roomEntities = roomEntities;
     }
 
-    protected House() {
+    protected HouseEntity() {
     }
 
-    public House setRooms(List<Room> rooms) {
-        this.rooms = rooms;
+    public HouseEntity setRoomEntities(List<RoomEntity> roomEntities) {
+        this.roomEntities = roomEntities;
         return this;
     }
 
@@ -61,7 +61,7 @@ public class House {
         return longitude;
     }
 
-    public List<Room> getRooms() {
-        return rooms;
+    public List<RoomEntity> getRoomEntities() {
+        return roomEntities;
     }
 }

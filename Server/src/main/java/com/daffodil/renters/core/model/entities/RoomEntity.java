@@ -1,11 +1,11 @@
-package com.daffodil.renters.core.model;
+package com.daffodil.renters.core.model.entities;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "room")
-public class Room {
+public class RoomEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -16,29 +16,29 @@ public class Room {
 
     // Children
     @OneToMany(mappedBy = "room")
-    private List<Occupant> occupants;
+    private List<OccupantEntity> occupantEntities;
 
-    public Room setHouse(House house) {
-        this.house = house;
+    public RoomEntity setHouseEntity(HouseEntity houseEntity) {
+        this.houseEntity = houseEntity;
         return this;
     }
 
     // Parent
     @ManyToOne
-    private House house;
+    private HouseEntity houseEntity;
 
-    public Room(short capacity, long rent) {
+    public RoomEntity(short capacity, long rent) {
         this.capacity = capacity;
         this.rent = rent;
     }
 
 
 
-    protected Room() {
+    protected RoomEntity() {
     }
 
     public int getNumberOfOccupants() {
-        return occupants.size();
+        return occupantEntities.size();
     }
 
     public short getId() {
@@ -53,11 +53,11 @@ public class Room {
         return rent;
     }
 
-    public List<Occupant> getOccupants() {
-        return occupants;
+    public List<OccupantEntity> getOccupantEntities() {
+        return occupantEntities;
     }
 
-    public House getHouse() {
-        return house;
+    public HouseEntity getHouseEntity() {
+        return houseEntity;
     }
 }

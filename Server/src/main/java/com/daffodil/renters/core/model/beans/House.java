@@ -1,22 +1,22 @@
-package com.daffodil.renters.core.Insertables;
+package com.daffodil.renters.core.model.beans;
 
-import com.daffodil.renters.core.model.Room;
+import com.daffodil.renters.core.model.entities.RoomEntity;
 
 import java.util.List;
 
-public class HouseInsertable {
+public class House {
 
     private String address;
     private double latitude;
     private double longitude;
-    List<Room> rooms;
+    List<RoomEntity> roomEntities;
 
     public static class Builder {
 
         private String address;
         private double latitude;
         private double longitude;
-        List<Room> rooms;
+        List<RoomEntity> roomEntities;
 
         public Builder setAddress(String address) {
             this.address = address;
@@ -33,29 +33,29 @@ public class HouseInsertable {
             return this;
         }
 
-        public Builder setRooms(List<Room> rooms) {
-            this.rooms = rooms;
+        public Builder setRoomEntities(List<RoomEntity> roomEntities) {
+            this.roomEntities = roomEntities;
             return this;
         }
 
-        public HouseInsertable build() {
-            return new HouseInsertable(this);
+        public House build() {
+            return new House(this);
         }
 
     }
 
-    public HouseInsertable(Builder builder) {
+    public House(Builder builder) {
         this.address = builder.address;
         this.latitude = builder.latitude;
         this.longitude = builder.longitude;
-        this.rooms = builder.rooms;
+        this.roomEntities = builder.roomEntities;
     }
 
     public String getAddress() {
         return address;
     }
 
-    public HouseInsertable setAddress(String address) {
+    public House setAddress(String address) {
         this.address = address;
         return this;
     }
@@ -64,7 +64,7 @@ public class HouseInsertable {
         return latitude;
     }
 
-    public HouseInsertable setLatitude(double latitude) {
+    public House setLatitude(double latitude) {
         this.latitude = latitude;
         return this;
     }
@@ -73,17 +73,17 @@ public class HouseInsertable {
         return longitude;
     }
 
-    public HouseInsertable setLongitude(double longitude) {
+    public House setLongitude(double longitude) {
         this.longitude = longitude;
         return this;
     }
 
-    public List<Room> getRooms() {
-        return rooms;
+    public List<RoomEntity> getRoomEntities() {
+        return roomEntities;
     }
 
-    public HouseInsertable setRooms(List<Room> rooms) {
-        this.rooms = rooms;
+    public House setRoomEntities(List<RoomEntity> roomEntities) {
+        this.roomEntities = roomEntities;
         return this;
     }
 }

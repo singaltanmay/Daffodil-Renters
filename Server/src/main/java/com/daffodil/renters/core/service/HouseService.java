@@ -1,7 +1,7 @@
 package com.daffodil.renters.core.service;
 
-import com.daffodil.renters.core.model.House;
-import com.daffodil.renters.core.model.Room;
+import com.daffodil.renters.core.model.beans.House;
+import com.daffodil.renters.core.model.entities.HouseEntity;
 import com.daffodil.renters.core.repo.HouseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,18 +21,18 @@ public class HouseService {
         this.repository = repository;
     }
 
-    public List<House> getAllHouses() {
-        Iterable<House> all = repository.findAll();
-        List<House> houses = new LinkedList<>();
-        all.forEach(houses::add);
-        return houses;
+    public List<HouseEntity> getAllHouses() {
+        Iterable<HouseEntity> all = repository.findAll();
+        List<HouseEntity> houseEntities = new LinkedList<>();
+        all.forEach(houseEntities::add);
+        return houseEntities;
     }
 
-    public Optional<House> getHouseById(long id) {
+    public Optional<HouseEntity> getHouseById(long id) {
         return repository.findById(id);
     }
 
-    public List<House> getHousesWithin(double latitude, double longitude, double distance) {
+    public List<HouseEntity> getHousesWithin(double latitude, double longitude, double distance) {
         GeoLocationService location = GeoLocationService.fromDegrees(latitude, longitude);
         GeoLocationService[] boundingCoordinates = location.boundingCoordinates(distance, null);
 
@@ -58,25 +58,30 @@ public class HouseService {
 
     @Transactional
     public void insertHouse(House house) {
-        // bulider pattern
-        House shah = new House("shah", 12, 12);
+//        // bulider pattern
+//        House shah = new House("shah", 12, 12);
+//
+//        List<Room> rooms = List.of(new Room((short) 12, 12000).setHouse(shah), new Room((short) 12, 12000).setHouse(shah));
+//        House houseRoom = shah.setRooms(rooms);
 
-        List<Room> rooms = List.of(new Room((short) 12, 12000).setHouse(shah), new Room((short) 12, 12000).setHouse(shah));
-        House houseRoom = shah.setRooms(rooms);
-        repository.save(houseRoom);
+        //TODO fix!!
+
+//        HouseInsertable.Builder()
+//
+//        repository.save(houseRoom);
     }
 
-    private void insertHouseById(long id, House house) {
+    private void insertHouseById(long id, HouseEntity houseEntity) {
         if (!repository.existsById(id)) {
-            House house1 = new House(id, house.getAddress(), house.getLatitude(), house.getLongitude(), house.getRooms());
-            repository.save(house1);
+            HouseEntity houseEntity1 = new HouseEntity(id, houseEntity.getAddress(), houseEntity.getLatitude(), houseEntity.getLongitude(), houseEntity.getRoomEntities());
+            repository.save(houseEntity1);
         }
     }
 
-    public void updateHouseById(long id, House house) {
+    public void updateHouseById(long id, HouseEntity houseEntity) {
         if (repository.existsById(id)) {
             deleteHouseById(id);
-            insertHouseById(id, house);
+            insertHouseById(id, houseEntity);
         }
     }
 
