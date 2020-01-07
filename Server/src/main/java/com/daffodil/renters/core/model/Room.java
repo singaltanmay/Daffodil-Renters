@@ -9,29 +9,44 @@ public class Room {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private byte id;
+    private short id;
 
-    private short maxBeds;
+    private short capacity;
     private long rent;
 
     // Children
     @OneToMany(mappedBy = "room")
     private List<Occupant> occupants;
 
+    public Room setHouse(House house) {
+        this.house = house;
+        return this;
+    }
+
     // Parent
     @ManyToOne
     private House house;
+
+    public Room(short capacity, long rent) {
+        this.capacity = capacity;
+        this.rent = rent;
+    }
+
+
+
+    protected Room() {
+    }
 
     public int getNumberOfOccupants() {
         return occupants.size();
     }
 
-    public byte getId() {
+    public short getId() {
         return id;
     }
 
-    public short getMaxBeds() {
-        return maxBeds;
+    public short getCapacity() {
+        return capacity;
     }
 
     public long getRent() {

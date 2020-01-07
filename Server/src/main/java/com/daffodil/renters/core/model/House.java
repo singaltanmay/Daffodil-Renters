@@ -20,7 +20,7 @@ public class House {
     private double longitude;
 
     // Children
-    @OneToMany(mappedBy = "house")
+    @OneToMany(mappedBy = "house", cascade = CascadeType.ALL)
     List<Room> rooms;
 
     public House(String address, double latitude, double longitude) {
@@ -38,6 +38,11 @@ public class House {
     }
 
     protected House() {
+    }
+
+    public House setRooms(List<Room> rooms) {
+        this.rooms = rooms;
+        return this;
     }
 
     public long getId() {

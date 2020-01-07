@@ -6,12 +6,6 @@ import com.daffodil.renters.core.repo.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.Query;
-import javax.persistence.spi.PersistenceProvider;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -44,24 +38,15 @@ public class RoomService {
     }
 
     // TODO fix
-    public Optional<Room> getRoomById(byte room_id, long house_id) {
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("daffodil_renters_db");
-        EntityManager manager = entityManagerFactory.createEntityManager();
-        Query query = manager.createQuery("SELECT * FROM Room r");
-
-        List<Object[]> resultList = query.getResultList();
-        resultList.forEach(arr -> System.out.println(Arrays.toString(arr)));
-        manager.close();
-
-        return Optional.empty();
+    public Optional<Room> getRoomById(short room_id, long house_id) {
+        return roomRepository.getRoomById(room_id, house_id);
     }
 
     public Optional<Room> getRoomById(byte room_id, House house) {
-        Optional<Room> first = house.getRooms().stream().filter(r -> r.getId() == room_id).findFirst();
-        return first;
+        return house.getRooms().stream().filter(r -> r.getId() == room_id).findFirst();
     }
 
-    public long filterRentBetween(int from, int to) {
+    public List<Room> findRentBetween(long from, long to) {
         return roomRepository.findAllByRentBetween(from, to);
     }
 
