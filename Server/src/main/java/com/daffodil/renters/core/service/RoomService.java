@@ -1,5 +1,7 @@
 package com.daffodil.renters.core.service;
 
+import com.daffodil.renters.core.model.beans.House;
+import com.daffodil.renters.core.model.beans.Room;
 import com.daffodil.renters.core.model.entities.HouseEntity;
 import com.daffodil.renters.core.model.entities.RoomEntity;
 import com.daffodil.renters.core.repo.RoomRepository;
@@ -22,18 +24,21 @@ public class RoomService {
         this.houseService = houseService;
     }
 
-    public List<RoomEntity> getAllRooms() {
+    public List<Room> getAllRooms() {
         Iterable<RoomEntity> all = roomRepository.findAll();
-        List<RoomEntity> list = new LinkedList();
-        all.forEach(list::add);
+        List<Room> list = new LinkedList();
+        for (RoomEntity entity : all) {
+            list.add(new Room.Builder().build(entity));
+        }
         return list;
     }
 
-    public List<RoomEntity> getAllRooms(long houseId) {
+    public List<Room> getAllRooms(long houseId) {
         Optional<HouseEntity> house = houseService.getHouseById(houseId);
 
         if (house.isPresent()) {
-            return house.get().getRoomEntities();
+            House build = new House.Builder().build(house.get());
+            return build.getRooms();
         } else return new LinkedList<>();
     }
 
@@ -43,7 +48,7 @@ public class RoomService {
     }
 
     public Optional<RoomEntity> getRoomById(byte room_id, HouseEntity houseEntity) {
-        return houseEntity.getRoomEntities().stream().filter(r -> r.getId() == room_id).findFirst();
+        return houseEntity.getRooms().stream().filter(r -> r.getId() == room_id).findFirst();
     }
 
     public List<RoomEntity> findRentBetween(long from, long to) {

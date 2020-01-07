@@ -21,7 +21,7 @@ public class HouseEntity {
 
     // Children
     @OneToMany(mappedBy = "house", cascade = CascadeType.ALL)
-    List<RoomEntity> roomEntities;
+    List<RoomEntity> rooms;
 
     public HouseEntity(String address, double latitude, double longitude) {
         this.address = address;
@@ -29,20 +29,61 @@ public class HouseEntity {
         this.longitude = longitude;
     }
 
-    public HouseEntity(long id, String address, double latitude, double longitude, List<RoomEntity> roomEntities) {
+    public HouseEntity(long id, String address, double latitude, double longitude, List<RoomEntity> rooms) {
         this.id = id;
         this.address = address;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.roomEntities = roomEntities;
+        this.rooms = rooms;
     }
 
     protected HouseEntity() {
     }
 
-    public HouseEntity setRoomEntities(List<RoomEntity> roomEntities) {
-        this.roomEntities = roomEntities;
-        return this;
+    private HouseEntity(Builder builder) {
+        this.id = builder.id;
+        this.address = builder.address;
+        this.latitude = builder.latitude;
+        this.longitude = builder.longitude;
+        this.rooms = builder.rooms;
+    }
+
+    public static class Builder {
+        private long id;
+        private String address;
+        private double latitude;
+        private double longitude;
+        List<RoomEntity> rooms;
+
+        public Builder setId(long id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder setAddress(String address) {
+            this.address = address;
+            return this;
+        }
+
+        public Builder setLatitude(double latitude) {
+            this.latitude = latitude;
+            return this;
+        }
+
+        public Builder setLongitude(double longitude) {
+            this.longitude = longitude;
+            return this;
+        }
+
+        public Builder setRooms(List<RoomEntity> rooms) {
+            this.rooms = rooms;
+            return this;
+        }
+
+        public HouseEntity build() {
+            return new HouseEntity(this);
+        }
+
     }
 
     public long getId() {
@@ -61,7 +102,7 @@ public class HouseEntity {
         return longitude;
     }
 
-    public List<RoomEntity> getRoomEntities() {
-        return roomEntities;
+    public List<RoomEntity> getRooms() {
+        return rooms;
     }
 }

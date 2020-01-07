@@ -16,29 +16,68 @@ public class RoomEntity {
 
     // Children
     @OneToMany(mappedBy = "room")
-    private List<OccupantEntity> occupantEntities;
-
-    public RoomEntity setHouseEntity(HouseEntity houseEntity) {
-        this.houseEntity = houseEntity;
-        return this;
-    }
+    private List<OccupantEntity> occupants;
 
     // Parent
     @ManyToOne
-    private HouseEntity houseEntity;
+    private HouseEntity house;
 
     public RoomEntity(short capacity, long rent) {
         this.capacity = capacity;
         this.rent = rent;
     }
 
-
+    public RoomEntity(Builder builder) {
+        this.id = builder.id;
+        this.capacity = builder.capacity;
+        this.rent = builder.rent;
+        this.occupants = builder.occupants;
+        this.house = builder.house;
+    }
 
     protected RoomEntity() {
     }
 
+    public static class Builder {
+
+        private short id;
+        private short capacity;
+        private long rent;
+        private List<OccupantEntity> occupants;
+        private HouseEntity house;
+
+        public Builder setId(short id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder setCapacity(short capacity) {
+            this.capacity = capacity;
+            return this;
+        }
+
+        public Builder setRent(long rent) {
+            this.rent = rent;
+            return this;
+        }
+
+        public Builder setOccupants(List<OccupantEntity> occupants) {
+            this.occupants = occupants;
+            return this;
+        }
+
+        public Builder setHouse(HouseEntity house) {
+            this.house = house;
+            return this;
+        }
+
+        public RoomEntity build() {
+            return new RoomEntity(this);
+        }
+    }
+
     public int getNumberOfOccupants() {
-        return occupantEntities.size();
+        return occupants.size();
     }
 
     public short getId() {
@@ -53,11 +92,11 @@ public class RoomEntity {
         return rent;
     }
 
-    public List<OccupantEntity> getOccupantEntities() {
-        return occupantEntities;
+    public List<OccupantEntity> getOccupants() {
+        return occupants;
     }
 
     public HouseEntity getHouseEntity() {
-        return houseEntity;
+        return house;
     }
 }

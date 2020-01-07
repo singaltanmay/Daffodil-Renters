@@ -25,64 +25,116 @@ public class OccupantEntity {
 
     // Parents
     @ManyToOne
-    private RoomEntity roomEntity;
-
+    private RoomEntity room;
 
     @Transient
-    private long rent = roomEntity.getRent() / roomEntity.getNumberOfOccupants();
+    private long rent = room.getRent() / room.getNumberOfOccupants();
 
     @Transient
     private LocalDate dateRentDue = LocalDateTime.from(timeLastRentPaid.toInstant()).plusDays(30).toLocalDate();
 
-    public OccupantEntity(RoomEntity roomEntity) {
-        this.roomEntity = roomEntity;
+    public OccupantEntity(RoomEntity room) {
+        this.room = room;
+    }
+
+    public OccupantEntity(Builder builder) {
+        this.id = builder.id;
+        this.firstName = builder.firstName;
+        this.lastName = builder.lastName;
+        this.phoneNumber = builder.phoneNumber;
+        if (builder.dateMovedIn != null) {
+            this.dateMovedIn = builder.dateMovedIn;
+        }
+        if (builder.timeLastRentPaid != null) {
+            this.timeLastRentPaid = builder.timeLastRentPaid;
+        }
+        this.room = builder.room;
+    }
+
+    public static class Builder {
+
+        private long id;
+        private String firstName;
+        private String lastName;
+        private String phoneNumber;
+        private Date dateMovedIn;
+        private Date timeLastRentPaid;
+        private RoomEntity room;
+
+        public Builder setId(long id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder setFirstName(String firstName) {
+            this.firstName = firstName;
+            return this;
+        }
+
+        public Builder setLastName(String lastName) {
+            this.lastName = lastName;
+            return this;
+        }
+
+        public Builder setPhoneNumber(String phoneNumber) {
+            this.phoneNumber = phoneNumber;
+            return this;
+        }
+
+        public Builder setDateMovedIn(Date dateMovedIn) {
+            this.dateMovedIn = dateMovedIn;
+            return this;
+        }
+
+        public Builder setTimeLastRentPaid(Date timeLastRentPaid) {
+            this.timeLastRentPaid = timeLastRentPaid;
+            return this;
+        }
+
+        public Builder setRoom(RoomEntity room) {
+            this.room = room;
+            return this;
+        }
+
+        public OccupantEntity build() {
+            return new OccupantEntity(this);
+        }
+
+    }
+
+    public long getId() {
+        return id;
     }
 
     public String getFirstName() {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
     public String getLastName() {
         return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
     }
 
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
     public Date getDateMovedIn() {
         return dateMovedIn;
-    }
-
-    public void setDateMovedIn(Date dateMovedIn) {
-        this.dateMovedIn = dateMovedIn;
     }
 
     public Date getTimeLastRentPaid() {
         return timeLastRentPaid;
     }
 
-    public void setTimeLastRentPaid(Date timeLastRentPaid) {
-        this.timeLastRentPaid = timeLastRentPaid;
+    public RoomEntity getRoom() {
+        return room;
     }
 
-    public RoomEntity getRoomEntity() {
-        return roomEntity;
+    public long getRent() {
+        return rent;
     }
 
-    public void setRoomEntity(RoomEntity roomEntity) {
-        this.roomEntity = roomEntity;
+    public LocalDate getDateRentDue() {
+        return dateRentDue;
     }
 }

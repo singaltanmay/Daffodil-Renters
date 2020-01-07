@@ -1,22 +1,46 @@
 package com.daffodil.renters.core.model.beans;
 
+import com.daffodil.renters.core.model.entities.HouseEntity;
 import com.daffodil.renters.core.model.entities.RoomEntity;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class House {
 
+    long id;
     private String address;
     private double latitude;
     private double longitude;
-    List<RoomEntity> roomEntities;
+    List<Room> rooms;
+
+    public House(long id, String address, double latitude, double longitude, List<Room> rooms) {
+        this.id = id;
+        this.address = address;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.rooms = rooms;
+    }
+
+    public House(Builder builder) {
+        this.id = builder.id;
+        this.address = builder.address;
+        this.latitude = builder.latitude;
+        this.longitude = builder.longitude;
+        this.rooms = builder.rooms;
+    }
 
     public static class Builder {
-
+        long id;
         private String address;
         private double latitude;
         private double longitude;
-        List<RoomEntity> roomEntities;
+        List<Room> rooms;
+
+        public Builder setId(long id) {
+            this.id = id;
+            return this;
+        }
 
         public Builder setAddress(String address) {
             this.address = address;
@@ -33,8 +57,8 @@ public class House {
             return this;
         }
 
-        public Builder setRoomEntities(List<RoomEntity> roomEntities) {
-            this.roomEntities = roomEntities;
+        public Builder setRooms(List<Room> rooms) {
+            this.rooms = rooms;
             return this;
         }
 
@@ -42,13 +66,21 @@ public class House {
             return new House(this);
         }
 
-    }
+        public House build(HouseEntity entity) {
+            this.id = entity.getId();
+            this.address = entity.getAddress();
+            this.latitude = entity.getLatitude();
+            this.longitude = entity.getLongitude();
 
-    public House(Builder builder) {
-        this.address = builder.address;
-        this.latitude = builder.latitude;
-        this.longitude = builder.longitude;
-        this.roomEntities = builder.roomEntities;
+            LinkedList<Room> rooms = new LinkedList<>();
+            List<RoomEntity> entityRooms = entity.getRooms();
+            for (RoomEntity entity1 : entityRooms) {
+                rooms.add((new Room.Builder()).build(entity1));
+            }
+            this.rooms = rooms;
+            return new House(this);
+        }
+
     }
 
     public String getAddress() {
@@ -78,12 +110,13 @@ public class House {
         return this;
     }
 
-    public List<RoomEntity> getRoomEntities() {
-        return roomEntities;
+    public List<Room> getRooms() {
+        return rooms;
     }
 
-    public House setRoomEntities(List<RoomEntity> roomEntities) {
-        this.roomEntities = roomEntities;
+    public House setRooms(List<Room> rooms) {
+        this.rooms = rooms;
         return this;
     }
+
 }

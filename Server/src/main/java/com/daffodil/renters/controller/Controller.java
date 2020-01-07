@@ -1,8 +1,7 @@
 package com.daffodil.renters.controller;
 
 import com.daffodil.renters.core.model.beans.House;
-import com.daffodil.renters.core.model.entities.HouseEntity;
-import com.daffodil.renters.core.model.entities.RoomEntity;
+import com.daffodil.renters.core.model.beans.Room;
 import com.daffodil.renters.core.service.HouseService;
 import com.daffodil.renters.core.service.OccupantService;
 import com.daffodil.renters.core.service.RoomService;
@@ -34,7 +33,7 @@ public class Controller {
     @GetMapping(value = "house")
     public ResponseEntity<?> getHouseById(@RequestParam("id") Optional<Long> id) {
         if (id.isPresent()) {
-            Optional<HouseEntity> house = houseService.getHouseById(id.get());
+            Optional<House> house = houseService.getHouseById(id.get());
             return new ResponseEntity<>(house.orElse(null), HttpStatus.OK);
         } else return new ResponseEntity<>(houseService.getAllHouses(), HttpStatus.OK);
     }
@@ -49,9 +48,9 @@ public class Controller {
     @PostMapping(path = "/test")
     public void test() {
 //        roomService.getRoomById((byte) 0,0);
-        List<RoomEntity> rentBetween = roomService.findRentBetween(0, 10000);
+        List<Room> rentBetween = roomService.findRentBetween(0, 10000);
 
-        for (RoomEntity fes : rentBetween) {
+        for (Room fes : rentBetween) {
             System.out.println(fes.getId());
         }
     }

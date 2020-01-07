@@ -1,6 +1,6 @@
 package com.daffodil.renters.core.service;
 
-import com.daffodil.renters.core.model.beans.House;
+import com.daffodil.renters.core.model.beans.*;
 import com.daffodil.renters.core.model.entities.HouseEntity;
 import com.daffodil.renters.core.repo.HouseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,18 +21,18 @@ public class HouseService {
         this.repository = repository;
     }
 
-    public List<HouseEntity> getAllHouses() {
+    public List<House> getAllHouses() {
         Iterable<HouseEntity> all = repository.findAll();
-        List<HouseEntity> houseEntities = new LinkedList<>();
-        all.forEach(houseEntities::add);
-        return houseEntities;
+        List<House> houses = new LinkedList<>();
+        all.forEach(houses::add);
+        return houses;
     }
 
-    public Optional<HouseEntity> getHouseById(long id) {
+    public Optional<House> getHouseById(long id) {
         return repository.findById(id);
     }
 
-    public List<HouseEntity> getHousesWithin(double latitude, double longitude, double distance) {
+    public List<House> getHousesWithin(double latitude, double longitude, double distance) {
         GeoLocationService location = GeoLocationService.fromDegrees(latitude, longitude);
         GeoLocationService[] boundingCoordinates = location.boundingCoordinates(distance, null);
 
@@ -71,17 +71,17 @@ public class HouseService {
 //        repository.save(houseRoom);
     }
 
-    private void insertHouseById(long id, HouseEntity houseEntity) {
+    private void insertHouseById(long id, House house) {
         if (!repository.existsById(id)) {
-            HouseEntity houseEntity1 = new HouseEntity(id, houseEntity.getAddress(), houseEntity.getLatitude(), houseEntity.getLongitude(), houseEntity.getRoomEntities());
-            repository.save(houseEntity1);
+            House house1 = new House(id, house.getAddress(), house.getLatitude(), house.getLongitude(), house.getRooms());
+            repository.save(house1);
         }
     }
 
-    public void updateHouseById(long id, HouseEntity houseEntity) {
+    public void updateHouseById(long id, House house) {
         if (repository.existsById(id)) {
             deleteHouseById(id);
-            insertHouseById(id, houseEntity);
+            insertHouseById(id, house);
         }
     }
 
