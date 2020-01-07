@@ -4,4 +4,5 @@ import com.daffodil.renters.core.model.Room;
 import org.springframework.data.repository.CrudRepository;
 
 public interface RoomRepository extends CrudRepository<Room, Byte> {
+    long findAllByRentBetween(int i, int i1);
 }

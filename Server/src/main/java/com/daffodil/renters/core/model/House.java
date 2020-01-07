@@ -23,4 +23,40 @@ public class House {
     @OneToMany(mappedBy = "house")
     List<Room> rooms;
 
+    public House(String address, double latitude, double longitude) {
+        this.address = address;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
+    public House(long id, String address, double latitude, double longitude, List<Room> rooms) {
+        this.id = id;
+        this.address = address;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.rooms = rooms;
+    }
+
+    protected House() {
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public List<Room> getRooms() {
+        return rooms;
+    }
 }

@@ -1,6 +1,8 @@
 package com.daffodil.renters.core.model;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -24,6 +26,13 @@ public class Occupant {
     // Parents
     @ManyToOne
     private Room room;
+
+
+    @Transient
+    private long rent = room.getRent() / room.getNumberOfOccupants();
+
+    @Transient
+    private LocalDate dateRentDue = LocalDateTime.from(timeLastRentPaid.toInstant()).plusDays(30).toLocalDate();
 
     public Occupant(Room room) {
         this.room = room;

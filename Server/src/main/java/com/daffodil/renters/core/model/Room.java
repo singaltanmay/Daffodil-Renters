@@ -22,16 +22,24 @@ public class Room {
     @ManyToOne
     private House house;
 
+    public int getNumberOfOccupants() {
+        return occupants.size();
+    }
+
+    public byte getId() {
+        return id;
+    }
+
+    public short getMaxBeds() {
+        return maxBeds;
+    }
+
     public long getRent() {
         return rent;
     }
 
     public List<Occupant> getOccupants() {
         return occupants;
-    }
-
-    public int getNumberOfOccupants() {
-        return occupants.size();
     }
 
     public House getHouse() {
