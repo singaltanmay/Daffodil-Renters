@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -96,4 +97,28 @@ public class HouseService {
         if (repository.existsById(id)) repository.deleteById(id);
     }
 
+    //TODO implement EntityManager??
+    public Object getHousesFiltered(Map<String, String> params) {
+
+        Long SELECT_ID = null;
+
+        if (params.containsKey("id")) {
+            SELECT_ID = Long.parseLong(params.get("id"));
+        }
+
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT ");
+
+        short cols = 0;
+
+        if (SELECT_ID != null) {
+            query.append("id");
+            cols++;
+        }
+
+        if (cols == 0) query.append("*");
+
+
+        return null;
+    }
 }

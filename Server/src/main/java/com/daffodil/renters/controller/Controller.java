@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RequestMapping("daffodil/api")
@@ -35,6 +36,27 @@ public class Controller {
             return new ResponseEntity<>(housesWithin, HttpStatus.OK);
         } else return new ResponseEntity<>(null, HttpStatus.OK);
     }
+
+    @GetMapping(value = "houseCustom")
+    public ResponseEntity<?> getHousesFiltered(@RequestParam Map<String, String> params) {
+
+        if (params.isEmpty()) {
+            return new ResponseEntity<>(houseService.getAllHouses(), HttpStatus.OK);
+        } else return new ResponseEntity<>(houseService.getHousesFiltered(params), HttpStatus.OK);
+
+    }
+
+//    @RequestMapping(method = RequestMethod.GET, value = "/custom")
+//    public String controllerMethod(@RequestParam Map<String, String> customQuery) {
+//
+//        System.out.println("customQuery = brand " + customQuery.containsKey("brand"));
+//        System.out.println("customQuery = limit " + customQuery.containsKey("limit"));
+//        System.out.println("customQuery = price " + customQuery.containsKey("price"));
+//        System.out.println("customQuery = other " + customQuery.containsKey("other"));
+//        System.out.println("customQuery = sort " + customQuery.containsKey("sort"));
+//
+//        return customQuery.toString();
+//    }
 
     @PostMapping(path = "/house")
     public void insertHouse(@RequestBody House insertable) {
