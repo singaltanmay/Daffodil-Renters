@@ -104,6 +104,7 @@ public class OccupantEntity {
         }
 
         public OccupantEntity build(Occupant occupant) {
+            if (occupant == null) return null;
             this.id = occupant.getId();
             this.firstName = occupant.getFirstName();
             this.lastName = occupant.getLastName();

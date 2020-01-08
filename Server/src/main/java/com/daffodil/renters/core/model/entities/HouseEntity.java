@@ -89,14 +89,19 @@ public class HouseEntity {
         }
 
         public HouseEntity build(House house) {
+            if (house == null) return null;
             this.id = house.getId();
             this.address = house.getAddress();
             this.latitude = house.getLatitude();
             this.longitude = house.getLongitude();
-            List<Room> rooms = house.getRooms();
+            List<Room> houseRooms = house.getRooms();
+            List<Room> rooms = houseRooms != null ? houseRooms : new LinkedList<>();
             List<RoomEntity> roomEntities = new LinkedList<>();
             for (Room room : rooms) {
-                roomEntities.add(new RoomEntity.Builder().build(room));
+                RoomEntity build = new RoomEntity.Builder().build(room);
+                if (build != null) {
+                    roomEntities.add(build);
+                }
             }
             this.rooms = roomEntities;
             return new HouseEntity(this);

@@ -91,6 +91,7 @@ public class Occupant {
         }
 
         public Occupant build(OccupantEntity entity) {
+            if (entity == null) return null;
             this.id = entity.getId();
             this.firstName = entity.getFirstName();
             this.lastName = entity.getLastName();

@@ -1,5 +1,6 @@
 package com.daffodil.renters.core.model.beans;
 
+import com.daffodil.renters.core.model.entities.OccupantEntity;
 import com.daffodil.renters.core.model.entities.RoomEntity;
 
 import java.util.LinkedList;
@@ -67,12 +68,20 @@ public class Room {
         }
 
         public Room build(RoomEntity entity) {
+            if (entity == null) return null;
             this.id = entity.getId();
             this.capacity = entity.getCapacity();
-            this.house = (new House.Builder()).build(entity.getHouseEntity());
+            this.house = (new House.Builder()).build(entity.getHouse());
 
+            List<OccupantEntity> entityOccupants = entity.getOccupants();
+            List<OccupantEntity> occupantEntities = entityOccupants != null ? entityOccupants : new LinkedList<>();
             LinkedList<Occupant> occupants = new LinkedList<>();
-            entity.getOccupants().stream().map(occ -> occupants.add(new Occupant.Builder().build(occ)));
+            for (OccupantEntity occ : occupantEntities) {
+                Occupant build = new Occupant.Builder().build(occ);
+                if (build != null) {
+                    occupants.add(build);
+                }
+            }
             this.occupants = occupants;
 
             this.rent = entity.getRent();

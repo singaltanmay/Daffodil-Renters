@@ -61,6 +61,7 @@ public class HouseService {
 
     @Transactional
     public void insertHouse(House house) {
+        repository.save(new HouseEntity.Builder().build(house));
 //        // bulider pattern
 //        House shah = new House("shah", 12, 12);
 //

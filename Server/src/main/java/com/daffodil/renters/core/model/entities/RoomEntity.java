@@ -80,41 +80,68 @@ public class RoomEntity {
         }
 
         public RoomEntity build(Room room) {
+            if (room == null) return null;
             this.id = room.getId();
             this.capacity = room.getCapacity();
             this.rent = room.getRent();
             this.house = new HouseEntity.Builder().build(room.getHouse());
-            List<Occupant> occupants = room.getOccupants();
+            List<Occupant> roomOccupants = room.getOccupants();
+            List<Occupant> occupants = roomOccupants != null ? roomOccupants : new LinkedList<>();
             List<OccupantEntity> occupantEntities = new LinkedList<>();
             for (Occupant occ : occupants) {
-                occupantEntities.add(new OccupantEntity.Builder().build(occ));
+                OccupantEntity build = new OccupantEntity.Builder().build(occ);
+                if (build != null) {
+                    occupantEntities.add(build);
+                }
             }
+            this.occupants = occupantEntities;
             return new RoomEntity(this);
         }
 
-    }
-
-    public int getNumberOfOccupants() {
-        return occupants.size();
     }
 
     public short getId() {
         return id;
     }
 
+    public void setId(short id) {
+        this.id = id;
+    }
+
     public short getCapacity() {
         return capacity;
+    }
+
+    public void setCapacity(short capacity) {
+        this.capacity = capacity;
     }
 
     public long getRent() {
         return rent;
     }
 
+    public void setRent(long rent) {
+        this.rent = rent;
+    }
+
     public List<OccupantEntity> getOccupants() {
         return occupants;
     }
 
-    public HouseEntity getHouseEntity() {
+    public void setOccupants(List<OccupantEntity> occupants) {
+        this.occupants = occupants;
+    }
+
+    public HouseEntity getHouse() {
         return house;
     }
+
+    public void setHouse(HouseEntity house) {
+        this.house = house;
+    }
+
+    public int getNumberOfOccupants() {
+        return occupants.size();
+    }
+
 }
