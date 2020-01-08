@@ -3,21 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="9438775f-629b-492f-a27b-89b637e0fa18" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/daffodil/renters/core/model/beans/House.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/daffodil/renters/core/model/beans/House.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/daffodil/renters/core/model/beans/Occupant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/daffodil/renters/core/model/beans/Occupant.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/daffodil/renters/core/model/beans/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/daffodil/renters/core/model/beans/Room.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/daffodil/renters/core/model/entities/HouseEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/daffodil/renters/core/model/entities/HouseEntity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/daffodil/renters/core/model/entities/OccupantEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/daffodil/renters/core/model/entities/OccupantEntity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/daffodil/renters/core/model/entities/RoomEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/daffodil/renters/core/model/entities/RoomEntity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/daffodil/renters/core/service/HouseService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/daffodil/renters/core/service/HouseService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/daffodil/renters/core/model/beans/House.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/daffodil/renters/core/model/beans/House.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/daffodil/renters/core/model/beans/Occupant.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/daffodil/renters/core/model/beans/Occupant.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/daffodil/renters/core/model/beans/Room.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/daffodil/renters/core/model/beans/Room.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/daffodil/renters/core/model/entities/HouseEntity$Builder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/daffodil/renters/core/model/entities/HouseEntity$Builder.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/daffodil/renters/core/model/entities/HouseEntity.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/daffodil/renters/core/model/entities/HouseEntity.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/daffodil/renters/core/model/entities/OccupantEntity$Builder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/daffodil/renters/core/model/entities/OccupantEntity$Builder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/daffodil/renters/core/model/entities/OccupantEntity.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/daffodil/renters/core/model/entities/OccupantEntity.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/daffodil/renters/core/model/entities/RoomEntity$Builder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/daffodil/renters/core/model/entities/RoomEntity$Builder.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/daffodil/renters/core/model/entities/RoomEntity.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/daffodil/renters/core/model/entities/RoomEntity.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/daffodil/renters/core/service/HouseService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/daffodil/renters/core/service/HouseService.class" afterDir="false" />
     </list>
@@ -119,10 +110,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="197" y="182" key="#Application/0.0.1920.1040@0.0.1920.1040" timestamp="1578307380489" />
-    <state x="765" y="221" key="#com.intellij.ide.util.MemberChooser" timestamp="1578467281486">
+    <state x="765" y="221" key="#com.intellij.ide.util.MemberChooser" timestamp="1578468404384">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="765" y="221" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1578467281486" />
+    <state x="765" y="221" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1578468404384" />
     <state x="209" y="306" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1578307372266">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -135,10 +126,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="278" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1578394741899" />
-    <state x="128" y="82" width="1601" height="894" key="CommitChangelistDialog2" timestamp="1578467293708">
+    <state x="128" y="82" width="1601" height="894" key="CommitChangelistDialog2" timestamp="1578468775761">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="128" y="82" width="1601" height="894" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1578467293708" />
+    <state x="128" y="82" width="1601" height="894" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1578468775761" />
     <state x="0" y="95" key="DiffContextDialog" timestamp="1578467177475">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -147,22 +138,22 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="739" y="262" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1578307828138" />
-    <state width="1877" height="348" key="GridCell.Tab.0.bottom" timestamp="1578466949747">
+    <state width="1877" height="392" key="GridCell.Tab.0.bottom" timestamp="1578467955445">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="348" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1578466949747" />
-    <state width="1877" height="348" key="GridCell.Tab.0.center" timestamp="1578466949746">
+    <state width="1877" height="392" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1578467955445" />
+    <state width="1877" height="392" key="GridCell.Tab.0.center" timestamp="1578467955445">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="348" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1578466949746" />
-    <state width="1877" height="348" key="GridCell.Tab.0.left" timestamp="1578466949746">
+    <state width="1877" height="392" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1578467955445" />
+    <state width="1877" height="392" key="GridCell.Tab.0.left" timestamp="1578467955445">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="348" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1578466949746" />
-    <state width="1877" height="348" key="GridCell.Tab.0.right" timestamp="1578466949746">
+    <state width="1877" height="392" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1578467955445" />
+    <state width="1877" height="392" key="GridCell.Tab.0.right" timestamp="1578467955445">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="348" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1578466949746" />
+    <state width="1877" height="392" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1578467955445" />
     <state width="1877" height="348" key="GridCell.Tab.1.bottom" timestamp="1578466949747">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -191,16 +182,5 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1578465788189" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/daffodil/renters/core/model/entities/RoomEntity.java</url>
-          <line>90</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

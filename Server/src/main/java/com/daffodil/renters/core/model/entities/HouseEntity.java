@@ -27,6 +27,21 @@ public class HouseEntity {
     @OneToMany(mappedBy = "house", cascade = CascadeType.ALL)
     List<RoomEntity> rooms;
 
+    // To be run whenever rooms are inserted
+    private void mapAllRooms() {
+        List<RoomEntity> rooms = this.rooms;
+        if (rooms != null) {
+            for (RoomEntity r : rooms) {
+                mapRoom(r);
+            }
+        }
+    }
+
+    // To be run whenever a new room is added
+    private void mapRoom(RoomEntity roomEntity) {
+        if (roomEntity != null) roomEntity.setHouse(HouseEntity.this);
+    }
+
     public HouseEntity(String address, double latitude, double longitude) {
         this.address = address;
         this.latitude = latitude;
@@ -39,6 +54,7 @@ public class HouseEntity {
         this.latitude = latitude;
         this.longitude = longitude;
         this.rooms = rooms;
+        mapAllRooms();
     }
 
     protected HouseEntity() {
@@ -50,6 +66,7 @@ public class HouseEntity {
         this.latitude = builder.latitude;
         this.longitude = builder.longitude;
         this.rooms = builder.rooms;
+        mapAllRooms();
     }
 
     public static class Builder {

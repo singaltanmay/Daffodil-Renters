@@ -62,17 +62,6 @@ public class HouseService {
     @Transactional
     public void insertHouse(House house) {
         repository.save(new HouseEntity.Builder().build(house));
-//        // bulider pattern
-//        House shah = new House("shah", 12, 12);
-//
-//        List<Room> rooms = List.of(new Room((short) 12, 12000).setHouse(shah), new Room((short) 12, 12000).setHouse(shah));
-//        House houseRoom = shah.setRooms(rooms);
-
-        //TODO fix!!
-
-//        HouseInsertable.Builder()
-//
-//        repository.save(houseRoom);
     }
 
     private void insertHouseById(long id, House house) {

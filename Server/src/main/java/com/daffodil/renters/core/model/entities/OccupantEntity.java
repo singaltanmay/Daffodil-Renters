@@ -152,4 +152,40 @@ public class OccupantEntity {
     public LocalDate getDateRentDue() {
         return dateRentDue;
     }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public void setDateMovedIn(Date dateMovedIn) {
+        this.dateMovedIn = dateMovedIn;
+    }
+
+    public void setTimeLastRentPaid(Date timeLastRentPaid) {
+        this.timeLastRentPaid = timeLastRentPaid;
+    }
+
+    public void setRoom(RoomEntity room) {
+        this.room = room;
+    }
+
+    public void setRent(long rent) {
+        this.rent = rent;
+    }
+
+    public void setDateRentDue(LocalDate dateRentDue) {
+        this.dateRentDue = dateRentDue;
+    }
 }

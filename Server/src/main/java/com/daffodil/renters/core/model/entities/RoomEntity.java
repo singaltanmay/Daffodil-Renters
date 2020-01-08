@@ -19,12 +19,27 @@ public class RoomEntity {
     private long rent;
 
     // Children
-    @OneToMany(mappedBy = "room")
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
     private List<OccupantEntity> occupants;
 
     // Parent
     @ManyToOne
     private HouseEntity house;
+
+    private void mapAllOccupants() {
+        List<OccupantEntity> occupants = this.getOccupants();
+        if (occupants != null) {
+            for (OccupantEntity oc : occupants) {
+                mapOccupant(oc);
+            }
+        }
+    }
+
+    private void mapOccupant(OccupantEntity entity) {
+        if (entity != null) {
+            entity.setRoom(RoomEntity.this);
+        }
+    }
 
     public RoomEntity(short capacity, long rent) {
         this.capacity = capacity;
@@ -37,6 +52,7 @@ public class RoomEntity {
         this.rent = builder.rent;
         this.occupants = builder.occupants;
         this.house = builder.house;
+        mapAllOccupants();
     }
 
     protected RoomEntity() {
@@ -130,6 +146,7 @@ public class RoomEntity {
 
     public void setOccupants(List<OccupantEntity> occupants) {
         this.occupants = occupants;
+        mapAllOccupants();
     }
 
     public HouseEntity getHouse() {
