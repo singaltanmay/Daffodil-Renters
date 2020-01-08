@@ -5,8 +5,6 @@ import com.daffodil.renters.core.model.beans.Room;
 import com.daffodil.renters.core.service.HouseService;
 import com.daffodil.renters.core.service.OccupantService;
 import com.daffodil.renters.core.service.RoomService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,9 +38,19 @@ public class Controller {
 
     @PostMapping(path = "/house")
     public void insertHouse(@RequestBody House insertable) {
-        Logger logger = LoggerFactory.getLogger(Controller.class);
-        logger.info(Double.toString(insertable.getLatitude()));
         houseService.insertHouse(insertable);
+    }
+
+    @PutMapping(path = "/house")
+    public void replaceOrInsertHouse(@RequestParam("id") long id, @RequestBody House insertable) {
+        houseService.replaceOrInsertHouseById(id, insertable);
+    }
+
+    @DeleteMapping(value = "house")
+    public void deleteHouseById(@RequestParam("id") Optional<Long> id) {
+        if (id.isPresent()) {
+            houseService.deleteHouseById(id.get());
+        } else houseService.deleteAllHouses();
     }
 
     @PostMapping(path = "/test")
