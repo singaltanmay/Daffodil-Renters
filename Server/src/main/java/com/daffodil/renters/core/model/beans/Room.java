@@ -1,20 +1,18 @@
 package com.daffodil.renters.core.model.beans;
 
-import com.daffodil.renters.core.model.entities.OccupantEntity;
 import com.daffodil.renters.core.model.entities.RoomEntity;
 
-import java.util.LinkedList;
 import java.util.List;
 
 public class Room {
 
-    private short id;
-    private short capacity;
+    private long id;
+    private long capacity;
     private long rent;
     private List<Occupant> occupants;
     private House house;
 
-    public Room(short id, short capacity, long rent, List<Occupant> occupants, House house) {
+    public Room(long id, short capacity, long rent, List<Occupant> occupants, House house) {
         this.id = id;
         this.capacity = capacity;
         this.rent = rent;
@@ -32,18 +30,18 @@ public class Room {
 
     public static class Builder {
 
-        private short id;
-        private short capacity;
+        private long id;
+        private long capacity;
         private long rent;
         private List<Occupant> occupants;
         private House house;
 
-        public Builder setId(short id) {
+        public Builder setId(long id) {
             this.id = id;
             return this;
         }
 
-        public Builder setCapacity(short capacity) {
+        public Builder setCapacity(long capacity) {
             this.capacity = capacity;
             return this;
         }
@@ -91,19 +89,19 @@ public class Room {
 
     }
 
-    public short getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(short id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public short getCapacity() {
+    public long getCapacity() {
         return capacity;
     }
 
-    public void setCapacity(short capacity) {
+    public void setCapacity(long capacity) {
         this.capacity = capacity;
     }
 

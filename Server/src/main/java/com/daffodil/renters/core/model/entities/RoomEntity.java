@@ -13,9 +13,9 @@ public class RoomEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private short id;
+    private long id;
 
-    private short capacity;
+    private long capacity;
     private long rent;
 
     // Children
@@ -60,18 +60,18 @@ public class RoomEntity {
 
     public static class Builder {
 
-        private short id;
-        private short capacity;
+        private long id;
+        private long capacity;
         private long rent;
         private List<OccupantEntity> occupants;
         private HouseEntity house;
 
-        public Builder setId(short id) {
+        public Builder setId(long id) {
             this.id = id;
             return this;
         }
 
-        public Builder setCapacity(short capacity) {
+        public Builder setCapacity(long capacity) {
             this.capacity = capacity;
             return this;
         }
@@ -116,19 +116,19 @@ public class RoomEntity {
 
     }
 
-    public short getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(short id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public short getCapacity() {
+    public long getCapacity() {
         return capacity;
     }
 
-    public void setCapacity(short capacity) {
+    public void setCapacity(long capacity) {
         this.capacity = capacity;
     }
 

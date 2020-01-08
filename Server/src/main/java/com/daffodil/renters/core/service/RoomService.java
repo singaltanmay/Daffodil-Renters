@@ -2,6 +2,7 @@ package com.daffodil.renters.core.service;
 
 import com.daffodil.renters.core.model.beans.House;
 import com.daffodil.renters.core.model.beans.Room;
+import com.daffodil.renters.core.model.entities.HouseEntity;
 import com.daffodil.renters.core.model.entities.RoomEntity;
 import com.daffodil.renters.core.repo.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,19 +48,28 @@ public class RoomService {
         }
 
         return rooms;
-
-//        Optional<House> house = houseService.getHouseById(houseId);
-//        if (house.isPresent()) {
-//            return house.get().getRooms();
-//        } else return new LinkedList<>();
     }
 
-    public Optional<Room> getRoomById(short room_id, long house_id) {
+    public Optional<Room> getRoomById(long room_id, long house_id) {
         return roomRepository.getRoomById(room_id, house_id).map(room -> new Room.Builder().build(room));
     }
 
-    public Optional<Room> getRoomById(byte room_id, House house) {
+    public Optional<Room> getRoomById(long room_id, House house) {
         return house.getRooms().stream().filter(r -> r.getId() == room_id).findFirst();
+    }
+
+    public void insertRoom(Room room, HouseEntity house) {
+        RoomEntity build = new RoomEntity.Builder().build(room);
+        build.setHouse(house);
+        roomRepository.save(build);
+    }
+
+    public void deleteRoomById(long room_id) {
+        if (roomRepository.existsById(room_id)) roomRepository.deleteById(room_id);
+    }
+
+    public void deleteAllRoomsOfHouse(long id) {
+        roomRepository.deleteByHouseId(id);
     }
 
     public List<Room> findRentBetween(long from, long to) {

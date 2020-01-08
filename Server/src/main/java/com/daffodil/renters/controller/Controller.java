@@ -19,13 +19,11 @@ public class Controller {
 
     private final HouseService houseService;
     private final RoomService roomService;
-    private final OccupantService occupantService;
 
     @Autowired
-    public Controller(HouseService houseService, RoomService roomService, OccupantService occupantService) {
+    public Controller(HouseService houseService, RoomService roomService) {
         this.houseService = houseService;
         this.roomService = roomService;
-        this.occupantService = occupantService;
     }
 
     @GetMapping(value = "house")
@@ -43,7 +41,7 @@ public class Controller {
 
     @PutMapping(path = "/house")
     public void replaceOrInsertHouse(@RequestParam("id") long id, @RequestBody House insertable) {
-        houseService.replaceOrInsertHouseById(id, insertable);
+        houseService.updateHouseById(id, insertable);
     }
 
     @DeleteMapping(value = "house")
