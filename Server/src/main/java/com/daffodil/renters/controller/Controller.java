@@ -3,7 +3,6 @@ package com.daffodil.renters.controller;
 import com.daffodil.renters.core.model.beans.House;
 import com.daffodil.renters.core.model.beans.Room;
 import com.daffodil.renters.core.service.HouseService;
-import com.daffodil.renters.core.service.OccupantService;
 import com.daffodil.renters.core.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,11 +26,14 @@ public class Controller {
     }
 
     @GetMapping(value = "house")
-    public ResponseEntity<?> getHouseById(@RequestParam("id") Optional<Long> id) {
+    public ResponseEntity<?> getHouseById(@RequestParam("id") Optional<Long> id, @RequestParam("lat") Optional<Double> lat, @RequestParam("lon") Optional<Double> lon, @RequestParam("rangeKm") Optional<Double> range) {
         if (id.isPresent()) {
             Optional<House> house = houseService.getHouseById(id.get());
             return new ResponseEntity<>(house.orElse(null), HttpStatus.OK);
-        } else return new ResponseEntity<>(houseService.getAllHouses(), HttpStatus.OK);
+        } else if (lat.isPresent() && lon.isPresent() && range.isPresent()) {
+            List<House> housesWithin = houseService.getHousesWithin(lat.get(), lon.get(), range.get());
+            return new ResponseEntity<>(housesWithin, HttpStatus.OK);
+        } else return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
     @PostMapping(path = "/house")

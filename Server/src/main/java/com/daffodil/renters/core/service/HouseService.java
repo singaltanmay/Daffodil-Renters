@@ -23,7 +23,6 @@ public class HouseService {
         this.roomService = roomService;
     }
 
-    // TODO
     public List<House> getHousesWithin(double latitude, double longitude, double distance) {
         GeoLocationService location = GeoLocationService.fromDegrees(latitude, longitude);
         GeoLocationService[] boundingCoordinates = location.boundingCoordinates(distance, null);
@@ -33,27 +32,16 @@ public class HouseService {
         double maxLat = boundingCoordinates[1].getLatitudeInDegrees();
         double maxLon = boundingCoordinates[1].getLongitudeInDegrees();
 
-        String query = "select " +
-                "house0_.id as id1_0_, " +
-                "house0_.address as address2_0_, " +
-                "house0_.latitude as latitude3_0_, " +
-                "house0_.longitude as longitud4_0_ " +
-                "from house house0_ " +
-                "where " +
-                "house0_.latitude < " +
-                maxLat +
-                " and " +
-                "house0_.latitude > " +
-                minLat +
-                " and " +
-                "house0_.longitude < " +
-                maxLon +
-                " and " +
-                "house0_.longitude > " +
-                minLon +
-                ";";
+        List<HouseEntity> houseEntities = repository.getAllHousesWithinCoordinates(minLat, minLon, maxLat, maxLon);
 
-        return null;
+        List<House> houses = new LinkedList<>();
+        for (HouseEntity entity : houseEntities) {
+            House build = new House.Builder().build(entity);
+            build.setRooms(roomService.getAllRooms(build.getId()));
+            houses.add(build);
+        }
+
+        return houses;
     }
 
     public List<House> getAllHouses() {
