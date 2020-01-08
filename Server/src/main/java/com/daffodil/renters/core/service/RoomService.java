@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class RoomService {
@@ -34,25 +35,22 @@ public class RoomService {
     }
 
     public List<Room> getAllRooms(long houseId) {
-        Optional<HouseEntity> house = houseService.getHouseById(houseId);
-
+        Optional<House> house = houseService.getHouseById(houseId);
         if (house.isPresent()) {
-            House build = new House.Builder().build(house.get());
-            return build.getRooms();
+            return house.get().getRooms();
         } else return new LinkedList<>();
     }
 
-    // TODO fix
-    public Optional<RoomEntity> getRoomById(short room_id, long house_id) {
-        return roomRepository.getRoomById(room_id, house_id);
+    public Optional<Room> getRoomById(short room_id, long house_id) {
+        return roomRepository.getRoomById(room_id, house_id).map(room -> new Room.Builder().build(room));
     }
 
-    public Optional<RoomEntity> getRoomById(byte room_id, HouseEntity houseEntity) {
-        return houseEntity.getRooms().stream().filter(r -> r.getId() == room_id).findFirst();
+    public Optional<Room> getRoomById(byte room_id, House house) {
+        return house.getRooms().stream().filter(r -> r.getId() == room_id).findFirst();
     }
 
-    public List<RoomEntity> findRentBetween(long from, long to) {
-        return roomRepository.findAllByRentBetween(from, to);
+    public List<Room> findRentBetween(long from, long to) {
+        List<RoomEntity> allByRentBetween = roomRepository.findAllByRentBetween(from, to);
+        return allByRentBetween.stream().map(entity -> new Room.Builder().build(entity)).collect(Collectors.toList());
     }
-
 }

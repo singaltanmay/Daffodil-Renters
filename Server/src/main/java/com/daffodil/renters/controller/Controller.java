@@ -47,7 +47,6 @@ public class Controller {
 
     @PostMapping(path = "/test")
     public void test() {
-//        roomService.getRoomById((byte) 0,0);
         List<Room> rentBetween = roomService.findRentBetween(0, 10000);
 
         for (Room fes : rentBetween) {

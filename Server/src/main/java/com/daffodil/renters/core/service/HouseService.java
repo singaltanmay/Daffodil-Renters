@@ -24,12 +24,15 @@ public class HouseService {
     public List<House> getAllHouses() {
         Iterable<HouseEntity> all = repository.findAll();
         List<House> houses = new LinkedList<>();
-        all.forEach(houses::add);
+        for (HouseEntity entity : all) {
+            houses.add(new House.Builder().build(entity));
+        }
         return houses;
     }
 
     public Optional<House> getHouseById(long id) {
-        return repository.findById(id);
+        Optional<HouseEntity> byId = repository.findById(id);
+        return byId.map(klf -> (new House.Builder().build(klf)));
     }
 
     public List<House> getHousesWithin(double latitude, double longitude, double distance) {
@@ -74,7 +77,7 @@ public class HouseService {
     private void insertHouseById(long id, House house) {
         if (!repository.existsById(id)) {
             House house1 = new House(id, house.getAddress(), house.getLatitude(), house.getLongitude(), house.getRooms());
-            repository.save(house1);
+            repository.save(new HouseEntity.Builder().build(house1));
         }
     }
 
