@@ -87,36 +87,39 @@ public class House {
         return address;
     }
 
-    public House setAddress(String address) {
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setAddress(String address) {
         this.address = address;
-        return this;
     }
 
     public double getLatitude() {
         return latitude;
     }
 
-    public House setLatitude(double latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
-        return this;
     }
 
     public double getLongitude() {
         return longitude;
     }
 
-    public House setLongitude(double longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
-        return this;
     }
 
     public List<Room> getRooms() {
         return rooms;
     }
 
-    public House setRooms(List<Room> rooms) {
+    public void setRooms(List<Room> rooms) {
         this.rooms = rooms;
-        return this;
     }
-
 }

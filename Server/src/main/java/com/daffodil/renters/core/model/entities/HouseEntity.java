@@ -1,6 +1,10 @@
 package com.daffodil.renters.core.model.entities;
 
+import com.daffodil.renters.core.model.beans.House;
+import com.daffodil.renters.core.model.beans.Room;
+
 import javax.persistence.*;
+import java.util.LinkedList;
 import java.util.List;
 
 @Entity
@@ -81,6 +85,20 @@ public class HouseEntity {
         }
 
         public HouseEntity build() {
+            return new HouseEntity(this);
+        }
+
+        public HouseEntity build(House house) {
+            this.id = house.getId();
+            this.address = house.getAddress();
+            this.latitude = house.getLatitude();
+            this.longitude = house.getLongitude();
+            List<Room> rooms = house.getRooms();
+            List<RoomEntity> roomEntities = new LinkedList<>();
+            for (Room room : rooms) {
+                roomEntities.add(new RoomEntity.Builder().build(room));
+            }
+            this.rooms = roomEntities;
             return new HouseEntity(this);
         }
 

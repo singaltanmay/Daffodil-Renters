@@ -1,5 +1,7 @@
 package com.daffodil.renters.core.model.entities;
 
+import com.daffodil.renters.core.model.beans.Occupant;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -49,6 +51,7 @@ public class OccupantEntity {
             this.timeLastRentPaid = builder.timeLastRentPaid;
         }
         this.room = builder.room;
+
     }
 
     public static class Builder {
@@ -97,6 +100,17 @@ public class OccupantEntity {
         }
 
         public OccupantEntity build() {
+            return new OccupantEntity(this);
+        }
+
+        public OccupantEntity build(Occupant occupant) {
+            this.id = occupant.getId();
+            this.firstName = occupant.getFirstName();
+            this.lastName = occupant.getLastName();
+            this.phoneNumber = occupant.getPhoneNumber();
+            this.dateMovedIn = occupant.getDateMovedIn();
+            this.timeLastRentPaid = occupant.getTimeLastRentPaid();
+            this.room = new RoomEntity.Builder().build(occupant.getRoom());
             return new OccupantEntity(this);
         }
 

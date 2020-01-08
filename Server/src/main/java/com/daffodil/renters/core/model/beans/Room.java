@@ -82,7 +82,6 @@ public class Room {
 
     }
 
-
     public short getId() {
         return id;
     }

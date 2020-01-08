@@ -1,6 +1,10 @@
 package com.daffodil.renters.core.model.entities;
 
+import com.daffodil.renters.core.model.beans.Occupant;
+import com.daffodil.renters.core.model.beans.Room;
+
 import javax.persistence.*;
+import java.util.LinkedList;
 import java.util.List;
 
 @Entity
@@ -74,6 +78,20 @@ public class RoomEntity {
         public RoomEntity build() {
             return new RoomEntity(this);
         }
+
+        public RoomEntity build(Room room) {
+            this.id = room.getId();
+            this.capacity = room.getCapacity();
+            this.rent = room.getRent();
+            this.house = new HouseEntity.Builder().build(room.getHouse());
+            List<Occupant> occupants = room.getOccupants();
+            List<OccupantEntity> occupantEntities = new LinkedList<>();
+            for (Occupant occ : occupants) {
+                occupantEntities.add(new OccupantEntity.Builder().build(occ));
+            }
+            return new RoomEntity(this);
+        }
+
     }
 
     public int getNumberOfOccupants() {
