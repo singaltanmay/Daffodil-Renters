@@ -73,15 +73,15 @@ public class House {
             this.latitude = entity.getLatitude();
             this.longitude = entity.getLongitude();
 
-            List<RoomEntity> entityRooms = entity.getRooms() != null ? entity.getRooms() : new LinkedList<>();
-            LinkedList<Room> rooms = new LinkedList<>();
-            for (RoomEntity entity1 : entityRooms) {
-                Room build = (new Room.Builder()).build(entity1);
-                if (build != null) {
-                    rooms.add(build);
-                }
-            }
-            this.rooms = rooms;
+//            List<RoomEntity> entityRooms = entity.getRooms() != null ? entity.getRooms() : new LinkedList<>();
+//            LinkedList<Room> rooms = new LinkedList<>();
+//            for (RoomEntity entity1 : entityRooms) {
+//                Room build = (new Room.Builder()).build(entity1);
+//                if (build != null) {
+//                    rooms.add(build);
+//                }
+//            }
+//            this.rooms = rooms;
             return new House(this);
         }
 

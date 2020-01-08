@@ -15,6 +15,8 @@ public interface RoomRepository extends CrudRepository<RoomEntity, Byte> {
     @Query("Select r from RoomEntity r where r.id = :h_id and r.house = :r_id")
     Optional<RoomEntity> getRoomById(@Param("r_id") short room_id, @Param("h_id") long house_id);
 
+    List<RoomEntity> findByHouseId(long houseId);
+
     //        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("daffodil_renters_db");
 //        EntityManager manager = entityManagerFactory.createEntityManager();
 //        Query query = manager.createQuery("SELECT * FROM Room r");

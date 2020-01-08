@@ -15,17 +15,21 @@ import java.util.Optional;
 public class HouseService {
 
     private final HouseRepository repository;
+    private final RoomService roomService;
 
     @Autowired
-    public HouseService(HouseRepository repository) {
+    public HouseService(HouseRepository repository, RoomService roomService) {
         this.repository = repository;
+        this.roomService = roomService;
     }
 
     public List<House> getAllHouses() {
         Iterable<HouseEntity> all = repository.findAll();
         List<House> houses = new LinkedList<>();
         for (HouseEntity entity : all) {
-            houses.add(new House.Builder().build(entity));
+            House build = new House.Builder().build(entity);
+            build.setRooms(roomService.getAllRooms(build.getId()));
+            houses.add(build);
         }
         return houses;
     }

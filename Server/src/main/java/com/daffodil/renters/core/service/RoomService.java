@@ -2,7 +2,6 @@ package com.daffodil.renters.core.service;
 
 import com.daffodil.renters.core.model.beans.House;
 import com.daffodil.renters.core.model.beans.Room;
-import com.daffodil.renters.core.model.entities.HouseEntity;
 import com.daffodil.renters.core.model.entities.RoomEntity;
 import com.daffodil.renters.core.repo.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +16,10 @@ import java.util.stream.Collectors;
 public class RoomService {
 
     RoomRepository roomRepository;
-    HouseService houseService;
 
     @Autowired
-    public RoomService(RoomRepository roomRepository, HouseService houseService) {
+    public RoomService(RoomRepository roomRepository) {
         this.roomRepository = roomRepository;
-        this.houseService = houseService;
     }
 
     public List<Room> getAllRooms() {
@@ -35,10 +32,26 @@ public class RoomService {
     }
 
     public List<Room> getAllRooms(long houseId) {
-        Optional<House> house = houseService.getHouseById(houseId);
-        if (house.isPresent()) {
-            return house.get().getRooms();
-        } else return new LinkedList<>();
+
+        List<RoomEntity> roomEntities = roomRepository.findByHouseId(houseId);
+
+        List<Room> rooms = new LinkedList<>();
+
+        if (roomEntities != null) {
+            for (RoomEntity e : roomEntities) {
+                Room build = new Room.Builder().build(e);
+                if (build != null) {
+                    rooms.add(build);
+                }
+            }
+        }
+
+        return rooms;
+
+//        Optional<House> house = houseService.getHouseById(houseId);
+//        if (house.isPresent()) {
+//            return house.get().getRooms();
+//        } else return new LinkedList<>();
     }
 
     public Optional<Room> getRoomById(short room_id, long house_id) {

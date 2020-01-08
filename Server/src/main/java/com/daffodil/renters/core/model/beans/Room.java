@@ -71,18 +71,18 @@ public class Room {
             if (entity == null) return null;
             this.id = entity.getId();
             this.capacity = entity.getCapacity();
-            this.house = (new House.Builder()).build(entity.getHouse());
+//            this.house = (new House.Builder()).build(entity.getHouse());
 
-            List<OccupantEntity> entityOccupants = entity.getOccupants();
-            List<OccupantEntity> occupantEntities = entityOccupants != null ? entityOccupants : new LinkedList<>();
-            LinkedList<Occupant> occupants = new LinkedList<>();
-            for (OccupantEntity occ : occupantEntities) {
-                Occupant build = new Occupant.Builder().build(occ);
-                if (build != null) {
-                    occupants.add(build);
-                }
-            }
-            this.occupants = occupants;
+//            List<OccupantEntity> entityOccupants = entity.getOccupants();
+//            List<OccupantEntity> occupantEntities = entityOccupants != null ? entityOccupants : new LinkedList<>();
+//            LinkedList<Occupant> occupants = new LinkedList<>();
+//            for (OccupantEntity occ : occupantEntities) {
+//                Occupant build = new Occupant.Builder().build(occ);
+//                if (build != null) {
+//                    occupants.add(build);
+//                }
+//            }
+//            this.occupants = occupants;
 
             this.rent = entity.getRent();
             return new Room(this);
