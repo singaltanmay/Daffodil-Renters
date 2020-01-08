@@ -1,6 +1,7 @@
 package com.daffodil.renters.core.service;
 
-import com.daffodil.renters.core.model.beans.*;
+import com.daffodil.renters.core.model.beans.House;
+import com.daffodil.renters.core.model.beans.Room;
 import com.daffodil.renters.core.model.entities.HouseEntity;
 import com.daffodil.renters.core.repo.HouseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,16 +33,24 @@ public class HouseService {
         double maxLat = boundingCoordinates[1].getLatitudeInDegrees();
         double maxLon = boundingCoordinates[1].getLongitudeInDegrees();
 
-        String query = "select house0_.id as id1_0_, house0_.address as address2_0_, house0_.latitude as latitude3_0_, house0_.longitude as longitud4_0_ " +
+        String query = "select " +
+                "house0_.id as id1_0_, " +
+                "house0_.address as address2_0_, " +
+                "house0_.latitude as latitude3_0_, " +
+                "house0_.longitude as longitud4_0_ " +
                 "from house house0_ " +
                 "where " +
-                "house0_.latitude < " + maxLat +
+                "house0_.latitude < " +
+                maxLat +
                 " and " +
-                "house0_.latitude > " + minLat +
+                "house0_.latitude > " +
+                minLat +
                 " and " +
-                "house0_.longitude < " + maxLon +
+                "house0_.longitude < " +
+                maxLon +
                 " and " +
-                "house0_.longitude > " + minLon +
+                "house0_.longitude > " +
+                minLon +
                 ";";
 
         return null;
@@ -59,12 +68,12 @@ public class HouseService {
     }
 
     public Optional<House> getHouseById(long id) {
-        Optional<HouseEntity> byId = repository.findById(id);
-        return byId.map(klf -> {
-            House build = new House.Builder().build(klf);
+        HouseEntity houseEntity = repository.findHouseById(id);
+        if (houseEntity != null) {
+            House build = new House.Builder().build(houseEntity);
             build.setRooms(roomService.getAllRooms(build.getId()));
-            return build;
-        });
+            return Optional.of(build);
+        } else return Optional.empty();
     }
 
     @Transactional
@@ -80,7 +89,7 @@ public class HouseService {
         List<Room> rooms = house.getRooms();
         rooms.forEach(room -> {
             roomService.deleteAllRoomsOfHouse(id);
-            roomService.insertRoom(room, repository.findById(id).get());
+            roomService.insertRoom(room, id);
         });
 
         repository.updateHouseById(

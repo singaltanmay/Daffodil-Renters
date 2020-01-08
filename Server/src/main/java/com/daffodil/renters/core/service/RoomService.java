@@ -4,6 +4,7 @@ import com.daffodil.renters.core.model.beans.House;
 import com.daffodil.renters.core.model.beans.Room;
 import com.daffodil.renters.core.model.entities.HouseEntity;
 import com.daffodil.renters.core.model.entities.RoomEntity;
+import com.daffodil.renters.core.repo.HouseRepository;
 import com.daffodil.renters.core.repo.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,10 +17,12 @@ import java.util.stream.Collectors;
 @Service
 public class RoomService {
 
+    HouseRepository houseRepository;
     RoomRepository roomRepository;
 
     @Autowired
-    public RoomService(RoomRepository roomRepository) {
+    public RoomService(HouseRepository houseRepository, RoomRepository roomRepository) {
+        this.houseRepository = houseRepository;
         this.roomRepository = roomRepository;
     }
 
@@ -58,9 +61,9 @@ public class RoomService {
         return house.getRooms().stream().filter(r -> r.getId() == room_id).findFirst();
     }
 
-    public void insertRoom(Room room, HouseEntity house) {
+    public void insertRoom(Room room, long house_id) {
         RoomEntity build = new RoomEntity.Builder().build(room);
-        build.setHouse(house);
+        build.setHouse(houseRepository.findHouseById(house_id));
         roomRepository.save(build);
     }
 

@@ -15,4 +15,6 @@ public interface HouseRepository extends CrudRepository<HouseEntity, Long> {
     @Query("UPDATE HouseEntity h SET h.address = :add, h.latitude = :lat, h.longitude = :lon WHERE h.id = :id")
     void updateHouseById(@Param("id") long house_id, @Param("add") String address, @Param("lat") double latitude, @Param("lon") double longitude);
 
+    HouseEntity findHouseById(long id);
+
 }
