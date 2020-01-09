@@ -1,6 +1,7 @@
 package com.daffodil.renters.core.service;
 
 import com.daffodil.renters.core.model.beans.House;
+import com.daffodil.renters.core.model.beans.Occupant;
 import com.daffodil.renters.core.model.beans.Room;
 import com.daffodil.renters.core.model.entities.HouseEntity;
 import com.daffodil.renters.core.model.entities.RoomEntity;
@@ -19,46 +20,38 @@ public class RoomService {
 
     HouseRepository houseRepository;
     RoomRepository roomRepository;
+    OccupantService occupantService;
 
     @Autowired
-    public RoomService(HouseRepository houseRepository, RoomRepository roomRepository) {
+    public RoomService(HouseRepository houseRepository, RoomRepository roomRepository, OccupantService occupantService) {
         this.houseRepository = houseRepository;
         this.roomRepository = roomRepository;
+        this.occupantService = occupantService;
+    }
+
+    public List<Room> findRentBetween(long from, long to) {
+        List<RoomEntity> allByRentBetween = roomRepository.findAllByRentBetween(from, to);
+        return allByRentBetween.stream().map(entity -> new Room.Builder().build(entity)).collect(Collectors.toList());
     }
 
     public List<Room> getAllRooms() {
-        Iterable<RoomEntity> all = roomRepository.findAll();
-        List<Room> list = new LinkedList();
-        for (RoomEntity entity : all) {
-            list.add(new Room.Builder().build(entity));
-        }
-        return list;
+        return occupantsInjector(roomRepository.findAll());
     }
 
     public List<Room> getAllRooms(long houseId) {
-
-        List<RoomEntity> roomEntities = roomRepository.findByHouseId(houseId);
-
-        List<Room> rooms = new LinkedList<>();
-
-        if (roomEntities != null) {
-            for (RoomEntity e : roomEntities) {
-                Room build = new Room.Builder().build(e);
-                if (build != null) {
-                    rooms.add(build);
-                }
-            }
-        }
-
-        return rooms;
+        return occupantsInjector(roomRepository.findByHouseId(houseId));
     }
 
     public Optional<Room> getRoomById(long room_id, long house_id) {
-        return roomRepository.getRoomById(room_id, house_id).map(room -> new Room.Builder().build(room));
-    }
+        Optional<RoomEntity> room = roomRepository.getRoomById(room_id, house_id);
+        if (room.isPresent()) {
+            List<Room> rooms = occupantsInjector(List.of(room.get()));
+            if (rooms.size() > 0) {
+                return Optional.of(rooms.get(0));
+            }
+        }
+        return Optional.empty();
 
-    public Optional<Room> getRoomById(long room_id, House house) {
-        return house.getRooms().stream().filter(r -> r.getId() == room_id).findFirst();
     }
 
     public void insertRoom(Room room, long house_id) {
@@ -67,16 +60,22 @@ public class RoomService {
         roomRepository.save(build);
     }
 
-    public void deleteRoomById(long room_id) {
-        if (roomRepository.existsById(room_id)) roomRepository.deleteById(room_id);
+    public void deleteAllRooms() {
+        roomRepository.deleteAll();
     }
 
     public void deleteAllRoomsOfHouse(long id) {
         roomRepository.deleteByHouseId(id);
     }
 
-    public List<Room> findRentBetween(long from, long to) {
-        List<RoomEntity> allByRentBetween = roomRepository.findAllByRentBetween(from, to);
-        return allByRentBetween.stream().map(entity -> new Room.Builder().build(entity)).collect(Collectors.toList());
+    public void deleteRoomById(long room_id) {
+        if (roomRepository.existsById(room_id)) roomRepository.deleteById(room_id);
     }
+
+    private List<Room> occupantsInjector(Iterable<RoomEntity> entities) {
+        List<Room> rooms = Room.listFrom(entities);
+        rooms.forEach(room -> room.setOccupants(occupantService.getAllOccupants(room.getId())));
+        return rooms;
+    }
+
 }
