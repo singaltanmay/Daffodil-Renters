@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 public class House {
 
@@ -24,6 +25,28 @@ public class House {
     @Getter
     @Setter
     List<Room> rooms;
+
+    public static class Filter {
+        @Getter
+        @Setter
+        private Optional<Long> id = Optional.empty();
+        @Getter
+        @Setter
+        private Optional<String> address = Optional.empty();
+        @Getter
+        @Setter
+        private Optional<Double> latitude = Optional.empty();
+        @Getter
+        @Setter
+        private Optional<Double> longitude = Optional.empty();
+        @Getter
+        @Setter
+        private Optional<Double> rangeKm = Optional.empty();
+
+        public boolean isUnfiltered() {
+            return id.isEmpty() && address.isEmpty() && latitude.isEmpty() && longitude.isEmpty() && rangeKm.isEmpty();
+        }
+    }
 
     public House(long id, String address, double latitude, double longitude, List<Room> rooms) {
         this.id = id;

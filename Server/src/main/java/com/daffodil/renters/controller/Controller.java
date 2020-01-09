@@ -37,13 +37,14 @@ public class Controller {
         } else return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
-    @GetMapping(value = "houseCustom")
-    public ResponseEntity<?> getHousesFiltered(@RequestParam Map<String, String> params) {
+    @PostMapping(value = "house/filter")
+    public List<House> getHousesFiltered(@RequestBody House.Filter filter) {
+        return houseService.getHousesUsingFilteredQuery(filter);
+    }
 
-        if (params.isEmpty()) {
-            return new ResponseEntity<>(houseService.getAllHouses(), HttpStatus.OK);
-        } else return new ResponseEntity<>(houseService.getHousesFiltered(params), HttpStatus.OK);
-
+    @PostMapping(value = "test")
+    public String getFilteredQueryString(@RequestBody House.Filter filter) {
+        return houseService.test(filter);
     }
 
 //    @RequestMapping(method = RequestMethod.GET, value = "/custom")
@@ -73,21 +74,6 @@ public class Controller {
         if (id.isPresent()) {
             houseService.deleteHouseById(id.get());
         } else houseService.deleteAllHouses();
-    }
-
-    @PostMapping(path = "/test")
-    public List<House> test() {
-
-//        return houseService.getAllHouses();
-
-        houseService.test();
-        return null;
-
-//        List<Room> rentBetween = roomService.findRentBetween(0, 10000);
-//
-//        for (Room fes : rentBetween) {
-//            System.out.println(fes.getId());
-//        }
     }
 
 }
