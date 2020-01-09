@@ -164,17 +164,15 @@ public class HouseService {
             if (!unfiltered) {
                 builder.append("WHERE ");
                 if (idPresent) {
-                    if (not_first_entry) {
-                        builder.append(", ");
-                    } else not_first_entry = true;
                     builder.append(COLUMN_ID + " = " + id.get().toString());
+                    not_first_entry = true;
                 }
 
                 if (addressPresent) {
                     if (not_first_entry) {
-                        builder.append(", ");
+                        builder.append(" AND ");
                     } else not_first_entry = true;
-                    builder.append(COLUMN_ADDRESS + " = " + "\"" + address.get() + "\"");
+                    builder.append(COLUMN_ADDRESS + " = " + "'" + address.get() + "'");
                 }
 
                 if (latitudePresent && longitudePresent) {
@@ -190,7 +188,7 @@ public class HouseService {
                         Double maxLon = boundingCoordinates[1].getLongitudeInDegrees();
 
                         if (not_first_entry) {
-                            builder.append(", ");
+                            builder.append(" AND ");
                         } else not_first_entry = true;
                         builder.append(COLUMN_LATITUDE + " >= " + minLat.toString());
                         builder.append(" AND ");
