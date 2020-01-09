@@ -76,12 +76,17 @@ public class Controller {
     }
 
     @PostMapping(path = "/test")
-    public void test() {
-        List<Room> rentBetween = roomService.findRentBetween(0, 10000);
+    public List<House> test() {
 
-        for (Room fes : rentBetween) {
-            System.out.println(fes.getId());
-        }
+        return houseService.getAllHouses();
+
+//        houseService.test();
+
+//        List<Room> rentBetween = roomService.findRentBetween(0, 10000);
+//
+//        for (Room fes : rentBetween) {
+//            System.out.println(fes.getId());
+//        }
     }
 
 }

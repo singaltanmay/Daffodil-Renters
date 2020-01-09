@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 import javax.transaction.Transactional;
 import java.util.List;
 
-public interface HouseRepository extends CrudRepository<HouseEntity, Long> {
+public interface HouseRepository extends CrudRepository<HouseEntity, Long>/*, FilteredHouses*/ {
 
     @Transactional
     @Modifying

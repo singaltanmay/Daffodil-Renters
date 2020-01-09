@@ -2,6 +2,8 @@ package com.daffodil.renters.core.model.beans;
 
 import com.daffodil.renters.core.model.entities.HouseEntity;
 import com.daffodil.renters.core.model.entities.OccupantEntity;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -10,14 +12,32 @@ import java.util.List;
 
 public class Occupant {
 
+    @Getter
+    @Setter
     private long id;
+    @Getter
+    @Setter
     private String firstName;
+    @Getter
+    @Setter
     private String lastName;
+    @Getter
+    @Setter
     private String phoneNumber;
+    @Getter
+    @Setter
     private Date dateMovedIn;
+    @Getter
+    @Setter
     private Date timeLastRentPaid;
+    @Getter
+    @Setter
     private Room room;
+    @Getter
+    @Setter
     private long rent;
+    @Getter
+    @Setter
     private LocalDate dateRentDue;
 
     public Occupant(Builder builder) {
@@ -119,75 +139,4 @@ public class Occupant {
         return occupants;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public Date getDateMovedIn() {
-        return dateMovedIn;
-    }
-
-    public void setDateMovedIn(Date dateMovedIn) {
-        this.dateMovedIn = dateMovedIn;
-    }
-
-    public Date getTimeLastRentPaid() {
-        return timeLastRentPaid;
-    }
-
-    public void setTimeLastRentPaid(Date timeLastRentPaid) {
-        this.timeLastRentPaid = timeLastRentPaid;
-    }
-
-    public Room getRoom() {
-        return room;
-    }
-
-    public void setRoom(Room room) {
-        this.room = room;
-    }
-
-    public long getRent() {
-        return rent;
-    }
-
-    public void setRent(long rent) {
-        this.rent = rent;
-    }
-
-    public LocalDate getDateRentDue() {
-        return dateRentDue;
-    }
-
-    public void setDateRentDue(LocalDate dateRentDue) {
-        this.dateRentDue = dateRentDue;
-    }
 }

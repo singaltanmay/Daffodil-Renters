@@ -1,8 +1,10 @@
 package com.daffodil.renters.core.service;
 
+import com.daffodil.renters.core.model.beans.Filter;
 import com.daffodil.renters.core.model.beans.House;
 import com.daffodil.renters.core.model.beans.Room;
 import com.daffodil.renters.core.model.entities.HouseEntity;
+import com.daffodil.renters.core.repo.FilteredQueries;
 import com.daffodil.renters.core.repo.HouseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,10 @@ public class HouseService {
     public HouseService(HouseRepository repository, RoomService roomService) {
         this.repository = repository;
         this.roomService = roomService;
+    }
+
+    public void test() {
+        new FilteredQueries().filteredHouses(new Filter());
     }
 
     // Helper method that injects child rooms into a iterable of HouseEntities
@@ -45,7 +51,6 @@ public class HouseService {
 
         if (cols == 0) query.append("*");
 
-
         return null;
     }
 
@@ -66,9 +71,12 @@ public class HouseService {
     }
 
     public Optional<House> getHouseById(long id) {
-        List<House> houses = roomsInjector(List.of(repository.findHouseById(id)));
-        if (houses.isEmpty() || houses.get(0) == null) return Optional.empty();
-        else return Optional.of(houses.get(0));
+        HouseEntity houseById = repository.findHouseById(id);
+        if (houseById != null) {
+            List<House> houses = roomsInjector(List.of(houseById));
+            if (houses.isEmpty() || houses.get(0) == null) return Optional.empty();
+            else return Optional.of(houses.get(0));
+        } else return Optional.empty();
     }
 
     @Transactional

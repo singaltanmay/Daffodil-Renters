@@ -2,16 +2,28 @@ package com.daffodil.renters.core.model.beans;
 
 import com.daffodil.renters.core.model.entities.HouseEntity;
 import com.daffodil.renters.core.model.entities.RoomEntity;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public class Room {
 
+    @Getter
+    @Setter
     private long id;
+    @Getter
+    @Setter
     private long capacity;
+    @Getter
+    @Setter
     private long rent;
+    @Getter
+    @Setter
     private List<Occupant> occupants;
+    @Getter
+    @Setter
     private House house;
 
     public Room(long id, short capacity, long rent, List<Occupant> occupants, House house) {
@@ -87,45 +99,5 @@ public class Room {
             }
         }
         return rooms;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public long getCapacity() {
-        return capacity;
-    }
-
-    public void setCapacity(long capacity) {
-        this.capacity = capacity;
-    }
-
-    public long getRent() {
-        return rent;
-    }
-
-    public void setRent(long rent) {
-        this.rent = rent;
-    }
-
-    public List<Occupant> getOccupants() {
-        return occupants;
-    }
-
-    public void setOccupants(List<Occupant> occupants) {
-        this.occupants = occupants;
-    }
-
-    public House getHouse() {
-        return house;
-    }
-
-    public void setHouse(House house) {
-        this.house = house;
     }
 }

@@ -2,6 +2,8 @@ package com.daffodil.renters.core.model.entities;
 
 import com.daffodil.renters.core.model.beans.House;
 import com.daffodil.renters.core.model.beans.Room;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.LinkedList;
@@ -11,19 +13,28 @@ import java.util.List;
 @Table(name = "house")
 public class HouseEntity {
 
+    @Getter
+    @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false)
     private long id;
 
+    @Getter
+    @Setter
     @Column(nullable = false)
     private String address;
 
     //Coordinates
+    @Getter
+    @Setter
     private double latitude;
+    @Getter
+    @Setter
     private double longitude;
 
     // Children
+    @Getter
     @OneToMany(mappedBy = "house", cascade = CascadeType.ALL)
     List<RoomEntity> rooms;
 
@@ -126,23 +137,8 @@ public class HouseEntity {
 
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public double getLatitude() {
-        return latitude;
-    }
-
-    public double getLongitude() {
-        return longitude;
-    }
-
-    public List<RoomEntity> getRooms() {
-        return rooms;
+    public void setRooms(List<RoomEntity> rooms) {
+        this.rooms = rooms;
+        mapAllRooms();
     }
 }

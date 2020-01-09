@@ -1,17 +1,28 @@
 package com.daffodil.renters.core.model.beans;
 
 import com.daffodil.renters.core.model.entities.HouseEntity;
-import com.daffodil.renters.core.model.entities.RoomEntity;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public class House {
 
-    long id;
+    @Getter
+    @Setter
+    private long id;
+    @Getter
+    @Setter
     private String address;
+    @Getter
+    @Setter
     private double latitude;
+    @Getter
+    @Setter
     private double longitude;
+    @Getter
+    @Setter
     List<Room> rooms;
 
     public House(long id, String address, double latitude, double longitude, List<Room> rooms) {
@@ -88,43 +99,4 @@ public class House {
         return houses;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
-
-    public double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
-    }
-
-    public List<Room> getRooms() {
-        return rooms;
-    }
-
-    public void setRooms(List<Room> rooms) {
-        this.rooms = rooms;
-    }
 }

@@ -1,6 +1,8 @@
 package com.daffodil.renters.core.model.entities;
 
 import com.daffodil.renters.core.model.beans.Occupant;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -11,27 +13,42 @@ import java.util.Date;
 @Table(name = "occupant")
 public class OccupantEntity {
 
+    @Getter
+    @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @Getter
+    @Setter
     private String firstName;
+    @Getter
+    @Setter
     private String lastName;
+    @Getter
+    @Setter
     private String phoneNumber;
-
+    @Getter
+    @Setter
     @Temporal(TemporalType.DATE)
     private Date dateMovedIn = new Date();
 
+    @Getter
+    @Setter
     @Temporal(TemporalType.TIMESTAMP)
     private Date timeLastRentPaid = dateMovedIn;
 
     // Parents
+    @Getter
+    @Setter
     @ManyToOne
     private RoomEntity room;
 
+    @Getter
     @Transient
     private long rent = room.getRent() / room.getNumberOfOccupants();
 
+    @Getter
     @Transient
     private LocalDate dateRentDue = LocalDateTime.from(timeLastRentPaid.toInstant()).plusDays(30).toLocalDate();
 
@@ -117,75 +134,4 @@ public class OccupantEntity {
 
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public Date getDateMovedIn() {
-        return dateMovedIn;
-    }
-
-    public Date getTimeLastRentPaid() {
-        return timeLastRentPaid;
-    }
-
-    public RoomEntity getRoom() {
-        return room;
-    }
-
-    public long getRent() {
-        return rent;
-    }
-
-    public LocalDate getDateRentDue() {
-        return dateRentDue;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public void setDateMovedIn(Date dateMovedIn) {
-        this.dateMovedIn = dateMovedIn;
-    }
-
-    public void setTimeLastRentPaid(Date timeLastRentPaid) {
-        this.timeLastRentPaid = timeLastRentPaid;
-    }
-
-    public void setRoom(RoomEntity room) {
-        this.room = room;
-    }
-
-    public void setRent(long rent) {
-        this.rent = rent;
-    }
-
-    public void setDateRentDue(LocalDate dateRentDue) {
-        this.dateRentDue = dateRentDue;
-    }
 }
