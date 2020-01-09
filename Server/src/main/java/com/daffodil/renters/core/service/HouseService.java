@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -24,6 +23,32 @@ public class HouseService {
         this.roomService = roomService;
     }
 
+    // Helper method that injects child rooms into a iterable of HouseEntities
+    //TODO implement EntityManager??
+    public Object getHousesFiltered(Map<String, String> params) {
+
+        Long SELECT_ID = null;
+
+        if (params.containsKey("id")) {
+            SELECT_ID = Long.parseLong(params.get("id"));
+        }
+
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT ");
+
+        short cols = 0;
+
+        if (SELECT_ID != null) {
+            query.append("id");
+            cols++;
+        }
+
+        if (cols == 0) query.append("*");
+
+
+        return null;
+    }
+
     public List<House> getHousesWithin(double latitude, double longitude, double distance) {
         GeoLocationService location = GeoLocationService.fromDegrees(latitude, longitude);
         GeoLocationService[] boundingCoordinates = location.boundingCoordinates(distance, null);
@@ -33,36 +58,17 @@ public class HouseService {
         double maxLat = boundingCoordinates[1].getLatitudeInDegrees();
         double maxLon = boundingCoordinates[1].getLongitudeInDegrees();
 
-        List<HouseEntity> houseEntities = repository.getAllHousesWithinCoordinates(minLat, minLon, maxLat, maxLon);
-
-        List<House> houses = new LinkedList<>();
-        for (HouseEntity entity : houseEntities) {
-            House build = new House.Builder().build(entity);
-            build.setRooms(roomService.getAllRooms(build.getId()));
-            houses.add(build);
-        }
-
-        return houses;
+        return roomsInjector(repository.getAllHousesWithinCoordinates(minLat, minLon, maxLat, maxLon));
     }
 
     public List<House> getAllHouses() {
-        Iterable<HouseEntity> all = repository.findAll();
-        List<House> houses = new LinkedList<>();
-        for (HouseEntity entity : all) {
-            House build = new House.Builder().build(entity);
-            build.setRooms(roomService.getAllRooms(build.getId()));
-            houses.add(build);
-        }
-        return houses;
+        return roomsInjector(repository.findAll());
     }
 
     public Optional<House> getHouseById(long id) {
-        HouseEntity houseEntity = repository.findHouseById(id);
-        if (houseEntity != null) {
-            House build = new House.Builder().build(houseEntity);
-            build.setRooms(roomService.getAllRooms(build.getId()));
-            return Optional.of(build);
-        } else return Optional.empty();
+        List<House> houses = roomsInjector(List.of(repository.findHouseById(id)));
+        if (houses.isEmpty() || houses.get(0) == null) return Optional.empty();
+        else return Optional.of(houses.get(0));
     }
 
     @Transactional
@@ -97,28 +103,9 @@ public class HouseService {
         if (repository.existsById(id)) repository.deleteById(id);
     }
 
-    //TODO implement EntityManager??
-    public Object getHousesFiltered(Map<String, String> params) {
-
-        Long SELECT_ID = null;
-
-        if (params.containsKey("id")) {
-            SELECT_ID = Long.parseLong(params.get("id"));
-        }
-
-        StringBuilder query = new StringBuilder();
-        query.append("SELECT ");
-
-        short cols = 0;
-
-        if (SELECT_ID != null) {
-            query.append("id");
-            cols++;
-        }
-
-        if (cols == 0) query.append("*");
-
-
-        return null;
+    private List<House> roomsInjector(Iterable<HouseEntity> entities) {
+        List<House> houses = House.listFrom(entities);
+        houses.forEach(house -> house.setRooms(roomService.getAllRooms(house.getId())));
+        return houses;
     }
 }

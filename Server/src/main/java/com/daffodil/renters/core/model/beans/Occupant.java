@@ -99,7 +99,6 @@ public class Occupant {
             this.rent = entity.getRent();
             this.dateMovedIn = entity.getDateMovedIn();
             this.dateRentDue = entity.getDateRentDue();
-//            this.room = new Room.Builder().build(entity.getRoom());
             this.timeLastRentPaid = entity.getTimeLastRentPaid();
             return new Occupant(this);
         }
