@@ -1,9 +1,12 @@
 package com.daffodil.renters.core.model.beans;
 
+import com.daffodil.renters.core.model.entities.HouseEntity;
 import com.daffodil.renters.core.model.entities.OccupantEntity;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Occupant {
 
@@ -103,6 +106,17 @@ public class Occupant {
             return new Occupant(this);
         }
 
+    }
+
+    public static List<Occupant> listFrom(Iterable<OccupantEntity> entities) {
+        List<Occupant> occupants = new LinkedList<>();
+        if (entities != null) {
+            for (OccupantEntity entity : entities) {
+                Occupant build = new Occupant.Builder().build(entity);
+                occupants.add(build);
+            }
+        }
+        return occupants;
     }
 
     public long getId() {

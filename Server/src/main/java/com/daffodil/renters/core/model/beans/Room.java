@@ -1,7 +1,9 @@
 package com.daffodil.renters.core.model.beans;
 
+import com.daffodil.renters.core.model.entities.HouseEntity;
 import com.daffodil.renters.core.model.entities.RoomEntity;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class Room {
@@ -74,6 +76,17 @@ public class Room {
         }
 
 
+    }
+
+    public static List<Room> listFrom(Iterable<RoomEntity> entities) {
+        List<Room> rooms = new LinkedList<>();
+        if (entities != null) {
+            for (RoomEntity entity : entities) {
+                Room build = new Room.Builder().build(entity);
+                rooms.add(build);
+            }
+        }
+        return rooms;
     }
 
     public long getId() {
