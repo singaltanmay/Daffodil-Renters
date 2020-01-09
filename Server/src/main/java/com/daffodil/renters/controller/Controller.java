@@ -78,9 +78,10 @@ public class Controller {
     @PostMapping(path = "/test")
     public List<House> test() {
 
-        return houseService.getAllHouses();
+//        return houseService.getAllHouses();
 
-//        houseService.test();
+        houseService.test();
+        return null;
 
 //        List<Room> rentBetween = roomService.findRentBetween(0, 10000);
 //

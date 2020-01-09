@@ -4,11 +4,13 @@ import com.daffodil.renters.core.model.beans.Filter;
 import com.daffodil.renters.core.model.beans.House;
 import com.daffodil.renters.core.model.beans.Room;
 import com.daffodil.renters.core.model.entities.HouseEntity;
-import com.daffodil.renters.core.repo.FilteredQueries;
 import com.daffodil.renters.core.repo.HouseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Map;
@@ -20,13 +22,17 @@ public class HouseService {
     private final RoomService roomService;
 
     @Autowired
+    EntityManagerFactory factory;
+
+    @Autowired
     public HouseService(HouseRepository repository, RoomService roomService) {
         this.repository = repository;
         this.roomService = roomService;
     }
 
     public void test() {
-        new FilteredQueries().filteredHouses(new Filter());
+//        manager.getEntityManagerFactory();
+//        new FilteredQueries().filteredHouses(new Filter());
     }
 
     // Helper method that injects child rooms into a iterable of HouseEntities
@@ -116,4 +122,34 @@ public class HouseService {
         houses.forEach(house -> house.setRooms(roomService.getAllRooms(house.getId())));
         return houses;
     }
+
+    private class QueryUtils {
+
+        EntityManagerFactory factory;
+        EntityManager manager;
+
+        public QueryUtils(EntityManagerFactory factory) {
+            this.factory = factory;
+        }
+
+        public List<HouseEntity> filteredHouses(Filter filter) {
+            Query query = trn().createQuery("SELECT h FROM HouseEntity AS h WHERE h.id=1", HouseEntity.class);
+            List<HouseEntity> resultList = query.getResultList();
+            cmt();
+            return resultList;
+        }
+
+        private EntityManager trn() {
+            manager = factory.createEntityManager();
+            manager.getTransaction().begin();
+            return manager;
+        }
+
+        private void cmt() {
+            manager.getTransaction().commit();
+            manager.close();
+        }
+
+    }
+
 }
