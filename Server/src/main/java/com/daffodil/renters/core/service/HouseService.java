@@ -46,7 +46,7 @@ public class HouseService {
         return roomsInjector(repository.getAllHousesWithinCoordinates(minLat, minLon, maxLat, maxLon));
     }
 
-    public List<House> getAllHouses() {
+    public List<House> getAllHouses(int page) {
         return roomsInjector(repository.findAll());
     }
 
