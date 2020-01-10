@@ -14,6 +14,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -184,10 +185,18 @@ public class RoomService {
         }
 
         public List<RoomEntity> executeFilteredQuery(Room.Filter filter) {
-            Query query = trn().createQuery(createQueryFromFilter(filter), RoomEntity.class);
-            List<RoomEntity> resultList = query.getResultList();
+
+//            String s = "SELECT r, e.room, COUNT(e.room) FROM RoomEntity AS r LEFT OUTER JOIN OccupantEntity AS e ON r.id WHERE r.capacity >= 5 GROUP BY e.room";
+
+            /*, count(o.id)*/
+
+            String s = "SELECT r FROM RoomEntity AS r JOIN r.occupants AS o GROUP BY r.id HAVING count(o.id) > 2";
+
+            Query query = trn().createQuery(/*createQueryFromFilter(filter)*/s, RoomEntity.class);
+
+            List<Object[]> resultList = query.getResultList();
             cmt();
-            return resultList;
+            return new LinkedList<>();
         }
 
         private EntityManager trn() {
