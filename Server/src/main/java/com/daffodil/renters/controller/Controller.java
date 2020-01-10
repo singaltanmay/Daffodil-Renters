@@ -1,7 +1,9 @@
 package com.daffodil.renters.controller;
 
 import com.daffodil.renters.core.model.beans.House;
+import com.daffodil.renters.core.model.beans.Room;
 import com.daffodil.renters.core.service.HouseService;
+import com.daffodil.renters.core.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,10 +17,12 @@ import java.util.Optional;
 public class Controller {
 
     private final HouseService houseService;
+    private final RoomService roomService;
 
     @Autowired
-    public Controller(HouseService houseService) {
+    public Controller(HouseService houseService, RoomService roomService) {
         this.houseService = houseService;
+        this.roomService = roomService;
     }
 
     @GetMapping(value = "house")
@@ -36,5 +40,12 @@ public class Controller {
         else return houseService.getHousesUsingFilteredQuery(filter.get());
     }
 
+    @GetMapping(value = "room")
+    public ResponseEntity<?> getRoomById(@RequestParam("id") Optional<Long> id, @RequestParam("page") Optional<Integer> page) {
+        if (id.isPresent()) {
+            Optional<Room> room = roomService.getRoomById(id.get());
+            return new ResponseEntity<>(room.orElse(null), HttpStatus.OK);
+        } else return new ResponseEntity<>(roomService.getAllRooms(page.orElse(1)), HttpStatus.OK);
+    }
 
 }

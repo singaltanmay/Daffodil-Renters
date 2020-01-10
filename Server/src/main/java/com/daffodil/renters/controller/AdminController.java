@@ -30,8 +30,8 @@ public class AdminController {
     }
 
     @PostMapping(path = "/house")
-    public void insertHouse(@RequestBody House insertable) {
-        houseService.insertHouse(insertable);
+    public void insertHouse(@RequestBody House house) {
+        houseService.insertHouse(house);
     }
 
     @PutMapping(path = "/house")

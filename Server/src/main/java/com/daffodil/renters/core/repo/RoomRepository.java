@@ -14,8 +14,8 @@ public interface RoomRepository extends CrudRepository<RoomEntity, Long> {
 
     List<RoomEntity> findAllByRentBetween(long i, long i1);
 
-    @Query("Select r from RoomEntity r where r.id = :h_id and r.house = :r_id")
-    Optional<RoomEntity> getRoomById(@Param("r_id") long room_id, @Param("h_id") long house_id);
+    @Query("Select r from RoomEntity r where r.id = :r_id")
+    Optional<RoomEntity> getRoomById(@Param("r_id") long room_id);
 
     List<RoomEntity> findRoomByHouseId(long houseId);
 

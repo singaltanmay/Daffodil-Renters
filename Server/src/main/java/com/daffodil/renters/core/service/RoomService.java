@@ -1,5 +1,6 @@
 package com.daffodil.renters.core.service;
 
+import com.daffodil.renters.core.model.beans.House;
 import com.daffodil.renters.core.model.beans.Occupant;
 import com.daffodil.renters.core.model.beans.Room;
 import com.daffodil.renters.core.model.entities.RoomEntity;
@@ -8,14 +9,15 @@ import com.daffodil.renters.core.repo.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class RoomService {
-
     HouseRepository houseRepository;
+
     RoomRepository roomRepository;
     OccupantService occupantService;
 
@@ -31,18 +33,22 @@ public class RoomService {
         return allByRentBetween.stream().map(entity -> new Room.Builder().build(entity)).collect(Collectors.toList());
     }
 
+    public List<Room> getAllRooms(int page) {
+        return foreignRelationsInjector(roomRepository.findAll());
+    }
+
     public List<Room> getAllRoomsByHouseId() {
-        return occupantsInjector(roomRepository.findAll());
+        return foreignRelationsInjector(roomRepository.findAll());
     }
 
     public List<Room> getAllRoomsByHouseId(long houseId) {
-        return occupantsInjector(roomRepository.findRoomByHouseId(houseId));
+        return foreignRelationsInjector(roomRepository.findRoomByHouseId(houseId));
     }
 
-    public Optional<Room> getRoomById(long room_id, long house_id) {
-        Optional<RoomEntity> room = roomRepository.getRoomById(room_id, house_id);
+    public Optional<Room> getRoomById(long room_id) {
+        Optional<RoomEntity> room = roomRepository.getRoomById(room_id);
         if (room.isPresent()) {
-            List<Room> rooms = occupantsInjector(List.of(room.get()));
+            List<Room> rooms = foreignRelationsInjector(List.of(room.get()));
             if (rooms.size() > 0) {
                 return Optional.of(rooms.get(0));
             }
@@ -86,10 +92,13 @@ public class RoomService {
         if (roomRepository.existsById(room_id)) roomRepository.deleteById(room_id);
     }
 
-    private List<Room> occupantsInjector(Iterable<RoomEntity> entities) {
+    private List<Room> foreignRelationsInjector(Iterable<RoomEntity> entities) {
         List<Room> rooms = Room.listFrom(entities);
-        rooms.forEach(room -> room.setOccupants(occupantService.getAllOccupants(room.getId())));
+        Iterator<RoomEntity> iterator = entities.iterator();
+        for (Room room : rooms) {
+            room.setOccupants(occupantService.getAllOccupants(room.getId()));
+            room.setHouse(new House.Builder().build(iterator.next().getHouse()));
+        }
         return rooms;
     }
-
 }

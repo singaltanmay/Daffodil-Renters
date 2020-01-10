@@ -29,20 +29,20 @@ public class HouseService {
     }
 
     public List<House> getAllHouses(int page) {
-        return roomsInjector(houseRepository.findAll());
+        return foreignRelationsInjector(houseRepository.findAll());
     }
 
     public Optional<House> getHouseById(long id) {
         HouseEntity houseById = houseRepository.findHouseById(id);
         if (houseById != null) {
-            List<House> houses = roomsInjector(List.of(houseById));
+            List<House> houses = foreignRelationsInjector(List.of(houseById));
             if (houses.isEmpty() || houses.get(0) == null) return Optional.empty();
             else return Optional.of(houses.get(0));
         } else return Optional.empty();
     }
 
     public List<House> getHousesUsingFilteredQuery(House.Filter filter) {
-        return roomsInjector(new QueryUtils(factory).executeFilteredQuery(filter));
+        return foreignRelationsInjector(new QueryUtils(factory).executeFilteredQuery(filter));
     }
 
     @Transactional
@@ -77,8 +77,7 @@ public class HouseService {
         if (houseRepository.existsById(id)) houseRepository.deleteById(id);
     }
 
-    // Helper method that injects child rooms into a iterable of HouseEntities
-    private List<House> roomsInjector(Iterable<HouseEntity> entities) {
+    private List<House> foreignRelationsInjector(Iterable<HouseEntity> entities) {
         List<House> houses = House.listFrom(entities);
         houses.forEach(house -> house.setRooms(roomService.getAllRoomsByHouseId(house.getId())));
         return houses;
