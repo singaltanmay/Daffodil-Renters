@@ -47,6 +47,23 @@ public class AdminController {
         return houseService.getFilteredQueryGeneratedString(filter);
     }
 
+    @PostMapping(path = "/room")
+    public void insertRoom(@RequestBody Room room, @RequestParam("house_id") long house_id) {
+        roomService.insertRoom(room, house_id);
+    }
+
+    @PutMapping(path = "/room")
+    public void updateRoomById(@RequestParam("id") long id, @RequestBody Room insertable) {
+        roomService.updateRoomById(id, insertable);
+    }
+
+    @DeleteMapping(value = "room")
+    public void deleteRoomById(@RequestParam("id") Optional<Long> id) {
+        if (id.isPresent()) {
+            roomService.deleteRoomById(id.get());
+        } else roomService.deleteAllRooms();
+    }
+
     @PostMapping(value = "debug/room/query")
     public String getFilteredQueryString(@RequestBody Room.Filter filter) {
         return roomService.getFilteredQueryGeneratedString(filter);
