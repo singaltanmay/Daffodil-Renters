@@ -48,4 +48,11 @@ public class Controller {
         } else return new ResponseEntity<>(roomService.getAllRooms(page.orElse(1)), HttpStatus.OK);
     }
 
+    // Kinda like a GET method but used POST to get params as a JSON file
+    @PostMapping(value = "room")
+    public List<Room> getRoomsFiltered(@RequestBody Optional<Room.Filter> filter, @RequestParam("page") Optional<Integer> page) {
+        if (filter.isEmpty()) return roomService.getAllRooms(page.orElse(1));
+        else return roomService.getRoomsUsingFilteredQuery(filter.get());
+    }
+
 }

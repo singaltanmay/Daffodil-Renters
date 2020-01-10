@@ -1,6 +1,7 @@
 package com.daffodil.renters.controller;
 
 import com.daffodil.renters.core.model.beans.House;
+import com.daffodil.renters.core.model.beans.Room;
 import com.daffodil.renters.core.service.HouseService;
 import com.daffodil.renters.core.service.OccupantService;
 import com.daffodil.renters.core.service.RoomService;
@@ -24,11 +25,6 @@ public class AdminController {
         this.occupantService = occupantService;
     }
 
-    @PostMapping(value = "debug/house/query")
-    public String getFilteredQueryString(@RequestBody House.Filter filter) {
-        return houseService.getFilteredQueryGeneratedString(filter);
-    }
-
     @PostMapping(path = "/house")
     public void insertHouse(@RequestBody House house) {
         houseService.insertHouse(house);
@@ -44,6 +40,16 @@ public class AdminController {
         if (id.isPresent()) {
             houseService.deleteHouseById(id.get());
         } else houseService.deleteAllHouses();
+    }
+
+    @PostMapping(value = "debug/house/query")
+    public String getFilteredQueryString(@RequestBody House.Filter filter) {
+        return houseService.getFilteredQueryGeneratedString(filter);
+    }
+
+    @PostMapping(value = "debug/room/query")
+    public String getFilteredQueryString(@RequestBody Room.Filter filter) {
+        return roomService.getFilteredQueryGeneratedString(filter);
     }
 
 }

@@ -16,7 +16,9 @@ import java.util.Optional;
 
 @Service
 public class HouseService {
+
     private final HouseRepository houseRepository;
+
     private final RoomService roomService;
 
     @Autowired
@@ -50,6 +52,7 @@ public class HouseService {
         houseRepository.save(new HouseEntity.Builder().build(house));
     }
 
+    @Transactional
     public void updateHouseById(long houseId, House house) {
         if (!houseRepository.existsById(houseId)) {
             return;
@@ -69,10 +72,12 @@ public class HouseService {
         );
     }
 
+    @Transactional
     public void deleteAllHouses() {
         houseRepository.deleteAll();
     }
 
+    @Transactional
     public void deleteHouseById(long id) {
         if (houseRepository.existsById(id)) houseRepository.deleteById(id);
     }

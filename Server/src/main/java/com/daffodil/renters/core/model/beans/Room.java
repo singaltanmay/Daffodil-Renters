@@ -1,12 +1,12 @@
 package com.daffodil.renters.core.model.beans;
 
-import com.daffodil.renters.core.model.entities.HouseEntity;
 import com.daffodil.renters.core.model.entities.RoomEntity;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 public class Room {
 
@@ -25,6 +25,29 @@ public class Room {
     @Getter
     @Setter
     private House house;
+
+    public static class Filter {
+        @Getter
+        @Setter
+        private Optional<Long> id = Optional.empty();
+
+        @Getter
+        @Setter
+        private Optional<Long> beds = Optional.empty();
+
+        @Getter
+        @Setter
+        private Optional<Long> maxRent = Optional.empty();
+
+        @Getter
+        @Setter
+        private Optional<Boolean> roommates = Optional.empty();
+
+        public boolean isUnfiltered() {
+            return id.isEmpty() && beds.isEmpty()  && maxRent.isEmpty() && roommates.isEmpty();
+        }
+
+    }
 
     public Room(long id, short capacity, long rent, List<Occupant> occupants, House house) {
         this.id = id;

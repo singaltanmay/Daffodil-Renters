@@ -9,6 +9,10 @@ import com.daffodil.renters.core.repo.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
+import javax.transaction.Transactional;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -16,10 +20,14 @@ import java.util.stream.Collectors;
 
 @Service
 public class RoomService {
-    HouseRepository houseRepository;
 
+    HouseRepository houseRepository;
     RoomRepository roomRepository;
+
     OccupantService occupantService;
+
+    @Autowired
+    EntityManagerFactory factory;
 
     @Autowired
     public RoomService(HouseRepository houseRepository, RoomRepository roomRepository, OccupantService occupantService) {
@@ -45,6 +53,10 @@ public class RoomService {
         return foreignRelationsInjector(roomRepository.findRoomByHouseId(houseId));
     }
 
+    public List<Room> getRoomsUsingFilteredQuery(Room.Filter filter) {
+        return foreignRelationsInjector(new QueryUtils(factory).executeFilteredQuery(filter));
+    }
+
     public Optional<Room> getRoomById(long room_id) {
         Optional<RoomEntity> room = roomRepository.getRoomById(room_id);
         if (room.isPresent()) {
@@ -56,12 +68,14 @@ public class RoomService {
         return Optional.empty();
     }
 
+    @Transactional
     public void insertRoom(Room room, long house_id) {
         RoomEntity build = new RoomEntity.Builder().build(room);
         build.setHouse(houseRepository.findHouseById(house_id));
         roomRepository.save(build);
     }
 
+    @Transactional
     public void updateRoomById(long roomId, Room room) {
         if (!roomRepository.existsById(roomId)) return;
         occupantService.deleteAllOccupantsOfRoom(roomId);
@@ -79,15 +93,17 @@ public class RoomService {
 
     }
 
-
+    @Transactional
     public void deleteAllRooms() {
         roomRepository.deleteAll();
     }
 
+    @Transactional
     public void deleteAllRoomsOfHouse(long id) {
         roomRepository.deleteByHouseId(id);
     }
 
+    @Transactional
     public void deleteRoomById(long room_id) {
         if (roomRepository.existsById(room_id)) roomRepository.deleteById(room_id);
     }
@@ -101,4 +117,90 @@ public class RoomService {
         }
         return rooms;
     }
+
+    // Debug method used to get query string
+    public String getFilteredQueryGeneratedString(Room.Filter filter) {
+        return new QueryUtils(factory).createQueryFromFilter(filter);
+    }
+
+    private class QueryUtils {
+
+        private EntityManagerFactory factory;
+        private EntityManager manager;
+
+        public QueryUtils(EntityManagerFactory factory) {
+            this.factory = factory;
+        }
+
+        public String createQueryFromFilter(Room.Filter filter) {
+            String COLUMN_ID = "r.id";
+            String COLUMN_CAPACITY = "r.capacity";
+            String COLUMN_RENT = "r.rent";
+
+            StringBuilder builder = new StringBuilder("SELECT r FROM RoomEntity AS r");
+
+            Optional<Long> id = filter.getId();
+            Optional<Long> beds = filter.getBeds();
+            Optional<Long> maxRent = filter.getMaxRent();
+            Optional<Boolean> roommates = filter.getRoommates();
+
+            boolean unfiltered = filter.isUnfiltered();
+
+            boolean idPresent = id.isPresent();
+            boolean bedsPresent = beds.isPresent();
+            boolean maxRentPresent = maxRent.isPresent();
+            boolean roommatesPresent = roommates.isPresent();
+
+
+            boolean not_first_entry = false;
+
+            // TODO fix beds = capacity - occupants
+            // TODO eliminate rooms based on roommatesPresent by intersecting with count occupants with room_id
+            // WHERE clause builder
+            if (!unfiltered) {
+                builder.append(" WHERE ");
+                if (idPresent) {
+                    builder.append(COLUMN_ID + " = " + id.get().toString());
+                    not_first_entry = true;
+                }
+
+                if (bedsPresent) {
+                    if (not_first_entry) {
+                        builder.append(" AND ");
+                    } else not_first_entry = true;
+                    builder.append(COLUMN_CAPACITY + " >= " + beds.get().toString());
+                }
+
+                if (maxRentPresent) {
+                    if (not_first_entry) {
+                        builder.append(" AND ");
+                    } else not_first_entry = true;
+                    builder.append(COLUMN_RENT + " <= " + maxRent.get().toString());
+                }
+
+            }
+
+            return builder.toString();
+        }
+
+        public List<RoomEntity> executeFilteredQuery(Room.Filter filter) {
+            Query query = trn().createQuery(createQueryFromFilter(filter), RoomEntity.class);
+            List<RoomEntity> resultList = query.getResultList();
+            cmt();
+            return resultList;
+        }
+
+        private EntityManager trn() {
+            manager = factory.createEntityManager();
+            manager.getTransaction().begin();
+            return manager;
+        }
+
+        private void cmt() {
+            manager.getTransaction().commit();
+            manager.close();
+        }
+
+    }
+
 }
