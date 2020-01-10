@@ -1,6 +1,7 @@
 package com.daffodil.renters.core.service;
 
 import com.daffodil.renters.core.model.beans.Occupant;
+import com.daffodil.renters.core.model.beans.Room;
 import com.daffodil.renters.core.repo.OccupantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,4 +22,11 @@ public class OccupantService {
         return Occupant.listFrom(occupantRepository.findByRoomId(room_id));
     }
 
+    // TODO implement
+    public void deleteAllOccupantsOfRoom(long roomId) {
+    }
+
+    // TODO implement
+    public void insertOccupant(Room room, long roomId) {
+    }
 }

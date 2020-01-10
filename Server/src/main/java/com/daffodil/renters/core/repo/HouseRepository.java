@@ -18,7 +18,4 @@ public interface HouseRepository extends CrudRepository<HouseEntity, Long> {
 
     HouseEntity findHouseById(long id);
 
-    @Query("select h from HouseEntity h where h.latitude >= :min_lat and h.latitude <= :max_lat and h.longitude >= :min_lon and h.longitude <= :max_lon")
-    List<HouseEntity> getAllHousesWithinCoordinates(@Param("min_lat") double min_lat, @Param("min_lon") double min_lon, @Param("max_lat") double max_lat, @Param("max_lon") double max_lon);
-
 }

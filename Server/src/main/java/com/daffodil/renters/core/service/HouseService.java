@@ -11,47 +11,29 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Service
 public class HouseService {
-    private final HouseRepository repository;
+    private final HouseRepository houseRepository;
     private final RoomService roomService;
 
     @Autowired
     EntityManagerFactory factory;
 
     @Autowired
-    public HouseService(HouseRepository repository, RoomService roomService) {
-        this.repository = repository;
+    public HouseService(HouseRepository houseRepository, RoomService roomService) {
+        this.houseRepository = houseRepository;
         this.roomService = roomService;
     }
 
-    public String test(House.Filter filter) {
-        return new QueryUtils(factory).createQueryFromFilter(filter);
-    }
-
-    public List<House> getHousesWithin(double latitude, double longitude, double distance) {
-        GeoLocationService location = GeoLocationService.fromDegrees(latitude, longitude);
-        GeoLocationService[] boundingCoordinates = location.boundingCoordinates(distance, null);
-
-        double minLat = boundingCoordinates[0].getLatitudeInDegrees();
-        double minLon = boundingCoordinates[0].getLongitudeInDegrees();
-        double maxLat = boundingCoordinates[1].getLatitudeInDegrees();
-        double maxLon = boundingCoordinates[1].getLongitudeInDegrees();
-
-        return roomsInjector(repository.getAllHousesWithinCoordinates(minLat, minLon, maxLat, maxLon));
-    }
-
     public List<House> getAllHouses(int page) {
-        return roomsInjector(repository.findAll());
+        return roomsInjector(houseRepository.findAll());
     }
 
     public Optional<House> getHouseById(long id) {
-        HouseEntity houseById = repository.findHouseById(id);
+        HouseEntity houseById = houseRepository.findHouseById(id);
         if (houseById != null) {
             List<House> houses = roomsInjector(List.of(houseById));
             if (houses.isEmpty() || houses.get(0) == null) return Optional.empty();
@@ -65,22 +47,22 @@ public class HouseService {
 
     @Transactional
     public void insertHouse(House house) {
-        repository.save(new HouseEntity.Builder().build(house));
+        houseRepository.save(new HouseEntity.Builder().build(house));
     }
 
-    public void updateHouseById(long id, House house) {
-        if (!repository.existsById(id)) {
+    public void updateHouseById(long houseId, House house) {
+        if (!houseRepository.existsById(houseId)) {
             return;
         }
+        roomService.deleteAllRoomsOfHouse(houseId);
 
         List<Room> rooms = house.getRooms();
         rooms.forEach(room -> {
-            roomService.deleteAllRoomsOfHouse(id);
-            roomService.insertRoom(room, id);
+            roomService.insertRoom(room, houseId);
         });
 
-        repository.updateHouseById(
-                id,
+        houseRepository.updateHouseById(
+                houseId,
                 house.getAddress(),
                 house.getLatitude(),
                 house.getLongitude()
@@ -88,18 +70,23 @@ public class HouseService {
     }
 
     public void deleteAllHouses() {
-        repository.deleteAll();
+        houseRepository.deleteAll();
     }
 
     public void deleteHouseById(long id) {
-        if (repository.existsById(id)) repository.deleteById(id);
+        if (houseRepository.existsById(id)) houseRepository.deleteById(id);
     }
 
     // Helper method that injects child rooms into a iterable of HouseEntities
     private List<House> roomsInjector(Iterable<HouseEntity> entities) {
         List<House> houses = House.listFrom(entities);
-        houses.forEach(house -> house.setRooms(roomService.getAllRooms(house.getId())));
+        houses.forEach(house -> house.setRooms(roomService.getAllRoomsByHouseId(house.getId())));
         return houses;
+    }
+
+    // Debug method used to get query string
+    public String getFilteredQueryGeneratedString(House.Filter filter) {
+        return new QueryUtils(factory).createQueryFromFilter(filter);
     }
 
     private class QueryUtils {

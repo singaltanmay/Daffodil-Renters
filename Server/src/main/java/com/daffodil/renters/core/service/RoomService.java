@@ -1,16 +1,13 @@
 package com.daffodil.renters.core.service;
 
-import com.daffodil.renters.core.model.beans.House;
 import com.daffodil.renters.core.model.beans.Occupant;
 import com.daffodil.renters.core.model.beans.Room;
-import com.daffodil.renters.core.model.entities.HouseEntity;
 import com.daffodil.renters.core.model.entities.RoomEntity;
 import com.daffodil.renters.core.repo.HouseRepository;
 import com.daffodil.renters.core.repo.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -34,12 +31,12 @@ public class RoomService {
         return allByRentBetween.stream().map(entity -> new Room.Builder().build(entity)).collect(Collectors.toList());
     }
 
-    public List<Room> getAllRooms() {
+    public List<Room> getAllRoomsByHouseId() {
         return occupantsInjector(roomRepository.findAll());
     }
 
-    public List<Room> getAllRooms(long houseId) {
-        return occupantsInjector(roomRepository.findByHouseId(houseId));
+    public List<Room> getAllRoomsByHouseId(long houseId) {
+        return occupantsInjector(roomRepository.findRoomByHouseId(houseId));
     }
 
     public Optional<Room> getRoomById(long room_id, long house_id) {
@@ -51,7 +48,6 @@ public class RoomService {
             }
         }
         return Optional.empty();
-
     }
 
     public void insertRoom(Room room, long house_id) {
@@ -59,6 +55,24 @@ public class RoomService {
         build.setHouse(houseRepository.findHouseById(house_id));
         roomRepository.save(build);
     }
+
+    public void updateRoomById(long roomId, Room room) {
+        if (!roomRepository.existsById(roomId)) return;
+        occupantService.deleteAllOccupantsOfRoom(roomId);
+
+        List<Occupant> occupants = room.getOccupants();
+        occupants.forEach(occupant -> {
+            occupantService.insertOccupant(room, roomId);
+        });
+
+        roomRepository.updateRoomById(
+                roomId,
+                room.getCapacity(),
+                room.getRent()
+        );
+
+    }
+
 
     public void deleteAllRooms() {
         roomRepository.deleteAll();

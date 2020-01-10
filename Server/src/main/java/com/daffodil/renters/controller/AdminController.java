@@ -5,10 +5,8 @@ import com.daffodil.renters.core.service.HouseService;
 import com.daffodil.renters.core.service.OccupantService;
 import com.daffodil.renters.core.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @RequestMapping("daffodil/admin")
@@ -28,7 +26,7 @@ public class AdminController {
 
     @PostMapping(value = "debug/house/query")
     public String getFilteredQueryString(@RequestBody House.Filter filter) {
-        return houseService.test(filter);
+        return houseService.getFilteredQueryGeneratedString(filter);
     }
 
     @PostMapping(path = "/house")
@@ -37,7 +35,7 @@ public class AdminController {
     }
 
     @PutMapping(path = "/house")
-    public void replaceOrInsertHouse(@RequestParam("id") long id, @RequestBody House insertable) {
+    public void updateHouseById(@RequestParam("id") long id, @RequestBody House insertable) {
         houseService.updateHouseById(id, insertable);
     }
 
@@ -47,6 +45,5 @@ public class AdminController {
             houseService.deleteHouseById(id.get());
         } else houseService.deleteAllHouses();
     }
-
 
 }
