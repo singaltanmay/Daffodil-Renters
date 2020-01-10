@@ -7,6 +7,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.Date;
 
 @Entity
@@ -44,13 +45,21 @@ public class OccupantEntity {
     @ManyToOne
     private RoomEntity room;
 
-    @Getter
-    @Transient
-    private long rent = room.getRent() / room.getNumberOfOccupants();
+    public long getRent() {
+        if (room != null && room.getRent() != 0 && room.getNumberOfOccupants() != 0) {
+            return room.getRent() / room.getNumberOfOccupants();
+        } else return 0;
+    }
 
-    @Getter
-    @Transient
-    private LocalDate dateRentDue = LocalDateTime.from(timeLastRentPaid.toInstant()).plusDays(30).toLocalDate();
+    public Date getDateRentDue() {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(timeLastRentPaid);
+        calendar.add(Calendar.DATE, 30);
+        return calendar.getTime();
+
+//        return LocalDateTime.from(timeLastRentPaid.toInstant()).plusDays(30).toLocalDate();
+    }
 
     public OccupantEntity(RoomEntity room) {
         this.room = room;
@@ -134,4 +143,6 @@ public class OccupantEntity {
 
     }
 
+    public OccupantEntity() {
+    }
 }

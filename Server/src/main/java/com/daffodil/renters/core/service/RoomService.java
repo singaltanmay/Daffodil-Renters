@@ -46,10 +46,6 @@ public class RoomService {
         return foreignRelationsInjector(roomRepository.findAll());
     }
 
-    public List<Room> getAllRoomsByHouseId() {
-        return foreignRelationsInjector(roomRepository.findAll());
-    }
-
     public List<Room> getAllRoomsByHouseId(long houseId) {
         return foreignRelationsInjector(roomRepository.findRoomByHouseId(houseId));
     }
@@ -58,8 +54,8 @@ public class RoomService {
         return foreignRelationsInjector(new QueryUtils(factory).executeFilteredQuery(filter));
     }
 
-    public Optional<Room> getRoomById(long room_id) {
-        Optional<RoomEntity> room = roomRepository.getRoomById(room_id);
+    public Optional<Room> getRoomById(long roomId) {
+        Optional<RoomEntity> room = roomRepository.findById(roomId);
         if (room.isPresent()) {
             List<Room> rooms = foreignRelationsInjector(List.of(room.get()));
             if (rooms.size() > 0) {
@@ -70,9 +66,9 @@ public class RoomService {
     }
 
     @Transactional
-    public void insertRoom(Room room, long house_id) {
+    public void insertRoom(Room room, long houseId) {
         RoomEntity build = new RoomEntity.Builder().build(room);
-        build.setHouse(houseRepository.findHouseById(house_id));
+        build.setHouse(houseRepository.findHouseById(houseId));
         roomRepository.save(build);
     }
 
@@ -83,7 +79,7 @@ public class RoomService {
 
         List<Occupant> occupants = room.getOccupants();
         occupants.forEach(occupant -> {
-            occupantService.insertOccupant(room, roomId);
+            occupantService.insertOccupant(occupant, roomId);
         });
 
         roomRepository.updateRoomById(
@@ -105,8 +101,8 @@ public class RoomService {
     }
 
     @Transactional
-    public void deleteRoomById(long room_id) {
-        if (roomRepository.existsById(room_id)) roomRepository.deleteById(room_id);
+    public void deleteRoomById(long roomId) {
+        if (roomRepository.existsById(roomId)) roomRepository.deleteById(roomId);
     }
 
     private List<Room> foreignRelationsInjector(Iterable<RoomEntity> entities) {

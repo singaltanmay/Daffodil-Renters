@@ -19,6 +19,8 @@ public interface RoomRepository extends CrudRepository<RoomEntity, Long> {
 
     List<RoomEntity> findRoomByHouseId(long houseId);
 
+    RoomEntity findRoomById(long roomId);
+
     @Transactional
     void deleteByHouseId(long id);
 

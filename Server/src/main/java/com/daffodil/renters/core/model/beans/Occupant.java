@@ -1,6 +1,5 @@
 package com.daffodil.renters.core.model.beans;
 
-import com.daffodil.renters.core.model.entities.HouseEntity;
 import com.daffodil.renters.core.model.entities.OccupantEntity;
 import lombok.Getter;
 import lombok.Setter;
@@ -38,7 +37,15 @@ public class Occupant {
     private long rent;
     @Getter
     @Setter
-    private LocalDate dateRentDue;
+    private Date dateRentDue;
+
+    // TODO
+    public static class Filter {
+
+    }
+
+    protected Occupant() {
+    }
 
     public Occupant(Builder builder) {
         this.id = builder.id;
@@ -62,7 +69,7 @@ public class Occupant {
         private Date timeLastRentPaid;
         private Room room;
         private long rent;
-        private LocalDate dateRentDue;
+        private Date dateRentDue;
 
         public Builder setId(long id) {
             this.id = id;
@@ -104,7 +111,7 @@ public class Occupant {
             return this;
         }
 
-        public Builder setDateRentDue(LocalDate dateRentDue) {
+        public Builder setDateRentDue(Date dateRentDue) {
             this.dateRentDue = dateRentDue;
             return this;
         }
