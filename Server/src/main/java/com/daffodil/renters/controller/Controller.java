@@ -1,16 +1,13 @@
 package com.daffodil.renters.controller;
 
 import com.daffodil.renters.core.model.beans.House;
-import com.daffodil.renters.core.model.beans.Room;
 import com.daffodil.renters.core.service.HouseService;
-import com.daffodil.renters.core.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @RequestMapping("daffodil/api")
@@ -18,34 +15,30 @@ import java.util.Optional;
 public class Controller {
 
     private final HouseService houseService;
-    private final RoomService roomService;
 
     @Autowired
-    public Controller(HouseService houseService, RoomService roomService) {
+    public Controller(HouseService houseService) {
         this.houseService = houseService;
-        this.roomService = roomService;
     }
 
     @GetMapping(value = "house")
-    public ResponseEntity<?> getHouseById(@RequestParam("id") Optional<Long> id, @RequestParam("lat") Optional<Double> lat, @RequestParam("lon") Optional<Double> lon, @RequestParam("rangeKm") Optional<Double> range) {
+    public ResponseEntity<?> getHouseById(@RequestParam("id") Optional<Long> id) {
         if (id.isPresent()) {
             Optional<House> house = houseService.getHouseById(id.get());
             return new ResponseEntity<>(house.orElse(null), HttpStatus.OK);
-        } else if (lat.isPresent() && lon.isPresent() && range.isPresent()) {
-            List<House> housesWithin = houseService.getHousesWithin(lat.get(), lon.get(), range.get());
-            return new ResponseEntity<>(housesWithin, HttpStatus.OK);
-        } else return new ResponseEntity<>(null, HttpStatus.OK);
+        } else return new ResponseEntity<>(houseService.getAllHouses(), HttpStatus.OK);
     }
 
-    @PostMapping(value = "house/filter")
-    public List<House> getHousesFiltered(@RequestBody House.Filter filter) {
-        return houseService.getHousesUsingFilteredQuery(filter);
+    @PostMapping(value = "house")
+    public List<House> getHousesFiltered(@RequestBody Optional<House.Filter> filter) {
+        if (filter.isEmpty()) return houseService.getAllHouses();
+        else return houseService.getHousesUsingFilteredQuery(filter.get());
     }
 
-    @PostMapping(value = "test")
-    public String getFilteredQueryString(@RequestBody House.Filter filter) {
-        return houseService.test(filter);
-    }
+//    @PostMapping(value = "test")
+//    public String getFilteredQueryString(@RequestBody House.Filter filter) {
+//        return houseService.test(filter);
+//    }
 
 //    @RequestMapping(method = RequestMethod.GET, value = "/custom")
 //    public String controllerMethod(@RequestParam Map<String, String> customQuery) {

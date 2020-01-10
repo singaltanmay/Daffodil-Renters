@@ -68,7 +68,7 @@ public class HouseEntity {
         mapAllRooms();
     }
 
-    protected HouseEntity() {
+    public HouseEntity() {
     }
 
     private HouseEntity(Builder builder) {

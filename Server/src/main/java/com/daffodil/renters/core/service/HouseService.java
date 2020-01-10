@@ -11,6 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -116,9 +117,7 @@ public class HouseService {
             String COLUMN_LATITUDE = "h.latitude";
             String COLUMN_LONGITUDE = "h.longitude";
 
-            StringBuilder builder = new StringBuilder("SELECT ");
-
-            boolean not_first_entry = false;
+            StringBuilder builder = new StringBuilder("SELECT h FROM HouseEntity AS h");
 
             Optional<Long> id = filter.getId();
             Optional<String> address = filter.getAddress();
@@ -134,35 +133,12 @@ public class HouseService {
             boolean longitudePresent = longitude.isPresent();
             boolean rangeKmPresent = rangeKm.isPresent();
 
-            if (unfiltered) {
-                builder.append("h");
-            } else {
-                if (idPresent) {
-                    if (not_first_entry) {
-                        builder.append(", ");
-                    } else not_first_entry = true;
-                    builder.append(COLUMN_ID);
-                }
-                if (addressPresent) {
-                    if (not_first_entry) {
-                        builder.append(", ");
-                    } else not_first_entry = true;
-                    builder.append(COLUMN_ADDRESS);
-                }
-                if (latitudePresent && longitudePresent) {
-                    if (not_first_entry) {
-                        builder.append(", ");
-                    } else not_first_entry = true;
-                    builder.append(COLUMN_LATITUDE + ", " + COLUMN_LONGITUDE);
-                }
-            }
 
-            builder.append(" FROM HouseEntity AS h ");
+            boolean not_first_entry = false;
 
-            not_first_entry = false;
-
+            // WHERE clause builder
             if (!unfiltered) {
-                builder.append("WHERE ");
+                builder.append(" WHERE ");
                 if (idPresent) {
                     builder.append(COLUMN_ID + " = " + id.get().toString());
                     not_first_entry = true;
@@ -212,7 +188,6 @@ public class HouseService {
         }
 
         public List<HouseEntity> executeFilteredQuery(House.Filter filter) {
-            //"SELECT h FROM HouseEntity AS h WHERE h.id=1"
             Query query = trn().createQuery(createQueryFromFilter(filter), HouseEntity.class);
             List<HouseEntity> resultList = query.getResultList();
             cmt();
