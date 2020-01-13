@@ -1,6 +1,5 @@
 package com.daffodil.renters.core.service;
 
-import com.daffodil.renters.core.model.beans.House;
 import com.daffodil.renters.core.model.beans.Occupant;
 import com.daffodil.renters.core.model.beans.Room;
 import com.daffodil.renters.core.model.entities.RoomEntity;
@@ -13,8 +12,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -107,10 +104,8 @@ public class RoomService {
 
     private List<Room> foreignRelationsInjector(Iterable<RoomEntity> entities) {
         List<Room> rooms = Room.listFrom(entities);
-        Iterator<RoomEntity> iterator = entities.iterator();
         for (Room room : rooms) {
-            room.setOccupants(occupantService.getAllOccupants(room.getId()));
-            room.setHouse(new House.Builder().build(iterator.next().getHouse()));
+            room.setOccupants(occupantService.getAllOccupantsByRoomId(room.getId()));
         }
         return rooms;
     }
@@ -129,6 +124,8 @@ public class RoomService {
             this.factory = factory;
         }
 
+
+        //TODO Fix Query Syntax
         public String createQueryFromFilter(Room.Filter filter) {
             String COLUMN_ID = "r.id";
             String COLUMN_CAPACITY = "r.capacity";
@@ -141,7 +138,7 @@ public class RoomService {
             Optional<Long> maxRent = filter.getMaxRent();
             Optional<Boolean> roommates = filter.getRoommates();
 
-            boolean unfiltered = filter.isUnfiltered();
+            boolean whereUnfiltered = filter.isWhereUnfiltered();
 
             boolean idPresent = id.isPresent();
             boolean bedsPresent = beds.isPresent();
@@ -151,21 +148,12 @@ public class RoomService {
 
             boolean not_first_entry = false;
 
-            // TODO fix beds = capacity - occupants
-            // TODO eliminate rooms based on roommatesPresent by intersecting with count occupants with room_id
             // WHERE clause builder
-            if (!unfiltered) {
+            if (!whereUnfiltered) {
                 builder.append(" WHERE ");
                 if (idPresent) {
                     builder.append(COLUMN_ID + " = " + id.get().toString());
                     not_first_entry = true;
-                }
-
-                if (bedsPresent) {
-                    if (not_first_entry) {
-                        builder.append(" AND ");
-                    } else not_first_entry = true;
-                    builder.append(COLUMN_CAPACITY + " >= " + beds.get().toString());
                 }
 
                 if (maxRentPresent) {
@@ -177,22 +165,34 @@ public class RoomService {
 
             }
 
+            if (roommatesPresent || bedsPresent) {
+                if (roommatesPresent && !roommates.get()) {
+                    if (whereUnfiltered) {
+                        builder.append(" WHERE ");
+                    } else builder.append(" AND ");
+                    if (bedsPresent) {
+                        builder.append(COLUMN_CAPACITY + " >= " + beds.get().toString());
+                    }
+                    builder.append(" JOIN r.occupants AS o GROUP BY r.id HAVING ");
+                    builder.append("count(o.id) = 0");
+                } else if (bedsPresent) {
+                    builder.append(" JOIN r.occupants AS o GROUP BY r.id HAVING ");
+                    builder.append(COLUMN_CAPACITY + " - count(o.id) >= " + beds.get().toString());
+                }
+            }
+
             return builder.toString();
         }
 
         public List<RoomEntity> executeFilteredQuery(Room.Filter filter) {
 
-//            String s = "SELECT r, e.room, COUNT(e.room) FROM RoomEntity AS r LEFT OUTER JOIN OccupantEntity AS e ON r.id WHERE r.capacity >= 5 GROUP BY e.room";
+//            String s = "SELECT r FROM RoomEntity AS r JOIN r.occupants AS o GROUP BY r.id HAVING count(o.id) > 2";
 
-            /*, count(o.id)*/
+            Query query = trn().createQuery(createQueryFromFilter(filter), RoomEntity.class);
 
-            String s = "SELECT r FROM RoomEntity AS r JOIN r.occupants AS o GROUP BY r.id HAVING count(o.id) > 2";
-
-            Query query = trn().createQuery(/*createQueryFromFilter(filter)*/s, RoomEntity.class);
-
-            List<Object[]> resultList = query.getResultList();
+            List<RoomEntity> resultList = query.getResultList();
             cmt();
-            return new LinkedList<>();
+            return resultList;
         }
 
         private EntityManager trn() {

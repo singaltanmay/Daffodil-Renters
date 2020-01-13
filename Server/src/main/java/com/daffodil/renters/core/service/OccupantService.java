@@ -1,7 +1,6 @@
 package com.daffodil.renters.core.service;
 
 import com.daffodil.renters.core.model.beans.Occupant;
-import com.daffodil.renters.core.model.beans.Room;
 import com.daffodil.renters.core.model.entities.OccupantEntity;
 import com.daffodil.renters.core.repo.OccupantRepository;
 import com.daffodil.renters.core.repo.RoomRepository;
@@ -9,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -84,10 +82,6 @@ public class OccupantService {
 
     private List<Occupant> foreignRelationsInjector(Iterable<OccupantEntity> entities) {
         List<Occupant> occupants = Occupant.listFrom(entities);
-        Iterator<OccupantEntity> iterator = entities.iterator();
-        for (Occupant occupant : occupants) {
-            occupant.setRoom(new Room.Builder().build(iterator.next().getRoom()));
-        }
         return occupants;
     }
 

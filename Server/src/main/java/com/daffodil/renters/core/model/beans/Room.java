@@ -43,8 +43,8 @@ public class Room {
         @Setter
         private Optional<Boolean> roommates = Optional.empty();
 
-        public boolean isUnfiltered() {
-            return id.isEmpty() && beds.isEmpty()  && maxRent.isEmpty() && roommates.isEmpty();
+        public boolean isWhereUnfiltered() {
+            return id.isEmpty() && maxRent.isEmpty();
         }
 
     }
