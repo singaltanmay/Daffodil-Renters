@@ -1,2 +1,17 @@
 /Server/.idea
 /Server/target
+
+/Android-Client/*.iml
+/Android-Client/.gradle
+/Android-Client/local.properties
+/Android-Client/.idea/caches
+/Android-Client/.idea/libraries
+/Android-Client/.idea/modules.xml
+/Android-Client/.idea/workspace.xml
+/Android-Client/.idea/navEditor.xml
+/Android-Client/.idea/assetWizardSettings.xml
+/Android-Client/.DS_Store
+/Android-Client/build
+/Android-Client/captures
+/Android-Client/.externalNativeBuild
+/Android-Client/.cxx
