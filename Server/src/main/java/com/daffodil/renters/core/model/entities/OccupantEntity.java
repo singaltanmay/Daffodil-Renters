@@ -80,6 +80,13 @@ public class OccupantEntity {
     public void mapParkingSpot(ParkingSpotEntity parkingSpotEntity) {
         if (parkingSpotEntity != null) {
             parkingSpotEntity.setOccupant(OccupantEntity.this);
+            RoomEntity roomEntity = OccupantEntity.this.getRoom();
+            if (roomEntity != null) {
+                HouseEntity houseEntity = roomEntity.getHouse();
+                if (houseEntity != null) {
+                    parkingSpotEntity.setHouse(houseEntity);
+                }
+            }
         }
     }
 
