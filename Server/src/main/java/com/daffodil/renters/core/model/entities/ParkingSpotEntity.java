@@ -1,10 +1,13 @@
 package com.daffodil.renters.core.model.entities;
 
 import com.daffodil.renters.core.model.beans.ParkingSpot;
+import com.daffodil.renters.core.model.beans.Room;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.LinkedList;
+import java.util.List;
 
 @Entity
 @Table(name = "parking_spot")
@@ -122,18 +125,32 @@ public class ParkingSpotEntity {
             return new ParkingSpotEntity(this);
         }
 
-        public ParkingSpotEntity build(ParkingSpot ps) {
-            if (ps == null) return null;
-            this.id = ps.getId();
-            this.electric = ps.isElectric();
-            this.parkingSize = ps.getParkingSize();
-            this.parkingType = ps.getParkingType();
-            this.price = ps.getPrice();
-            this.houseEntity = new HouseEntity.Builder().build(ps.getHouse());
-            this.occupantEntity = new OccupantEntity.Builder().build(ps.getOccupant());
+        public ParkingSpotEntity build(ParkingSpot parkingSpot) {
+            if (parkingSpot == null) return null;
+            this.id = parkingSpot.getId();
+            this.electric = parkingSpot.isElectric();
+            this.parkingSize = parkingSpot.getParkingSize();
+            this.parkingType = parkingSpot.getParkingType();
+            this.price = parkingSpot.getPrice();
+            this.houseEntity = new HouseEntity.Builder().build(parkingSpot.getHouse());
+            this.occupantEntity = new OccupantEntity.Builder().build(parkingSpot.getOccupant());
             return new ParkingSpotEntity(this);
         }
 
+    }
+
+    public static List<ParkingSpotEntity> listFrom(Iterable<ParkingSpot> parkingSpots) {
+        if (parkingSpots == null) return new LinkedList<>();
+
+        List<ParkingSpotEntity> entities = new LinkedList<>();
+        parkingSpots.forEach(parkingSpot -> {
+            ParkingSpotEntity parkingSpotEntity = new ParkingSpotEntity.Builder().build(parkingSpot);
+            if (parkingSpotEntity != null) {
+                entities.add(parkingSpotEntity);
+            }
+        });
+
+        return entities;
     }
 
     protected ParkingSpotEntity() {

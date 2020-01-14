@@ -39,6 +39,9 @@ public class Occupant {
     @Getter
     @Setter
     private Date dateRentDue;
+    @Getter
+    @Setter
+    private List<ParkingSpot> parkingSpots;
 
     // TODO
     public static class Filter {

@@ -27,6 +27,9 @@ public class House {
     @Getter
     @Setter
     List<Room> rooms;
+    @Getter
+    @Setter
+    List<ParkingSpot> parkingSpots;
 
     public static class Filter {
         @Getter
@@ -50,12 +53,13 @@ public class House {
         }
     }
 
-    public House(long id, String address, double latitude, double longitude, List<Room> rooms) {
+    public House(long id, String address, double latitude, double longitude, List<Room> rooms, List<ParkingSpot> parkingSpots) {
         this.id = id;
         this.address = address;
         this.latitude = latitude;
         this.longitude = longitude;
         this.rooms = rooms;
+        this.parkingSpots = parkingSpots;
     }
 
     public House(Builder builder) {
@@ -64,6 +68,7 @@ public class House {
         this.latitude = builder.latitude;
         this.longitude = builder.longitude;
         this.rooms = builder.rooms;
+        this.parkingSpots = builder.parkingSpots;
     }
 
     public static class Builder {
@@ -72,6 +77,7 @@ public class House {
         private double latitude;
         private double longitude;
         List<Room> rooms;
+        List<ParkingSpot> parkingSpots;
 
         public Builder setId(long id) {
             this.id = id;
@@ -98,6 +104,11 @@ public class House {
             return this;
         }
 
+        public Builder setParkingSpots(List<ParkingSpot> parkingSpots) {
+            this.parkingSpots = parkingSpots;
+            return this;
+        }
+
         public House build() {
             return new House(this);
         }
@@ -108,6 +119,7 @@ public class House {
             this.address = entity.getAddress();
             this.latitude = entity.getLatitude();
             this.longitude = entity.getLongitude();
+            this.parkingSpots = ParkingSpot.listFrom(entity.getParkingSpots());
             return new House(this);
         }
 

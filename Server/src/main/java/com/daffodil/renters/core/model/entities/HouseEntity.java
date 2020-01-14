@@ -1,6 +1,7 @@
 package com.daffodil.renters.core.model.entities;
 
 import com.daffodil.renters.core.model.beans.House;
+import com.daffodil.renters.core.model.beans.ParkingSpot;
 import com.daffodil.renters.core.model.beans.Room;
 import lombok.Getter;
 import lombok.Setter;
@@ -151,6 +152,7 @@ public class HouseEntity {
             this.latitude = house.getLatitude();
             this.longitude = house.getLongitude();
             List<Room> houseRooms = house.getRooms();
+            List<ParkingSpot> parkingSpots = house.getParkingSpots();
 
             List<Room> rooms = houseRooms != null ? houseRooms : new LinkedList<>();
             List<RoomEntity> roomEntities = new LinkedList<>();
@@ -162,7 +164,7 @@ public class HouseEntity {
             }
             this.rooms = roomEntities;
 
-            // TODO parking spot
+            this.parkingSpots = ParkingSpotEntity.listFrom(house.getParkingSpots());
 
             return new HouseEntity(this);
         }

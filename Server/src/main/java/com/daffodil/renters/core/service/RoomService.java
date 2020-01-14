@@ -104,9 +104,7 @@ public class RoomService {
 
     private List<Room> foreignRelationsInjector(Iterable<RoomEntity> entities) {
         List<Room> rooms = Room.listFrom(entities);
-        for (Room room : rooms) {
-            room.setOccupants(occupantService.getAllOccupantsByRoomId(room.getId()));
-        }
+        rooms.forEach(room -> room.setOccupants(occupantService.getAllOccupantsByRoomId(room.getId())));
         return rooms;
     }
 
@@ -197,24 +195,20 @@ public class RoomService {
 
         public List<RoomEntity> executeFilteredQuery(Room.Filter filter) {
 
-//            String s = "SELECT r FROM RoomEntity AS r JOIN r.occupants AS o GROUP BY r.id HAVING count(o.id) > 2";
-
-//            String d = "SELECT r FROM RoomEntity AS r JOIN r.occupants AS o WHERE r.id = 1 AND r.rent <= 24000 GROUP BY r.id HAVING r.capacity - count(o.id) >= 3";
-
-            Query query = trn().createQuery(createQueryFromFilter(filter), RoomEntity.class);
+            Query query = createFactoryAndBeginTransaction().createQuery(createQueryFromFilter(filter), RoomEntity.class);
 
             List<RoomEntity> resultList = query.getResultList();
-            cmt();
+            commitTransactionAndCloseManager();
             return resultList;
         }
 
-        private EntityManager trn() {
+        private EntityManager createFactoryAndBeginTransaction() {
             manager = factory.createEntityManager();
             manager.getTransaction().begin();
             return manager;
         }
 
-        private void cmt() {
+        private void commitTransactionAndCloseManager() {
             manager.getTransaction().commit();
             manager.close();
         }
