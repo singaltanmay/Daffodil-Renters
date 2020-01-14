@@ -1,14 +1,15 @@
 package com.daffodil.renters.core.model.beans;
 
 import com.daffodil.renters.core.model.entities.OccupantEntity;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Occupant {
 
     @Getter

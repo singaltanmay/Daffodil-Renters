@@ -1,6 +1,7 @@
 package com.daffodil.renters.core.model.beans;
 
 import com.daffodil.renters.core.model.entities.HouseEntity;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,6 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class House {
 
     @Getter

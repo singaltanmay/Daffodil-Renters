@@ -127,30 +127,34 @@ public class RoomService {
 
         //TODO Fix Query Syntax
         public String createQueryFromFilter(Room.Filter filter) {
-            String COLUMN_ID = "r.id";
-            String COLUMN_CAPACITY = "r.capacity";
-            String COLUMN_RENT = "r.rent";
-
-            StringBuilder builder = new StringBuilder("SELECT r FROM RoomEntity AS r");
-
             Optional<Long> id = filter.getId();
             Optional<Long> beds = filter.getBeds();
             Optional<Long> maxRent = filter.getMaxRent();
             Optional<Boolean> roommates = filter.getRoommates();
 
-            boolean whereUnfiltered = filter.isWhereUnfiltered();
+            boolean containsWhereables = filter.containsWhereables();
+            boolean containsJoinables = filter.containsJoinables();
 
             boolean idPresent = id.isPresent();
             boolean bedsPresent = beds.isPresent();
             boolean maxRentPresent = maxRent.isPresent();
             boolean roommatesPresent = roommates.isPresent();
 
+            String COLUMN_ID = "r.id";
+            String COLUMN_CAPACITY = "r.capacity";
+            String COLUMN_RENT = "r.rent";
+
+            StringBuilder builder = new StringBuilder("SELECT r FROM RoomEntity AS r");
+            if (containsJoinables) {
+                builder.append(" JOIN r.occupants AS o");
+            }
 
             boolean not_first_entry = false;
 
             // WHERE clause builder
-            if (!whereUnfiltered) {
+            if (containsWhereables) {
                 builder.append(" WHERE ");
+
                 if (idPresent) {
                     builder.append(COLUMN_ID + " = " + id.get().toString());
                     not_first_entry = true;
@@ -165,19 +169,26 @@ public class RoomService {
 
             }
 
-            if (roommatesPresent || bedsPresent) {
+            // GROUP BY and HAVING clause builder
+            if (containsJoinables) {
+                // Rooms without roommates
                 if (roommatesPresent && !roommates.get()) {
-                    if (whereUnfiltered) {
+
+                    if (not_first_entry) {
+                        builder.append(" AND ");
+                    } else {
                         builder.append(" WHERE ");
-                    } else builder.append(" AND ");
+                        not_first_entry = true;
+                    }
+
                     if (bedsPresent) {
                         builder.append(COLUMN_CAPACITY + " >= " + beds.get().toString());
                     }
-                    builder.append(" JOIN r.occupants AS o GROUP BY r.id HAVING ");
+                    builder.append(" GROUP BY r.id HAVING ");
                     builder.append("count(o.id) = 0");
                 } else if (bedsPresent) {
-                    builder.append(" JOIN r.occupants AS o GROUP BY r.id HAVING ");
-                    builder.append(COLUMN_CAPACITY + " - count(o.id) >= " + beds.get().toString());
+                    builder.append(" GROUP BY r.id HAVING ");
+                    builder.append("(" + COLUMN_CAPACITY + " - count(o.id) >= " + beds.get().toString() + ")");
                 }
             }
 
@@ -187,6 +198,8 @@ public class RoomService {
         public List<RoomEntity> executeFilteredQuery(Room.Filter filter) {
 
 //            String s = "SELECT r FROM RoomEntity AS r JOIN r.occupants AS o GROUP BY r.id HAVING count(o.id) > 2";
+
+//            String d = "SELECT r FROM RoomEntity AS r JOIN r.occupants AS o WHERE r.id = 1 AND r.rent <= 24000 GROUP BY r.id HAVING r.capacity - count(o.id) >= 3";
 
             Query query = trn().createQuery(createQueryFromFilter(filter), RoomEntity.class);
 

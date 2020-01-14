@@ -1,6 +1,7 @@
 package com.daffodil.renters.core.model.beans;
 
 import com.daffodil.renters.core.model.entities.RoomEntity;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,6 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Room {
 
     @Getter
@@ -43,8 +45,12 @@ public class Room {
         @Setter
         private Optional<Boolean> roommates = Optional.empty();
 
-        public boolean isWhereUnfiltered() {
-            return id.isEmpty() && maxRent.isEmpty();
+        public boolean containsJoinables() {
+            return roommates.isPresent() || beds.isPresent();
+        }
+
+        public boolean containsWhereables() {
+            return id.isPresent() || maxRent.isPresent();
         }
 
     }
