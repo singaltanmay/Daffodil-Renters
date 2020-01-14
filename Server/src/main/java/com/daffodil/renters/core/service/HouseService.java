@@ -20,14 +20,15 @@ public class HouseService {
     private final HouseRepository houseRepository;
 
     private final RoomService roomService;
+    private final ParkingSpotService parkingSpotService;
 
     @Autowired
     EntityManagerFactory factory;
 
-    @Autowired
-    public HouseService(HouseRepository houseRepository, RoomService roomService) {
+    public HouseService(HouseRepository houseRepository, RoomService roomService, ParkingSpotService parkingSpotService) {
         this.houseRepository = houseRepository;
         this.roomService = roomService;
+        this.parkingSpotService = parkingSpotService;
     }
 
     public List<House> getAllHouses(int page) {
@@ -84,7 +85,11 @@ public class HouseService {
 
     private List<House> foreignRelationsInjector(Iterable<HouseEntity> entities) {
         List<House> houses = House.listFrom(entities);
-        houses.forEach(house -> house.setRooms(roomService.getAllRoomsByHouseId(house.getId())));
+        houses.forEach(house -> {
+            long houseId = house.getId();
+            house.setRooms(roomService.getAllRoomsByHouseId(houseId));
+            house.setParkingSpots(parkingSpotService.getAllParkingSpotsByHouseId(houseId));
+        });
         return houses;
     }
 

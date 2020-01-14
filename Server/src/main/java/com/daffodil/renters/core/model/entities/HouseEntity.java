@@ -1,6 +1,7 @@
 package com.daffodil.renters.core.model.entities;
 
 import com.daffodil.renters.core.model.beans.House;
+import com.daffodil.renters.core.model.beans.ParkingSpot;
 import com.daffodil.renters.core.model.beans.Room;
 import lombok.Getter;
 import lombok.Setter;
@@ -38,19 +39,37 @@ public class HouseEntity {
     @OneToMany(mappedBy = "house", cascade = CascadeType.ALL)
     List<RoomEntity> rooms;
 
+    @Getter
+    @OneToMany(mappedBy = "house", cascade = CascadeType.ALL)
+    List<ParkingSpotEntity> parkingSpots;
+
     // To be run whenever rooms are inserted
     private void mapAllRooms() {
-        List<RoomEntity> rooms = this.rooms;
-        if (rooms != null) {
-            for (RoomEntity r : rooms) {
-                mapRoom(r);
+        final List<RoomEntity> rooms = this.rooms;
+        new Thread(() -> {
+            if (rooms != null) {
+                rooms.forEach(HouseEntity.this::mapRoom);
             }
-        }
+        }).start();
+
+    }
+
+    private void mapAllParkingSpots() {
+        final List<ParkingSpotEntity> parkingSpots = this.parkingSpots;
+        new Thread(() -> {
+            if (parkingSpots != null) {
+                parkingSpots.forEach(HouseEntity.this::mapParkingSpot);
+            }
+        }).start();
     }
 
     // To be run whenever a new room is added
     private void mapRoom(RoomEntity roomEntity) {
         if (roomEntity != null) roomEntity.setHouse(HouseEntity.this);
+    }
+
+    private void mapParkingSpot(ParkingSpotEntity parkingSpotEntity) {
+        if (parkingSpotEntity != null) parkingSpotEntity.setHouse(HouseEntity.this);
     }
 
     public HouseEntity(String address, double latitude, double longitude) {
@@ -59,13 +78,15 @@ public class HouseEntity {
         this.longitude = longitude;
     }
 
-    public HouseEntity(long id, String address, double latitude, double longitude, List<RoomEntity> rooms) {
+    public HouseEntity(long id, String address, double latitude, double longitude, List<RoomEntity> rooms, List<ParkingSpotEntity> parkingSpots) {
         this.id = id;
         this.address = address;
         this.latitude = latitude;
         this.longitude = longitude;
         this.rooms = rooms;
+        this.parkingSpots = parkingSpots;
         mapAllRooms();
+        mapAllParkingSpots();
     }
 
     public HouseEntity() {
@@ -77,7 +98,9 @@ public class HouseEntity {
         this.latitude = builder.latitude;
         this.longitude = builder.longitude;
         this.rooms = builder.rooms;
+        this.parkingSpots = builder.parkingSpots;
         mapAllRooms();
+        mapAllParkingSpots();
     }
 
     public static class Builder {
@@ -86,6 +109,7 @@ public class HouseEntity {
         private double latitude;
         private double longitude;
         List<RoomEntity> rooms;
+        List<ParkingSpotEntity> parkingSpots;
 
         public Builder setId(long id) {
             this.id = id;
@@ -112,6 +136,11 @@ public class HouseEntity {
             return this;
         }
 
+        public Builder setParkingSpots(List<ParkingSpotEntity> parkingSpots) {
+            this.parkingSpots = parkingSpots;
+            return this;
+        }
+
         public HouseEntity build() {
             return new HouseEntity(this);
         }
@@ -123,6 +152,8 @@ public class HouseEntity {
             this.latitude = house.getLatitude();
             this.longitude = house.getLongitude();
             List<Room> houseRooms = house.getRooms();
+            List<ParkingSpot> parkingSpots = house.getParkingSpots();
+
             List<Room> rooms = houseRooms != null ? houseRooms : new LinkedList<>();
             List<RoomEntity> roomEntities = new LinkedList<>();
             for (Room room : rooms) {
@@ -132,6 +163,9 @@ public class HouseEntity {
                 }
             }
             this.rooms = roomEntities;
+
+            this.parkingSpots = ParkingSpotEntity.listFrom(house.getParkingSpots());
+
             return new HouseEntity(this);
         }
 
@@ -140,5 +174,10 @@ public class HouseEntity {
     public void setRooms(List<RoomEntity> rooms) {
         this.rooms = rooms;
         mapAllRooms();
+    }
+
+    public void setParkingSpots(List<ParkingSpotEntity> parkingSpots) {
+        this.parkingSpots = parkingSpots;
+        mapAllParkingSpots();
     }
 }

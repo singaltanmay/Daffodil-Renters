@@ -15,46 +15,49 @@ import java.util.Optional;
 @RestController
 public class AdminController {
 
-
-    // Dummy DB
+//              Dummy DB
 //    {
-//	"address":"Unitech Uniworld City South",
-//	"latitude":28.458742,
-//	"longitude":77.056645,
-//	"rooms":[{
-//		"capacity":2,
-//		"rent": 20000,
-//		"occupants":[{
-//			"firstName":"Shiv",
-//			"lastName":"Sharma",
-//			"phoneNumber":"+919836452738"
-//		},
-//		{
-//			"firstName":"Kanika",
-//			"lastName":"Shethi",
-//			"phoneNumber":"+919543234567"
-//		}]
-//	},
-//	{
-//		"capacity":1,
-//		"rent": 10000,
-//		"occupants":[{
-//			"firstName":"Ashok",
-//			"lastName":"Yadav",
-//			"phoneNumber":"+4498263514"
-//		}]
-//	},
-//	{
-//		"capacity":3,
-//		"rent": 30000,
-//		"occupants":[{
-//			"firstName":"Vipin",
-//			"lastName":"Kumaar",
-//			"phoneNumber":"+123476768",
-//			"rent":15000
-//		}]
-//	}]
-//}
+//        "address":"Unitech Uniworld City South",
+//            "latitude":28.458742,
+//            "longitude":77.056645,
+//            "parkingSpots":[{
+//        "electric":true
+//    }],
+//        "rooms":[{
+//        "capacity":2,
+//                "rent": 20000,
+//                "occupants":[{
+//            "firstName":"Shiv",
+//                    "lastName":"Sharma",
+//                    "phoneNumber":"+919836452738"
+//        },
+//        {
+//            "firstName":"Kanika",
+//                "lastName":"Shethi",
+//                "phoneNumber":"+919543234567"
+//        }]
+//    },
+//        {
+//            "capacity":1,
+//                "rent": 10000,
+//                "occupants":[{
+//            "firstName":"Ashok",
+//                    "lastName":"Yadav",
+//                    "phoneNumber":"+4498263514"
+//        }]
+//        },
+//        {
+//            "capacity":3,
+//                "rent": 30000,
+//                "occupants":[{
+//            "firstName":"Vipin",
+//                    "lastName":"Kumaar",
+//                    "phoneNumber":"+123476768",
+//                    "rent":15000
+//        }]
+//        }]
+//    }
+
 
     private final HouseService houseService;
     private final RoomService roomService;
