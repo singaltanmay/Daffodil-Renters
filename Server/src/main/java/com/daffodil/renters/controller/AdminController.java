@@ -2,9 +2,11 @@ package com.daffodil.renters.controller;
 
 import com.daffodil.renters.core.model.beans.House;
 import com.daffodil.renters.core.model.beans.Occupant;
+import com.daffodil.renters.core.model.beans.ParkingSpot;
 import com.daffodil.renters.core.model.beans.Room;
 import com.daffodil.renters.core.service.HouseService;
 import com.daffodil.renters.core.service.OccupantService;
+import com.daffodil.renters.core.service.ParkingSpotService;
 import com.daffodil.renters.core.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -58,16 +60,17 @@ public class AdminController {
 //        }]
 //    }
 
-
     private final HouseService houseService;
     private final RoomService roomService;
     private final OccupantService occupantService;
+    private final ParkingSpotService parkingSpotService;
 
     @Autowired
-    public AdminController(HouseService houseService, RoomService roomService, OccupantService occupantService) {
+    public AdminController(HouseService houseService, RoomService roomService, OccupantService occupantService, ParkingSpotService parkingSpotService) {
         this.houseService = houseService;
         this.roomService = roomService;
         this.occupantService = occupantService;
+        this.parkingSpotService = parkingSpotService;
     }
 
     @PostMapping(path = "/house")
@@ -115,8 +118,8 @@ public class AdminController {
     }
 
     @PostMapping(path = "/occupant")
-    public void insertOccupant(@RequestBody Occupant occupant, @RequestParam("house_id") long house_id) {
-        occupantService.insertOccupant(occupant, house_id);
+    public void insertOccupant(@RequestBody Occupant occupant, @RequestParam("house_id") long houseId) {
+        occupantService.insertOccupant(occupant, houseId);
     }
 
     @PutMapping(path = "/occupant")
@@ -134,6 +137,11 @@ public class AdminController {
     @PostMapping(value = "debug/occupant/query")
     public String getFilteredQueryString(@RequestBody Occupant.Filter filter) {
         return occupantService.getFilteredQueryGeneratedString(filter);
+    }
+
+    @PostMapping(value = "parkingSpot")
+    public void insertParkingSpotForOccupant(@RequestBody ParkingSpot parkingSpot, @RequestParam("occupant_id") long occupantId) {
+        parkingSpotService.insertParkingSpot(parkingSpot, null, occupantId);
     }
 
 

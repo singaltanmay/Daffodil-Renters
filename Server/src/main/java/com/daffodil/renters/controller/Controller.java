@@ -67,6 +67,7 @@ public class Controller {
         } else return new ResponseEntity<>(occupantService.getAllOccupants(page.orElse(1)), HttpStatus.OK);
     }
 
+
     // Kinda like a GET method but used POST to get params as a JSON file
     @PostMapping(value = "occupant")
     public List<Occupant> getOccupantsFiltered(@RequestBody Optional<Occupant.Filter> filter, @RequestParam("page") Optional<Integer> page) {

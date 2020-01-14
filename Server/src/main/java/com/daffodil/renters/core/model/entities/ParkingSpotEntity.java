@@ -1,9 +1,11 @@
 package com.daffodil.renters.core.model.entities;
 
 import com.daffodil.renters.core.model.beans.ParkingSpot;
-import com.daffodil.renters.core.model.beans.Room;
+import com.daffodil.renters.core.repo.OccupantRepository;
+import com.daffodil.renters.core.repo.RoomRepository;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.util.LinkedList;
@@ -13,18 +15,20 @@ import java.util.List;
 @Table(name = "parking_spot")
 public class ParkingSpotEntity {
 
+
     public enum PARKING_SIZE {
         BICYCLE,
         SCOOTER,
         CAR,
-        MINI_TRUCK
+        MINI_TRUCK;
     }
+
 
     public enum PARKING_TYPE {
         GENERAL,
         RESERVED,
         HANDICAPPED,
-        EMERGENCY_VEHICLES
+        EMERGENCY_VEHICLE;
     }
 
     @Getter
@@ -70,14 +74,21 @@ public class ParkingSpotEntity {
     public ParkingSpotEntity(Builder builder) {
         this.id = builder.id;
         this.electric = builder.electric;
-        this.parkingSize = builder.parkingSize;
-        this.parkingType = builder.parkingType;
+        PARKING_SIZE parkingSize = builder.parkingSize;
+        if (parkingSize != null) {
+            this.parkingSize = parkingSize;
+        }
+        PARKING_TYPE parkingType = builder.parkingType;
+        if (parkingType != null) {
+            this.parkingType = parkingType;
+        }
         this.price = builder.price;
         this.house = builder.houseEntity;
         this.occupant = builder.occupantEntity;
     }
 
     public static class Builder {
+
         private long id;
         private boolean electric;
         private PARKING_SIZE parkingSize;
@@ -136,6 +147,7 @@ public class ParkingSpotEntity {
             this.occupantEntity = new OccupantEntity.Builder().build(parkingSpot.getOccupant());
             return new ParkingSpotEntity(this);
         }
+
 
     }
 

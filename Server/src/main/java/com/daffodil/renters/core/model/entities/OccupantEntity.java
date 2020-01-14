@@ -68,6 +68,21 @@ public class OccupantEntity {
         return calendar.getTime();
     }
 
+    public void mapAllParkingSpots() {
+        List<ParkingSpotEntity> parkingSpotEntities = this.parkingSpots;
+        if (parkingSpotEntities != null) {
+            for (ParkingSpotEntity parkSpotE : parkingSpotEntities) {
+                mapParkingSpot(parkSpotE);
+            }
+        }
+    }
+
+    public void mapParkingSpot(ParkingSpotEntity parkingSpotEntity) {
+        if (parkingSpotEntity != null) {
+            parkingSpotEntity.setOccupant(OccupantEntity.this);
+        }
+    }
+
     public OccupantEntity(RoomEntity room) {
         this.room = room;
     }
@@ -84,7 +99,8 @@ public class OccupantEntity {
             this.timeLastRentPaid = builder.timeLastRentPaid;
         }
         this.room = builder.room;
-
+        this.parkingSpots = builder.parkingSpots;
+        mapAllParkingSpots();
     }
 
     public static class Builder {
@@ -96,6 +112,7 @@ public class OccupantEntity {
         private Date dateMovedIn;
         private Date timeLastRentPaid;
         private RoomEntity room;
+        private List<ParkingSpotEntity> parkingSpots;
 
         public Builder setId(long id) {
             this.id = id;
@@ -132,6 +149,11 @@ public class OccupantEntity {
             return this;
         }
 
+        public Builder setParkingSpots(List<ParkingSpotEntity> parkingSpots) {
+            this.parkingSpots = parkingSpots;
+            return this;
+        }
+
         public OccupantEntity build() {
             return new OccupantEntity(this);
         }
@@ -145,9 +167,16 @@ public class OccupantEntity {
             this.dateMovedIn = occupant.getDateMovedIn();
             this.timeLastRentPaid = occupant.getTimeLastRentPaid();
             this.room = new RoomEntity.Builder().build(occupant.getRoom());
+            this.parkingSpots = ParkingSpotEntity.listFrom(occupant.getParkingSpots());
+
             return new OccupantEntity(this);
         }
 
+    }
+
+    public void setParkingSpots(List<ParkingSpotEntity> parkingSpots) {
+        this.parkingSpots = parkingSpots;
+        mapAllParkingSpots();
     }
 
     public OccupantEntity() {

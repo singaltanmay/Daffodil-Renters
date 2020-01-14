@@ -152,7 +152,6 @@ public class HouseEntity {
             this.latitude = house.getLatitude();
             this.longitude = house.getLongitude();
             List<Room> houseRooms = house.getRooms();
-            List<ParkingSpot> parkingSpots = house.getParkingSpots();
 
             List<Room> rooms = houseRooms != null ? houseRooms : new LinkedList<>();
             List<RoomEntity> roomEntities = new LinkedList<>();
