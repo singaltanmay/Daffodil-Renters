@@ -38,6 +38,10 @@ public class HouseEntity {
     @OneToMany(mappedBy = "house", cascade = CascadeType.ALL)
     List<RoomEntity> rooms;
 
+    @Getter
+    @OneToMany(mappedBy = "house", cascade = CascadeType.ALL)
+    List<ParkingSpotEntity> parkingSpots;
+
     // To be run whenever rooms are inserted
     private void mapAllRooms() {
         List<RoomEntity> rooms = this.rooms;

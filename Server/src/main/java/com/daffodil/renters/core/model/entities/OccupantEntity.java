@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "occupant")
@@ -45,20 +46,26 @@ public class OccupantEntity {
     @ManyToOne
     private RoomEntity room;
 
+    @Getter
+    @OneToMany(mappedBy = "occupant", cascade = CascadeType.ALL)
+    List<ParkingSpotEntity> parkingSpots;
+
     public long getRent() {
         if (room != null && room.getRent() != 0 && room.getNumberOfOccupants() != 0) {
-            return room.getRent() / room.getNumberOfOccupants();
+            long roomRent = room.getRent() / room.getNumberOfOccupants();
+            // Add price of all parking spots to rent
+            if (parkingSpots != null) {
+                roomRent += parkingSpots.stream().mapToLong(ParkingSpotEntity::getPrice).sum();
+            }
+            return roomRent;
         } else return 0;
     }
 
     public Date getDateRentDue() {
-
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(timeLastRentPaid);
         calendar.add(Calendar.DATE, 30);
         return calendar.getTime();
-
-//        return LocalDateTime.from(timeLastRentPaid.toInstant()).plusDays(30).toLocalDate();
     }
 
     public OccupantEntity(RoomEntity room) {
