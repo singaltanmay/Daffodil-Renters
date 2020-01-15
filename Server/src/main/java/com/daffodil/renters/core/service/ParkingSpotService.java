@@ -3,6 +3,7 @@ package com.daffodil.renters.core.service;
 import com.daffodil.renters.core.model.beans.House;
 import com.daffodil.renters.core.model.beans.Occupant;
 import com.daffodil.renters.core.model.beans.ParkingSpot;
+import com.daffodil.renters.core.model.entities.EntityFactory;
 import com.daffodil.renters.core.model.entities.OccupantEntity;
 import com.daffodil.renters.core.model.entities.ParkingSpotEntity;
 import com.daffodil.renters.core.repo.HouseRepository;
@@ -52,7 +53,7 @@ public class ParkingSpotService {
             houseId = optionalOccupantEntity.get().getRoom().getHouse().getId();
         }
 
-        ParkingSpotEntity build = new ParkingSpotEntity.Builder().build(parkingSpot);
+        ParkingSpotEntity build = new EntityFactory.ParkingSpotEntityBuilder().build(parkingSpot);
         build.setHouse(houseRepository.findHouseById(houseId));
         if (occupantID != null) {
             Optional<OccupantEntity> occupantEntityOptional = optionalOccupantEntity;

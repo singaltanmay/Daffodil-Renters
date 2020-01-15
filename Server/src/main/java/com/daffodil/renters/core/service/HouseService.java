@@ -2,6 +2,7 @@ package com.daffodil.renters.core.service;
 
 import com.daffodil.renters.core.model.beans.House;
 import com.daffodil.renters.core.model.beans.Room;
+import com.daffodil.renters.core.model.entities.EntityFactory;
 import com.daffodil.renters.core.model.entities.HouseEntity;
 import com.daffodil.renters.core.repo.HouseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +51,7 @@ public class HouseService {
 
     @Transactional
     public void insertHouse(House house) {
-        houseRepository.save(new HouseEntity.Builder().build(house));
+        houseRepository.save(new EntityFactory.HouseEntityBuilder().build(house));
     }
 
     @Transactional

@@ -65,8 +65,7 @@ public class EntityFactory {
             this.address = house.getAddress();
             this.latitude = house.getLatitude();
             this.longitude = house.getLongitude();
-            List<Room> houseRooms = house.getRooms();
-            this.rooms = EntityFactory.RoomEntityBuilder.listFrom(houseRooms);
+            this.rooms = EntityFactory.RoomEntityBuilder.listFrom(house.getRooms());
             this.parkingSpots = EntityFactory.ParkingSpotEntityBuilder.listFrom(house.getParkingSpots());
             return this.build();
         }
@@ -133,16 +132,7 @@ public class EntityFactory {
             this.capacity = room.getCapacity();
             this.rent = room.getRent();
             this.house = new HouseEntityBuilder().build(room.getHouse());
-            List<Occupant> roomOccupants = room.getOccupants();
-            List<Occupant> occupants = roomOccupants != null ? roomOccupants : new LinkedList<>();
-            List<OccupantEntity> occupantEntities = new LinkedList<>();
-            for (Occupant occ : occupants) {
-                OccupantEntity build = new OccupantEntityBuilder().build(occ);
-                if (build != null) {
-                    occupantEntities.add(build);
-                }
-            }
-            this.occupants = occupantEntities;
+            this.occupants = EntityFactory.OccupantEntityBuilder.listFrom(room.getOccupants());
             return this.build();
         }
 

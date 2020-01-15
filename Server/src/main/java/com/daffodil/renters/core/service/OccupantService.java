@@ -2,6 +2,7 @@ package com.daffodil.renters.core.service;
 
 import com.daffodil.renters.core.model.beans.Occupant;
 import com.daffodil.renters.core.model.beans.ParkingSpot;
+import com.daffodil.renters.core.model.entities.EntityFactory;
 import com.daffodil.renters.core.model.entities.OccupantEntity;
 import com.daffodil.renters.core.repo.OccupantRepository;
 import com.daffodil.renters.core.repo.RoomRepository;
@@ -48,7 +49,7 @@ public class OccupantService {
 
     @Transactional
     public void insertOccupant(Occupant occupant, long roomId) {
-        OccupantEntity build = new OccupantEntity.Builder().build(occupant);
+        OccupantEntity build = new EntityFactory.OccupantEntityBuilder().build(occupant);
         build.setRoom(roomRepository.findRoomById(roomId));
         occupantRepository.save(build);
     }
