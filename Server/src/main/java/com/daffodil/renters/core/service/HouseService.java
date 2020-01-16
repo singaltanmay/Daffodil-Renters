@@ -2,8 +2,7 @@ package com.daffodil.renters.core.service;
 
 import com.daffodil.renters.core.model.beans.House;
 import com.daffodil.renters.core.model.beans.Room;
-import com.daffodil.renters.core.model.entities.EntityFactory;
-import com.daffodil.renters.core.model.entities.HouseEntity;
+import com.daffodil.renters.core.model.entities.*;
 import com.daffodil.renters.core.repo.HouseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -51,7 +50,9 @@ public class HouseService {
 
     @Transactional
     public void insertHouse(House house) {
-        houseRepository.save(new EntityFactory.HouseEntityBuilder().build(house));
+        HouseEntity build = new EntityFactory.HouseEntityBuilder().build(house);
+        occupantParkingSpotsHouseInjector(build);
+        houseRepository.save(build);
     }
 
     @Transactional
@@ -82,6 +83,16 @@ public class HouseService {
     @Transactional
     public void deleteHouseById(long id) {
         if (houseRepository.existsById(id)) houseRepository.deleteById(id);
+    }
+
+    private void occupantParkingSpotsHouseInjector(HouseEntity build) {
+        for (RoomEntity roomEntity : build.getRooms()) {
+            for (OccupantEntity occupantEntity : roomEntity.getOccupants()) {
+                for (ParkingSpotEntity parkingSpotEntity : occupantEntity.getParkingSpots()) {
+                    parkingSpotEntity.setHouse(build);
+                }
+            }
+        }
     }
 
     private List<House> foreignRelationsInjector(Iterable<HouseEntity> entities) {
