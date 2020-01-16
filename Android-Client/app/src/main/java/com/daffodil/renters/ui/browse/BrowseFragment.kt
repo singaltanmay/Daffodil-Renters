@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.daffodil.renters.R
+import com.daffodil.renters.api.RetrofitClient
 import com.daffodil.renters.api.getData
 
 class BrowseFragment : Fragment() {
@@ -23,6 +24,12 @@ class BrowseFragment : Fragment() {
         parentView = inflater.inflate(R.layout.fragment_browse, container, false)
 
         initRecyclerView()
+
+
+        val retrofitClient = RetrofitClient.getInstance()
+        val apiClient = retrofitClient?.getAPIClient()
+        val call = apiClient?.getAllHouses()
+
 
         return parentView
     }

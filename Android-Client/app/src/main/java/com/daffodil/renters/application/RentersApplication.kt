@@ -2,7 +2,7 @@ package com.daffodil.renters.application
 
 import android.app.Application
 
-class RentersApplication : Application() {
+open class RentersApplication : Application() {
 
     companion object {
         lateinit var instance: RentersApplication
@@ -13,6 +13,5 @@ class RentersApplication : Application() {
         super.onCreate()
         instance = this
     }
-
 
 }
