@@ -1,6 +1,5 @@
 package com.daffodil.renters.core.model.entities;
 
-import com.daffodil.renters.core.model.beans.Occupant;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -29,7 +28,7 @@ public class OccupantEntity {
 
     @Getter
     @Temporal(TemporalType.TIMESTAMP)
-    private Date timeLastRentPaid = dateMovedIn;
+    private Date timeLastRentPaid = new Date();
 
     // Parents
     @Getter
@@ -114,12 +113,16 @@ public class OccupantEntity {
     }
 
     public OccupantEntity setDateMovedIn(Date dateMovedIn) {
-        this.dateMovedIn = dateMovedIn;
+        if (dateMovedIn != null) {
+            this.dateMovedIn = dateMovedIn;
+        }
         return this;
     }
 
     public OccupantEntity setTimeLastRentPaid(Date timeLastRentPaid) {
-        this.timeLastRentPaid = timeLastRentPaid;
+        if (timeLastRentPaid != null) {
+            this.timeLastRentPaid = timeLastRentPaid;
+        }
         return this;
     }
 

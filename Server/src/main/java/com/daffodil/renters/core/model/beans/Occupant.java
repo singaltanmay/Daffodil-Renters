@@ -132,8 +132,8 @@ public class Occupant {
             this.phoneNumber = entity.getPhoneNumber();
             this.rent = entity.getRent();
             this.dateMovedIn = entity.getDateMovedIn();
-            this.dateRentDue = entity.getDateRentDue();
             this.timeLastRentPaid = entity.getTimeLastRentPaid();
+            this.dateRentDue = entity.getDateRentDue();
             return new Occupant(this);
         }
 

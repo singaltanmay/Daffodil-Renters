@@ -119,7 +119,6 @@ public class House {
             this.address = entity.getAddress();
             this.latitude = entity.getLatitude();
             this.longitude = entity.getLongitude();
-            this.parkingSpots = ParkingSpot.listFrom(entity.getParkingSpots());
             return new House(this);
         }
 

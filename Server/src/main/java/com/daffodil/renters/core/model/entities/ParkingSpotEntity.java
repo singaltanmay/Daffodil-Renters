@@ -74,12 +74,16 @@ public class ParkingSpotEntity {
     }
 
     public ParkingSpotEntity setParkingSize(PARKING_SIZE parkingSize) {
-        this.parkingSize = parkingSize;
+        if (parkingSize != null) {
+            this.parkingSize = parkingSize;
+        }
         return this;
     }
 
     public ParkingSpotEntity setParkingType(PARKING_TYPE parkingType) {
-        this.parkingType = parkingType;
+        if (parkingType != null) {
+            this.parkingType = parkingType;
+        }
         return this;
     }
 
