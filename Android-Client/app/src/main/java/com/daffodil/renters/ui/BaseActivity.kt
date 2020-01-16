@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.daffodil.renters.R
+import com.daffodil.renters.ui.browse.BrowseFragment
 
 class BaseActivity : AppCompatActivity(),
     NavigationHost {
@@ -15,7 +16,9 @@ class BaseActivity : AppCompatActivity(),
         if (savedInstanceState == null) {
             supportFragmentManager
                 .beginTransaction()
-//                .add(R.id.container, Fragment()) /*TODO navigate to default fragment*/
+                .add(R.id.container,
+                    BrowseFragment()
+                )
                 .commit()
         }
     }
