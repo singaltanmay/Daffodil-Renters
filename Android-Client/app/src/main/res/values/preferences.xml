@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="emulator_ip_address">10.0.2.2</string>
+    <string name="host_ip_address">192.168.0.100</string>
+
+    <!-- Networking set up -->
+    <string name="default_ip_address">@string/host_ip_address</string>
+    <string name="default_port_number">8080</string>
+
+</resources>
