@@ -1,32 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/browse_recycler"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.browse.BrowseFragment">
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/browse_recycler"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-    <com.google.android.material.bottomappbar.BottomAppBar
-        android:id="@+id/bottom_app_bar"
-        android:layout_width="match_parent"
-        android:layout_height="?android:attr/actionBarSize"
-        android:layout_gravity="bottom"
-        app:backgroundTint="@color/colorPrimary"
-        app:fabAlignmentMode="center"
-        app:hideOnScroll="true"
-        app:menu="@menu/browse_bottom_app_bar" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/colorAccent"
-        android:src="@drawable/ic_add_black_24dp"
-        app:fabSize="normal"
-        app:layout_anchor="@id/bottom_app_bar" />
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    tools:context=".ui.browse.BrowseFragment" />

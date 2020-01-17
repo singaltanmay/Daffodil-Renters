@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.daffodil.renters.R
 import com.daffodil.renters.model.House
 
-class BrowseItemAdapter(private val data: List<House>?) :
+class BrowseItemAdapter(var data: List<House>?) :
     RecyclerView.Adapter<BrowseItemViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BrowseItemViewHolder {

@@ -1,6 +1,8 @@
 package com.daffodil.renters.ui
 
 import android.os.Bundle
+import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.daffodil.renters.R
@@ -20,6 +22,15 @@ class BaseActivity : AppCompatActivity(),
                     BrowseFragment()
                 )
                 .commit()
+        }
+
+        setupBottomNavBar()
+    }
+
+    fun setupBottomNavBar() {
+        val linearLayout = findViewById<LinearLayout>(R.id.bottom_app_bar_content_container)
+        linearLayout.setOnClickListener {
+            Toast.makeText(applicationContext, "Linear Layout clicked", Toast.LENGTH_SHORT).show()
         }
     }
 

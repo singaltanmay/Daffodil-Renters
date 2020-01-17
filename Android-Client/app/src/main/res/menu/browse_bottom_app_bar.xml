@@ -5,6 +5,7 @@
     <item
         android:icon="@drawable/ic_filter_list_black_24dp"
         android:title="Filter"
+        android:iconTint="?attr/colorPrimarySurface"
         app:showAsAction="ifRoom" />
 
 </menu>

@@ -25,15 +25,15 @@ class RetrofitClient : RentersApplication() {
         private var mInstance: RetrofitClient? = null
 
         @Synchronized
-        fun getInstance(): RetrofitClient? {
+        fun getInstance(): RetrofitClient {
             if (mInstance == null) {
                 mInstance = RetrofitClient()
             }
-            return mInstance
+            return mInstance!!
         }
     }
 
-    fun getAPIClient(): APIClient? {
+    fun getAPIClient(): APIClient {
         return retrofit.create(APIClient::class.java)
     }
 
