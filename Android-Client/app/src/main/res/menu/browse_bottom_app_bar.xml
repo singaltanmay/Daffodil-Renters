@@ -4,9 +4,9 @@
 
     <item
         android:id="@+id/action_item_filter_houses"
-        android:icon="@drawable/ic_filter_list_black_24dp"
+        android:icon="@drawable/ic_filter_list_white_24dp"
         android:title="Filter"
-        android:iconTint="?attr/colorPrimarySurface"
+        android:iconTint="@color/design_default_color_on_primary"
         app:showAsAction="ifRoom" />
 
 </menu>
