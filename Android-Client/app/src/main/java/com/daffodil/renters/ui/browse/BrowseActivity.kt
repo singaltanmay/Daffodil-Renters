@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
@@ -82,7 +81,7 @@ class BrowseActivity : AppCompatActivity(),
 
             when (item.itemId) {
                 R.id.action_item_filter_houses -> {
-                    Toast.makeText(this, "Filter", Toast.LENGTH_SHORT).show()
+                    FilterHousesBottomDialogFragment().show(supportFragmentManager, null)
                     return@setOnMenuItemClickListener true
                 }
                 else -> {

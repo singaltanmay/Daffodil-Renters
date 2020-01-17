@@ -62,37 +62,42 @@ class MapBrowseFragment : BrowseFragmentBase(), BrowseFragmentBase.ChildFragment
      */
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
+        val latLng = LatLng(
+            28.465080, 77.056168
+        )
+        map?.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12.5f))
         setHouseMarkers()
-
-//        // Add a marker in Sydney and move the camera
-//        val sydney = LatLng(-34.0, 151.0)
-//        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
     }
 
     fun setHouseMarkers() {
         if (map != null && houses != null) {
 
-            val house = houses?.get(0)
-            if (house != null) {
-                val latLng = LatLng(
-                    house.latitude,
-                    house.longitude
-                )
-                map?.moveCamera(CameraUpdateFactory.newLatLng(latLng))
-                map?.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10.0f))
+            var avgLat: Double? = null
+            var avgLong: Double? = null
 
-                houses?.forEach {
-                    map?.addMarker(
+            val size = houses!!.size
+
+            houses?.forEach {
+                val latitude = it.latitude
+                val longitude = it.longitude
+                map?.addMarker(
                         MarkerOptions().position(
                             LatLng(
-                                it.latitude,
-                                it.longitude
+                                latitude,
+                                longitude
                             )
-                        ).title(house.address)
+                        ).title(it.address)
+                            .alpha(2.34f)
                     )
+                if (avgLat == null) avgLat = (latitude / size)
+                else avgLat?.plus(latitude / size)
+                if (avgLong == null) avgLong = (longitude / size)
+                else avgLong?.plus(longitude / size)
                 }
-            }
+
+            if (avgLat != null && avgLong != null)
+                map?.moveCamera(CameraUpdateFactory.newLatLng(LatLng(avgLat!!, avgLong!!)))
+
         }
     }
 
