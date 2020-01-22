@@ -88,19 +88,19 @@ public class EntityFactory {
         }
 
         public BuildingEntity build() {
-            return new BuildingEntity()
-                    .setId(this.id)
-                    .setAddressBuildingName(this.addressBuildingName)
-                    .setAddressLocalityName(this.addressLocalityName)
-                    .setAddressSubdivision(this.addressSubdivision)
-                    .setAddressCity(this.addressCity)
-                    .setAddressState(this.addressState)
-                    .setAddressPinCode(this.addressPinCode)
-                    .setBuildingConstructed(this.buildingConstructed)
-                    .setLatitude(this.latitude)
-                    .setLongitude(this.longitude)
-                    .setProperties(this.properties)
-                    .setSharedParkingSpots(this.sharedParkingSpots);
+            return new BuildingEntity(
+                    this.id,
+                    this.addressBuildingName,
+                    this.addressLocalityName,
+                    this.addressSubdivision,
+                    this.addressCity,
+                    this.addressState,
+                    this.addressPinCode,
+                    this.buildingConstructed,
+                    this.latitude,
+                    this.longitude,
+                    this.properties,
+                    this.sharedParkingSpots);
         }
 
         public BuildingEntity build(Building building) {
@@ -475,7 +475,7 @@ public class EntityFactory {
             this.parkingSize = parkingSpot.getParkingSize();
             this.parkingType = parkingSpot.getParkingType();
             this.price = parkingSpot.getPrice();
-            this.propertyEntity = new PropertyEntityBuilder().build(parkingSpot.getHouse());
+            this.propertyEntity = new PropertyEntityBuilder().build(parkingSpot.getProperty());
             this.occupantEntity = new OccupantEntityBuilder().build(parkingSpot.getOccupant());
             return this.build();
         }

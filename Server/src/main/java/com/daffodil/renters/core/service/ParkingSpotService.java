@@ -67,10 +67,10 @@ public class ParkingSpotService {
         List<ParkingSpot> parkingSpots = ParkingSpot.listFrom(entities);
         parkingSpots.forEach(parkingSpot -> {
             Occupant occupant = parkingSpot.getOccupant();
-            if (parkingSpot.getHouse() == null && occupant != null) {
+            if (parkingSpot.getProperty() == null && occupant != null) {
                 long roomId = occupant.getRoom().getId();
                 House build = new House.Builder().build(roomRepository.findRoomById(roomId).getProperty());
-                parkingSpot.setHouse(build);
+                parkingSpot.setProperty(build);
             }
         });
         return parkingSpots;

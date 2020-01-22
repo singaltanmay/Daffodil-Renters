@@ -90,6 +90,21 @@ public class BuildingEntity {
         this.longitude = longitude;
     }
 
+    public BuildingEntity(long id, String addressBuildingName, String addressLocalityName, String addressSubdivision, String addressCity, String addressState, String addressPinCode, Date buildingConstructed, double latitude, double longitude, List<PropertyEntity> properties, List<ParkingSpotEntity> sharedParkingSpots) {
+        this.id = id;
+        this.addressBuildingName = addressBuildingName;
+        this.addressLocalityName = addressLocalityName;
+        this.addressSubdivision = addressSubdivision;
+        this.addressCity = addressCity;
+        this.addressState = addressState;
+        this.addressPinCode = addressPinCode;
+        this.buildingConstructed = buildingConstructed;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.setProperties(properties);
+        this.setSharedParkingSpots(sharedParkingSpots);
+    }
+
     // Setters
     public BuildingEntity setId(long id) {
         this.id = id;
