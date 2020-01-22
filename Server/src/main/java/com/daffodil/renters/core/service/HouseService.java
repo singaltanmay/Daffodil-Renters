@@ -36,7 +36,7 @@ public class HouseService {
     }
 
     public Optional<House> getHouseById(long id) {
-        HouseEntity houseById = houseRepository.findHouseById(id);
+        PropertyEntity houseById = houseRepository.findHouseById(id);
         if (houseById != null) {
             List<House> houses = foreignRelationsInjector(List.of(houseById));
             if (houses.isEmpty() || houses.get(0) == null) return Optional.empty();
@@ -50,7 +50,7 @@ public class HouseService {
 
     @Transactional
     public void insertHouse(House house) {
-        HouseEntity build = new EntityFactory.HouseEntityBuilder().build(house);
+        PropertyEntity build = new EntityFactory.HouseEntityBuilder().build(house);
         occupantParkingSpotsHouseInjector(build);
         houseRepository.save(build);
     }
@@ -85,17 +85,17 @@ public class HouseService {
         if (houseRepository.existsById(id)) houseRepository.deleteById(id);
     }
 
-    private void occupantParkingSpotsHouseInjector(HouseEntity build) {
+    private void occupantParkingSpotsHouseInjector(PropertyEntity build) {
         for (RoomEntity roomEntity : build.getRooms()) {
             for (OccupantEntity occupantEntity : roomEntity.getOccupants()) {
                 for (ParkingSpotEntity parkingSpotEntity : occupantEntity.getParkingSpots()) {
-                    parkingSpotEntity.setHouse(build);
+                    parkingSpotEntity.setProperty(build);
                 }
             }
         }
     }
 
-    private List<House> foreignRelationsInjector(Iterable<HouseEntity> entities) {
+    private List<House> foreignRelationsInjector(Iterable<PropertyEntity> entities) {
         List<House> houses = House.listFrom(entities);
         houses.forEach(house -> {
             long houseId = house.getId();
@@ -195,9 +195,9 @@ public class HouseService {
             return builder.toString();
         }
 
-        public List<HouseEntity> executeFilteredQuery(House.Filter filter) {
-            Query query = trn().createQuery(createQueryFromFilter(filter), HouseEntity.class);
-            List<HouseEntity> resultList = query.getResultList();
+        public List<PropertyEntity> executeFilteredQuery(House.Filter filter) {
+            Query query = trn().createQuery(createQueryFromFilter(filter), PropertyEntity.class);
+            List<PropertyEntity> resultList = query.getResultList();
             cmt();
             return resultList;
         }

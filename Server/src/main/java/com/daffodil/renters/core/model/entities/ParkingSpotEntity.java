@@ -1,16 +1,12 @@
 package com.daffodil.renters.core.model.entities;
 
-import com.daffodil.renters.core.model.beans.ParkingSpot;
 import lombok.Getter;
 
 import javax.persistence.*;
-import java.util.LinkedList;
-import java.util.List;
 
 @Entity
 @Table(name = "parking_spot")
 public class ParkingSpotEntity {
-
 
     public enum PARKING_SIZE {
         BICYCLE,
@@ -18,7 +14,6 @@ public class ParkingSpotEntity {
         CAR,
         MINI_TRUCK;
     }
-
 
     public enum PARKING_TYPE {
         GENERAL,
@@ -50,14 +45,14 @@ public class ParkingSpotEntity {
 
     @Getter
     @ManyToOne
-    private HouseEntity house;
+    private PropertyEntity property;
 
     @Getter
     @ManyToOne
     private OccupantEntity occupant;
 
-    public ParkingSpotEntity(HouseEntity house) {
-        this.house = house;
+    public ParkingSpotEntity(PropertyEntity property) {
+        this.property = property;
     }
 
     protected ParkingSpotEntity() {
@@ -92,8 +87,8 @@ public class ParkingSpotEntity {
         return this;
     }
 
-    public ParkingSpotEntity setHouse(HouseEntity house) {
-        this.house = house;
+    public ParkingSpotEntity setProperty(PropertyEntity property) {
+        this.property = property;
         return this;
     }
 

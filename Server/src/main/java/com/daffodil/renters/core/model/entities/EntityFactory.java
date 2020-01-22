@@ -49,8 +49,8 @@ public class EntityFactory {
             return this;
         }
 
-        public HouseEntity build() {
-            return new HouseEntity()
+        public PropertyEntity build() {
+            return new PropertyEntity()
                     .setId(this.id)
                     .setAddress(this.address)
                     .setLatitude(this.latitude)
@@ -59,7 +59,7 @@ public class EntityFactory {
                     .setRooms(this.rooms);
         }
 
-        public HouseEntity build(House house) {
+        public PropertyEntity build(House house) {
             if (house == null) return null;
             this.id = house.getId();
             this.address = house.getAddress();
@@ -70,13 +70,13 @@ public class EntityFactory {
             return this.build();
         }
 
-        public static List<HouseEntity> listFrom(List<House> houses) {
+        public static List<PropertyEntity> listFrom(List<House> houses) {
             if (houses == null) return new LinkedList<>();
-            List<HouseEntity> entities = new LinkedList<>();
+            List<PropertyEntity> entities = new LinkedList<>();
             houses.forEach(house -> {
-                HouseEntity houseEntity = new EntityFactory.HouseEntityBuilder().build(house);
-                if (houseEntity != null) {
-                    entities.add(houseEntity);
+                PropertyEntity propertyEntity = new EntityFactory.HouseEntityBuilder().build(house);
+                if (propertyEntity != null) {
+                    entities.add(propertyEntity);
                 }
             });
             return entities;
@@ -90,7 +90,7 @@ public class EntityFactory {
         private long capacity;
         private long rent;
         private List<OccupantEntity> occupants;
-        private HouseEntity house;
+        private PropertyEntity house;
 
         public RoomEntityBuilder setId(long id) {
             this.id = id;
@@ -112,7 +112,7 @@ public class EntityFactory {
             return this;
         }
 
-        public RoomEntityBuilder setHouse(HouseEntity house) {
+        public RoomEntityBuilder setHouse(PropertyEntity house) {
             this.house = house;
             return this;
         }
@@ -122,7 +122,7 @@ public class EntityFactory {
                     .setId(this.id)
                     .setCapacity(this.capacity)
                     .setRent(this.rent)
-                    .setHouse(this.house)
+                    .setProperty(this.house)
                     .setOccupants(this.occupants);
         }
 
@@ -247,7 +247,7 @@ public class EntityFactory {
         private ParkingSpotEntity.PARKING_SIZE parkingSize;
         private ParkingSpotEntity.PARKING_TYPE parkingType;
         private int price;
-        private HouseEntity houseEntity;
+        private PropertyEntity propertyEntity;
         private OccupantEntity occupantEntity;
 
         public ParkingSpotEntityBuilder setId(long id) {
@@ -275,8 +275,8 @@ public class EntityFactory {
             return this;
         }
 
-        public ParkingSpotEntityBuilder setHouseEntity(HouseEntity houseEntity) {
-            this.houseEntity = houseEntity;
+        public ParkingSpotEntityBuilder setPropertyEntity(PropertyEntity propertyEntity) {
+            this.propertyEntity = propertyEntity;
             return this;
         }
 
@@ -292,7 +292,7 @@ public class EntityFactory {
                     .setParkingSize(this.parkingSize)
                     .setParkingType(this.parkingType)
                     .setPrice(this.price)
-                    .setHouse(this.houseEntity)
+                    .setProperty(this.propertyEntity)
                     .setOccupant(this.occupantEntity);
         }
 
@@ -303,7 +303,7 @@ public class EntityFactory {
             this.parkingSize = parkingSpot.getParkingSize();
             this.parkingType = parkingSpot.getParkingType();
             this.price = parkingSpot.getPrice();
-            this.houseEntity = new HouseEntityBuilder().build(parkingSpot.getHouse());
+            this.propertyEntity = new HouseEntityBuilder().build(parkingSpot.getHouse());
             this.occupantEntity = new OccupantEntityBuilder().build(parkingSpot.getOccupant());
             return this.build();
         }

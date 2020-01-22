@@ -71,9 +71,9 @@ public class OccupantEntity {
             parkingSpotEntity.setOccupant(OccupantEntity.this);
             RoomEntity roomEntity = OccupantEntity.this.getRoom();
             if (roomEntity != null) {
-                HouseEntity houseEntity = roomEntity.getHouse();
-                if (houseEntity != null) {
-                    parkingSpotEntity.setHouse(houseEntity);
+                PropertyEntity propertyEntity = roomEntity.getProperty();
+                if (propertyEntity != null) {
+                    parkingSpotEntity.setProperty(propertyEntity);
                 }
             }
         }

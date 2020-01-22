@@ -78,7 +78,7 @@ public class OccupantService {
 
     private long getHouseIdFromOccupant(Occupant occupant) {
         long roomId = occupant.getRoom().getId();
-        return roomRepository.findRoomById(roomId).getHouse().getId();
+        return roomRepository.findRoomById(roomId).getProperty().getId();
     }
 
     @Transactional

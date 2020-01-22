@@ -1,6 +1,6 @@
 package com.daffodil.renters.core.model.beans;
 
-import com.daffodil.renters.core.model.entities.HouseEntity;
+import com.daffodil.renters.core.model.entities.PropertyEntity;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
@@ -113,7 +113,7 @@ public class House {
             return new House(this);
         }
 
-        public House build(HouseEntity entity) {
+        public House build(PropertyEntity entity) {
             if (entity == null) return null;
             this.id = entity.getId();
             this.address = entity.getAddress();
@@ -124,10 +124,10 @@ public class House {
 
     }
 
-    public static List<House> listFrom(Iterable<HouseEntity> entities) {
+    public static List<House> listFrom(Iterable<PropertyEntity> entities) {
         List<House> houses = new LinkedList<>();
         if (entities != null) {
-            for (HouseEntity entity : entities) {
+            for (PropertyEntity entity : entities) {
                 House build = new House.Builder().build(entity);
                 houses.add(build);
             }

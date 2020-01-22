@@ -1,15 +1,13 @@
 package com.daffodil.renters.core.model.beans;
 
-public class Seller {
+import com.daffodil.renters.core.model.entities.SellerEntity;
 
-    enum SELLER_TYPE {
-        OWNER,
-        AGENT
-    }
+public class Seller {
 
     long id;
     String firstName;
     String lastName;
     String phoneNumber;
+    SellerEntity.SELLER_TYPE sellerType;
 
 }

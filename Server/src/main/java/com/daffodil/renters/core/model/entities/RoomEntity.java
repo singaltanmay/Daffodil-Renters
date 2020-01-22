@@ -1,11 +1,8 @@
 package com.daffodil.renters.core.model.entities;
 
-import com.daffodil.renters.core.model.beans.Occupant;
-import com.daffodil.renters.core.model.beans.Room;
 import lombok.Getter;
 
 import javax.persistence.*;
-import java.util.LinkedList;
 import java.util.List;
 
 @Entity
@@ -16,8 +13,10 @@ public class RoomEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+
     @Getter
     private long capacity;
+
     @Getter
     private long rent;
 
@@ -29,7 +28,7 @@ public class RoomEntity {
     // Parent
     @Getter
     @ManyToOne
-    private HouseEntity house;
+    private PropertyEntity property;
 
     private void mapAllOccupants() {
         List<OccupantEntity> occupants = this.getOccupants();
@@ -79,8 +78,8 @@ public class RoomEntity {
         return this;
     }
 
-    public RoomEntity setHouse(HouseEntity house) {
-        this.house = house;
+    public RoomEntity setProperty(PropertyEntity property) {
+        this.property = property;
         return this;
     }
 }

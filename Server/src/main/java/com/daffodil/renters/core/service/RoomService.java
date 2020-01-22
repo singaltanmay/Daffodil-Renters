@@ -66,7 +66,7 @@ public class RoomService {
     @Transactional
     public void insertRoom(Room room, long houseId) {
         RoomEntity build = new EntityFactory.RoomEntityBuilder().build(room);
-        build.setHouse(houseRepository.findHouseById(houseId));
+        build.setProperty(houseRepository.findHouseById(houseId));
         roomRepository.save(build);
     }
 

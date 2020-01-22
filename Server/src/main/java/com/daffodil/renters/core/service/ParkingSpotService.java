@@ -50,11 +50,11 @@ public class ParkingSpotService {
 
         Optional<OccupantEntity> optionalOccupantEntity = occupantRepository.findById(occupantID);
         if (houseId == null && optionalOccupantEntity.isPresent()) {
-            houseId = optionalOccupantEntity.get().getRoom().getHouse().getId();
+            houseId = optionalOccupantEntity.get().getRoom().getProperty().getId();
         }
 
         ParkingSpotEntity build = new EntityFactory.ParkingSpotEntityBuilder().build(parkingSpot);
-        build.setHouse(houseRepository.findHouseById(houseId));
+        build.setProperty(houseRepository.findHouseById(houseId));
         if (occupantID != null) {
             Optional<OccupantEntity> occupantEntityOptional = optionalOccupantEntity;
             occupantEntityOptional.ifPresent(build::setOccupant);
@@ -69,7 +69,7 @@ public class ParkingSpotService {
             Occupant occupant = parkingSpot.getOccupant();
             if (parkingSpot.getHouse() == null && occupant != null) {
                 long roomId = occupant.getRoom().getId();
-                House build = new House.Builder().build(roomRepository.findRoomById(roomId).getHouse());
+                House build = new House.Builder().build(roomRepository.findRoomById(roomId).getProperty());
                 parkingSpot.setHouse(build);
             }
         });
