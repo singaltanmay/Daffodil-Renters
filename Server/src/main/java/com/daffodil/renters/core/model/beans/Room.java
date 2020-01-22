@@ -28,6 +28,11 @@ public class Room {
     @Setter
     private House house;
 
+    // TODO
+    public Object getProperty() {
+        return null;
+    }
+
     public static class Filter {
         @Getter
         @Setter

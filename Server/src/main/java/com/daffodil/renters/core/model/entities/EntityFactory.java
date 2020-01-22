@@ -1,9 +1,10 @@
 package com.daffodil.renters.core.model.entities;
 
-import com.daffodil.renters.core.model.beans.House;
 import com.daffodil.renters.core.model.beans.Occupant;
-import com.daffodil.renters.core.model.beans.ParkingSpot;
+import com.daffodil.renters.core.model.beans.postables.ParkingSpot;
 import com.daffodil.renters.core.model.beans.Room;
+import com.daffodil.renters.core.model.beans.postables.Building;
+import com.daffodil.renters.core.model.beans.postables.Property;
 
 import java.util.Date;
 import java.util.LinkedList;
@@ -100,6 +101,39 @@ public class EntityFactory {
                     .setLongitude(this.longitude)
                     .setProperties(this.properties)
                     .setSharedParkingSpots(this.sharedParkingSpots);
+        }
+
+        public BuildingEntity build(Building building) {
+            if (building == null) return null;
+            building.getId().ifPresent(this::setId);
+            building.getAddressBuildingName().ifPresent(this::setAddressBuildingName);
+            building.getAddressLocalityName().ifPresent(this::setAddressLocalityName);
+            building.getAddressSubdivision().ifPresent(this::setAddressSubdivision);
+            building.getAddressCity().ifPresent(this::setAddressCity);
+            building.getAddressState().ifPresent(this::setAddressState);
+            building.getAddressPinCode().ifPresent(this::setAddressPinCode);
+            building.getBuildingConstructed().ifPresent(this::setBuildingConstructed);
+            building.getLatitude().ifPresent(this::setLatitude);
+            building.getLongitude().ifPresent(this::setLongitude);
+            building.getProperties().ifPresent(it -> {
+                this.setProperties(PropertyEntityBuilder.listFrom(it));
+            });
+            building.getSharedParkingSpots().ifPresent(it -> {
+                this.setSharedParkingSpots(ParkingSpotEntityBuilder.listFrom(it));
+            });
+            return this.build();
+        }
+
+        public static List<BuildingEntity> listFrom(List<Building> buildings) {
+            if (buildings == null) return new LinkedList<>();
+            List<BuildingEntity> entities = new LinkedList<>();
+            buildings.forEach(building -> {
+                BuildingEntity buildingEntity = new EntityFactory.BuildingEntityBuilder().build(building);
+                if (buildingEntity != null) {
+                    entities.add(buildingEntity);
+                }
+            });
+            return entities;
         }
 
     }
@@ -215,6 +249,11 @@ public class EntityFactory {
                     .setRooms(this.rooms);
         }
 
+        public static List<PropertyEntity> listFrom(List<Property> it) {
+            //TODO
+            return null;
+        }
+
     }
 
     public static class RoomEntityBuilder {
@@ -223,7 +262,7 @@ public class EntityFactory {
         private long capacity;
         private long rent;
         private List<OccupantEntity> occupants;
-        private PropertyEntity house;
+        private PropertyEntity property;
 
         public RoomEntityBuilder setId(long id) {
             this.id = id;
@@ -245,8 +284,8 @@ public class EntityFactory {
             return this;
         }
 
-        public RoomEntityBuilder setHouse(PropertyEntity house) {
-            this.house = house;
+        public RoomEntityBuilder setProperty(PropertyEntity property) {
+            this.property = property;
             return this;
         }
 
@@ -255,7 +294,7 @@ public class EntityFactory {
                     .setId(this.id)
                     .setCapacity(this.capacity)
                     .setRent(this.rent)
-                    .setProperty(this.house)
+                    .setProperty(this.property)
                     .setOccupants(this.occupants);
         }
 
@@ -264,7 +303,7 @@ public class EntityFactory {
             this.id = room.getId();
             this.capacity = room.getCapacity();
             this.rent = room.getRent();
-            this.house = new PropertyEntityBuilder().build(room.getHouse());
+            this.property = new PropertyEntityBuilder().build(room.getProperty());
             this.occupants = EntityFactory.OccupantEntityBuilder.listFrom(room.getOccupants());
             return this.build();
         }
