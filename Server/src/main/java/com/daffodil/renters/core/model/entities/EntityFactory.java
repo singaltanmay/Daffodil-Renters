@@ -104,40 +104,94 @@ public class EntityFactory {
 
     }
 
-    public static class HouseEntityBuilder {
+    public static class PropertyEntityBuilder {
         private long id;
-        private String address;
-        private double latitude;
-        private double longitude;
-        List<RoomEntity> rooms;
-        List<ParkingSpotEntity> parkingSpots;
+        private String description;
+        private PropertyEntity.PROPERTY_TYPE propertyType;
+        private PropertyEntity.FURNISHING_TYPE furnishingType;
+        private int area;
+        private long rent;
+        private boolean roommates;
+        private long securityDeposit;
+        private long brokerage;
+        private int lockInPeriod;
+        private Date listedOn;
+        private BuildingEntity building;
+        private SellerEntity seller;
+        private List<RoomEntity> rooms;
+        private List<ParkingSpotEntity> parkingSpots;
 
-        public HouseEntityBuilder setId(long id) {
+        public PropertyEntityBuilder setId(long id) {
             this.id = id;
             return this;
         }
 
-        public HouseEntityBuilder setAddress(String address) {
-            this.address = address;
+        public PropertyEntityBuilder setDescription(String description) {
+            this.description = description;
             return this;
         }
 
-        public HouseEntityBuilder setLatitude(double latitude) {
-            this.latitude = latitude;
+        public PropertyEntityBuilder setPropertyType(PropertyEntity.PROPERTY_TYPE propertyType) {
+            this.propertyType = propertyType;
             return this;
         }
 
-        public HouseEntityBuilder setLongitude(double longitude) {
-            this.longitude = longitude;
+        public PropertyEntityBuilder setFurnishingType(PropertyEntity.FURNISHING_TYPE furnishingType) {
+            this.furnishingType = furnishingType;
             return this;
         }
 
-        public HouseEntityBuilder setRooms(List<RoomEntity> rooms) {
+        public PropertyEntityBuilder setArea(int area) {
+            this.area = area;
+            return this;
+        }
+
+        public PropertyEntityBuilder setRent(long rent) {
+            this.rent = rent;
+            return this;
+        }
+
+        public PropertyEntityBuilder setRoommates(boolean roommates) {
+            this.roommates = roommates;
+            return this;
+        }
+
+        public PropertyEntityBuilder setSecurityDeposit(long securityDeposit) {
+            this.securityDeposit = securityDeposit;
+            return this;
+        }
+
+        public PropertyEntityBuilder setBrokerage(long brokerage) {
+            this.brokerage = brokerage;
+            return this;
+        }
+
+        public PropertyEntityBuilder setLockInPeriod(int lockInPeriod) {
+            this.lockInPeriod = lockInPeriod;
+            return this;
+        }
+
+        public PropertyEntityBuilder setListedOn(Date listedOn) {
+            this.listedOn = listedOn;
+            return this;
+        }
+
+        public PropertyEntityBuilder setBuilding(BuildingEntity building) {
+            this.building = building;
+            return this;
+        }
+
+        public PropertyEntityBuilder setSeller(SellerEntity seller) {
+            this.seller = seller;
+            return this;
+        }
+
+        public PropertyEntityBuilder setRooms(List<RoomEntity> rooms) {
             this.rooms = rooms;
             return this;
         }
 
-        public HouseEntityBuilder setParkingSpots(List<ParkingSpotEntity> parkingSpots) {
+        public PropertyEntityBuilder setParkingSpots(List<ParkingSpotEntity> parkingSpots) {
             this.parkingSpots = parkingSpots;
             return this;
         }
@@ -145,34 +199,20 @@ public class EntityFactory {
         public PropertyEntity build() {
             return new PropertyEntity()
                     .setId(this.id)
-                    .setAddress(this.address)
-                    .setLatitude(this.latitude)
-                    .setLongitude(this.longitude)
+                    .setDescription(this.description)
+                    .setPropertyType(this.propertyType)
+                    .setFurnishingType(this.furnishingType)
+                    .setArea(this.area)
+                    .setRent(this.rent)
+                    .setRoommates(this.roommates)
+                    .setSecurityDeposit(this.securityDeposit)
+                    .setBrokerage(this.brokerage)
+                    .setLockInPeriod(this.lockInPeriod)
+                    .setListedOn(this.listedOn)
+                    .setBuilding(this.building)
+                    .setSeller(this.seller)
                     .setParkingSpots(this.parkingSpots)
                     .setRooms(this.rooms);
-        }
-
-        public PropertyEntity build(House house) {
-            if (house == null) return null;
-            this.id = house.getId();
-            this.address = house.getAddress();
-            this.latitude = house.getLatitude();
-            this.longitude = house.getLongitude();
-            this.rooms = EntityFactory.RoomEntityBuilder.listFrom(house.getRooms());
-            this.parkingSpots = EntityFactory.ParkingSpotEntityBuilder.listFrom(house.getParkingSpots());
-            return this.build();
-        }
-
-        public static List<PropertyEntity> listFrom(List<House> houses) {
-            if (houses == null) return new LinkedList<>();
-            List<PropertyEntity> entities = new LinkedList<>();
-            houses.forEach(house -> {
-                PropertyEntity propertyEntity = new EntityFactory.HouseEntityBuilder().build(house);
-                if (propertyEntity != null) {
-                    entities.add(propertyEntity);
-                }
-            });
-            return entities;
         }
 
     }
@@ -224,7 +264,7 @@ public class EntityFactory {
             this.id = room.getId();
             this.capacity = room.getCapacity();
             this.rent = room.getRent();
-            this.house = new HouseEntityBuilder().build(room.getHouse());
+            this.house = new PropertyEntityBuilder().build(room.getHouse());
             this.occupants = EntityFactory.OccupantEntityBuilder.listFrom(room.getOccupants());
             return this.build();
         }
@@ -396,7 +436,7 @@ public class EntityFactory {
             this.parkingSize = parkingSpot.getParkingSize();
             this.parkingType = parkingSpot.getParkingType();
             this.price = parkingSpot.getPrice();
-            this.propertyEntity = new HouseEntityBuilder().build(parkingSpot.getHouse());
+            this.propertyEntity = new PropertyEntityBuilder().build(parkingSpot.getHouse());
             this.occupantEntity = new OccupantEntityBuilder().build(parkingSpot.getOccupant());
             return this.build();
         }

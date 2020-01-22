@@ -50,7 +50,7 @@ public class HouseService {
 
     @Transactional
     public void insertHouse(House house) {
-        PropertyEntity build = new EntityFactory.HouseEntityBuilder().build(house);
+        PropertyEntity build = new EntityFactory.PropertyEntityBuilder().build(house);
         occupantParkingSpotsHouseInjector(build);
         houseRepository.save(build);
     }
