@@ -8,7 +8,6 @@ import java.util.List;
 
 public class BuildingEntity {
 
-
     @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -50,6 +49,36 @@ public class BuildingEntity {
     // Parking spots common to everyone in the building
     @Getter
     List<ParkingSpotEntity> sharedParkingSpots;
+
+    private void mapAllProperties() {
+        final List<PropertyEntity> properties = this.properties;
+        new Thread(() -> {
+            if (properties != null) {
+                properties.forEach(BuildingEntity.this::mapProperty);
+            }
+        }).start();
+    }
+
+    private void mapAllSharedParkingSpots() {
+        final List<ParkingSpotEntity> parkingSpots = this.sharedParkingSpots;
+        new Thread(() -> {
+            if (parkingSpots != null) {
+                parkingSpots.forEach(BuildingEntity.this::mapSharedParkingSpot);
+            }
+        }).start();
+    }
+
+    private void mapProperty(PropertyEntity propertyEntity) {
+        if (propertyEntity != null) {
+            propertyEntity.setBuilding(BuildingEntity.this);
+        }
+    }
+
+    private void mapSharedParkingSpot(ParkingSpotEntity parkingSpotEntity) {
+        if (parkingSpotEntity != null) {
+            parkingSpotEntity.setBuilding(BuildingEntity.this);
+        }
+    }
 
     protected BuildingEntity() {
     }
@@ -114,11 +143,13 @@ public class BuildingEntity {
 
     public BuildingEntity setProperties(List<PropertyEntity> properties) {
         this.properties = properties;
+        mapAllProperties();
         return this;
     }
 
     public BuildingEntity setSharedParkingSpots(List<ParkingSpotEntity> sharedParkingSpots) {
         this.sharedParkingSpots = sharedParkingSpots;
+        mapAllSharedParkingSpots();
         return this;
     }
 }

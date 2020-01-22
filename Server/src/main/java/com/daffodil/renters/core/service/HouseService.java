@@ -89,7 +89,7 @@ public class HouseService {
         for (RoomEntity roomEntity : build.getRooms()) {
             for (OccupantEntity occupantEntity : roomEntity.getOccupants()) {
                 for (ParkingSpotEntity parkingSpotEntity : occupantEntity.getParkingSpots()) {
-                    parkingSpotEntity.setProperty(build);
+                    parkingSpotEntity.setBuilding(build);
                 }
             }
         }

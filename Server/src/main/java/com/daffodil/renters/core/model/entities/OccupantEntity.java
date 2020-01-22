@@ -74,6 +74,10 @@ public class OccupantEntity {
                 PropertyEntity propertyEntity = roomEntity.getProperty();
                 if (propertyEntity != null) {
                     parkingSpotEntity.setProperty(propertyEntity);
+                    BuildingEntity buildingEntity = propertyEntity.getBuilding();
+                    if (buildingEntity != null) {
+                        parkingSpotEntity.setBuilding(buildingEntity);
+                    }
                 }
             }
         }
@@ -130,4 +134,5 @@ public class OccupantEntity {
         this.room = room;
         return this;
     }
+
 }

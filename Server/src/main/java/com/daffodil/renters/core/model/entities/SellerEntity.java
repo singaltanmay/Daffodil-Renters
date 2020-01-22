@@ -15,17 +15,32 @@ public class SellerEntity {
     @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    long id;
+    private long id;
     @Getter
-    String firstName;
+    private String firstName;
     @Getter
-    String lastName;
+    private String lastName;
     @Getter
-    String phoneNumber;
+    private String phoneNumber;
 
     @Getter
     @OneToMany(mappedBy = "seller", cascade = CascadeType.ALL)
     List<PropertyEntity> propertyEntities;
+
+    private void mapAllProperties() {
+        List<PropertyEntity> properties = this.propertyEntities;
+        new Thread(() -> {
+            if (properties != null) {
+                properties.forEach(SellerEntity.this::mapProperty);
+            }
+        }).start();
+    }
+
+    private void mapProperty(PropertyEntity propertyEntity) {
+        if (propertyEntity != null) {
+            propertyEntity.setSeller(SellerEntity.this);
+        }
+    }
 
     public SellerEntity() {
     }
@@ -52,6 +67,7 @@ public class SellerEntity {
 
     public SellerEntity setPropertyEntities(List<PropertyEntity> propertyEntities) {
         this.propertyEntities = propertyEntities;
+        mapAllProperties();
         return this;
     }
 }

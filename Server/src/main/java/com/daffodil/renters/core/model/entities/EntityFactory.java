@@ -4,9 +4,7 @@ import com.daffodil.renters.core.model.beans.House;
 import com.daffodil.renters.core.model.beans.Occupant;
 import com.daffodil.renters.core.model.beans.ParkingSpot;
 import com.daffodil.renters.core.model.beans.Room;
-import lombok.Getter;
 
-import javax.persistence.*;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -387,7 +385,7 @@ public class EntityFactory {
                     .setParkingSize(this.parkingSize)
                     .setParkingType(this.parkingType)
                     .setPrice(this.price)
-                    .setProperty(this.propertyEntity)
+                    .setBuilding(this.propertyEntity)
                     .setOccupant(this.occupantEntity);
         }
 

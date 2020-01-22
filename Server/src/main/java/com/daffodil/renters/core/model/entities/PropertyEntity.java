@@ -113,47 +113,16 @@ public class PropertyEntity {
         if (parkingSpotEntity != null) parkingSpotEntity.setProperty(PropertyEntity.this);
     }
 
-//    public PropertyEntity(String address, double latitude, double longitude) {
-//        this.address = address;
-//        this.latitude = latitude;
-//        this.longitude = longitude;
-//    }
-//
-//    public PropertyEntity(long id, String address, double latitude, double longitude, List<RoomEntity> rooms, List<ParkingSpotEntity> parkingSpots) {
-//        this.id = id;
-//        this.address = address;
-//        this.latitude = latitude;
-//        this.longitude = longitude;
-//        this.rooms = rooms;
-//        this.parkingSpots = parkingSpots;
-//        mapAllRooms();
-//        mapAllParkingSpots();
-//    }
-
     protected PropertyEntity() {
     }
 
     public PropertyEntity(BuildingEntity building) {
         this.building = building;
     }
-//
-//    public PropertyEntity setRooms(List<RoomEntity> rooms) {
-//        this.rooms = rooms;
-//        mapAllRooms();
-//        return this;
-//    }
-//
-//    public PropertyEntity setParkingSpots(List<ParkingSpotEntity> parkingSpots) {
-//        this.parkingSpots = parkingSpots;
-//        mapAllParkingSpots();
-//        return this;
-//    }
-//
-//    public PropertyEntity setId(long id) {
-//        this.id = id;
-//        return this;
-//    }
 
+    public long getNumberOfRooms() {
+        return rooms.size();
+    }
 
     public PropertyEntity setId(long id) {
         this.id = id;
@@ -210,23 +179,25 @@ public class PropertyEntity {
         return this;
     }
 
-    public PropertyEntity setSeller(SellerEntity seller) {
-        this.seller = seller;
-        return this;
-    }
-
     public PropertyEntity setBuilding(BuildingEntity building) {
         this.building = building;
         return this;
     }
 
+    public PropertyEntity setSeller(SellerEntity seller) {
+        this.seller = seller;
+        return this;
+    }
+
     public PropertyEntity setRooms(List<RoomEntity> rooms) {
         this.rooms = rooms;
+        mapAllParkingSpots();
         return this;
     }
 
     public PropertyEntity setParkingSpots(List<ParkingSpotEntity> parkingSpots) {
         this.parkingSpots = parkingSpots;
+        mapAllParkingSpots();
         return this;
     }
 }

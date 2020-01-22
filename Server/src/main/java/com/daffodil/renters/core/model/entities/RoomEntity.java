@@ -17,7 +17,7 @@ public class RoomEntity {
     @Getter
     private long capacity;
 
-    @Getter
+    // Used to set variable rent in case of shared properties
     private long rent;
 
     // Children
@@ -31,12 +31,12 @@ public class RoomEntity {
     private PropertyEntity property;
 
     private void mapAllOccupants() {
-        List<OccupantEntity> occupants = this.getOccupants();
-        if (occupants != null) {
-            for (OccupantEntity oc : occupants) {
-                mapOccupant(oc);
+        List<OccupantEntity> occupants = this.occupants;
+        new Thread(() -> {
+            if (occupants != null) {
+                occupants.forEach(RoomEntity.this::mapOccupant);
             }
-        }
+        }).start();
     }
 
     private void mapOccupant(OccupantEntity entity) {
@@ -51,6 +51,15 @@ public class RoomEntity {
     }
 
     protected RoomEntity() {
+    }
+
+    public long getRent() {
+        if (property != null) {
+            long propertyRent = property.getRent();
+            long numberOfRooms = property.getNumberOfRooms();
+            if (numberOfRooms > 0) return propertyRent / numberOfRooms;
+            else return propertyRent;
+        } else return 0;
     }
 
     public int getNumberOfOccupants() {
@@ -82,4 +91,5 @@ public class RoomEntity {
         this.property = property;
         return this;
     }
+
 }

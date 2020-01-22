@@ -54,7 +54,7 @@ public class ParkingSpotService {
         }
 
         ParkingSpotEntity build = new EntityFactory.ParkingSpotEntityBuilder().build(parkingSpot);
-        build.setProperty(houseRepository.findHouseById(houseId));
+        build.setBuilding(houseRepository.findHouseById(houseId));
         if (occupantID != null) {
             Optional<OccupantEntity> occupantEntityOptional = optionalOccupantEntity;
             occupantEntityOptional.ifPresent(build::setOccupant);

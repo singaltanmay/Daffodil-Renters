@@ -45,14 +45,18 @@ public class ParkingSpotEntity {
 
     @Getter
     @ManyToOne
+    private BuildingEntity building;
+
+    @Getter
+    @ManyToOne
     private PropertyEntity property;
 
     @Getter
     @ManyToOne
     private OccupantEntity occupant;
 
-    public ParkingSpotEntity(PropertyEntity property) {
-        this.property = property;
+    public ParkingSpotEntity(BuildingEntity building) {
+        this.building = building;
     }
 
     protected ParkingSpotEntity() {
@@ -84,6 +88,11 @@ public class ParkingSpotEntity {
 
     public ParkingSpotEntity setPrice(int price) {
         this.price = price;
+        return this;
+    }
+
+    public ParkingSpotEntity setBuilding(BuildingEntity building) {
+        this.building = building;
         return this;
     }
 
