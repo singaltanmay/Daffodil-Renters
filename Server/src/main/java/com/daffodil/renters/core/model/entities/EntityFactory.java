@@ -1,10 +1,6 @@
 package com.daffodil.renters.core.model.entities;
 
-import com.daffodil.renters.core.model.beans.postables.Occupant;
-import com.daffodil.renters.core.model.beans.postables.ParkingSpot;
-import com.daffodil.renters.core.model.beans.postables.Room;
-import com.daffodil.renters.core.model.beans.postables.Building;
-import com.daffodil.renters.core.model.beans.postables.Property;
+import com.daffodil.renters.core.model.beans.postables.*;
 
 import java.util.Date;
 import java.util.LinkedList;
@@ -115,12 +111,8 @@ public class EntityFactory {
             building.getBuildingConstructed().ifPresent(this::setBuildingConstructed);
             building.getLatitude().ifPresent(this::setLatitude);
             building.getLongitude().ifPresent(this::setLongitude);
-            building.getProperties().ifPresent(it -> {
-                this.setProperties(PropertyEntityBuilder.listFrom(it));
-            });
-            building.getSharedParkingSpots().ifPresent(it -> {
-                this.setSharedParkingSpots(ParkingSpotEntityBuilder.listFrom(it));
-            });
+            building.getProperties().ifPresent(it -> this.setProperties(PropertyEntityBuilder.listFrom(it)));
+            building.getSharedParkingSpots().ifPresent(it -> this.setSharedParkingSpots(ParkingSpotEntityBuilder.listFrom(it)));
             return this.build();
         }
 
@@ -152,6 +144,7 @@ public class EntityFactory {
         private Date listedOn;
         private BuildingEntity building;
         private SellerEntity seller;
+        private AmenitiesEntity amenities;
         private List<RoomEntity> rooms;
         private List<ParkingSpotEntity> parkingSpots;
 
@@ -220,6 +213,11 @@ public class EntityFactory {
             return this;
         }
 
+        public PropertyEntityBuilder setAmenities(AmenitiesEntity amenities) {
+            this.amenities = amenities;
+            return this;
+        }
+
         public PropertyEntityBuilder setRooms(List<RoomEntity> rooms) {
             this.rooms = rooms;
             return this;
@@ -231,27 +229,56 @@ public class EntityFactory {
         }
 
         public PropertyEntity build() {
-            return new PropertyEntity()
-                    .setId(this.id)
-                    .setDescription(this.description)
-                    .setPropertyType(this.propertyType)
-                    .setFurnishingType(this.furnishingType)
-                    .setArea(this.area)
-                    .setRent(this.rent)
-                    .setRoommates(this.roommates)
-                    .setSecurityDeposit(this.securityDeposit)
-                    .setBrokerage(this.brokerage)
-                    .setLockInPeriod(this.lockInPeriod)
-                    .setListedOn(this.listedOn)
-                    .setBuilding(this.building)
-                    .setSeller(this.seller)
-                    .setParkingSpots(this.parkingSpots)
-                    .setRooms(this.rooms);
+            return new PropertyEntity(
+                    this.id,
+                    this.description,
+                    this.propertyType,
+                    this.furnishingType,
+                    this.area,
+                    this.rent,
+                    this.roommates,
+                    this.securityDeposit,
+                    this.brokerage,
+                    this.lockInPeriod,
+                    this.listedOn,
+                    this.building,
+                    this.seller,
+                    this.amenities,
+                    this.rooms,
+                    this.parkingSpots);
         }
 
-        public static List<PropertyEntity> listFrom(List<Property> it) {
-            //TODO
-            return null;
+        public PropertyEntity build(Property property) {
+            if (property == null) return null;
+            property.getId().ifPresent(this::setId);
+            property.getDescription().ifPresent(this::setDescription);
+            property.getPropertyType().ifPresent(this::setPropertyType);
+            property.getFurnishingType().ifPresent(this::setFurnishingType);
+            property.getArea().ifPresent(this::setArea);
+            property.getRent().ifPresent(this::setRent);
+            property.getRoommates().ifPresent(this::setRoommates);
+            property.getSecurityDeposit().ifPresent(this::setSecurityDeposit);
+            property.getBrokerage().ifPresent(this::setBrokerage);
+            property.getLockInPeriod().ifPresent(this::setLockInPeriod);
+            property.getListedOn().ifPresent(this::setListedOn);
+            property.getBuilding().ifPresent(this::setBuilding);
+            property.getSeller().ifPresent(this::setSeller);
+            property.getAmenities().ifPresent(it -> this.setAmenities(new AmenitiesEntityBuilder().build(it)));
+            property.getRooms().ifPresent(it -> this.setRooms(RoomEntityBuilder.listFrom(it)));
+            property.getParkingSpots().ifPresent(it -> this.setParkingSpots(ParkingSpotEntityBuilder.listFrom(it)));
+            return this.build();
+        }
+
+        public static List<PropertyEntity> listFrom(List<Property> properties) {
+            if (properties == null) return new LinkedList<>();
+            List<PropertyEntity> entities = new LinkedList<>();
+            properties.forEach(property -> {
+                PropertyEntity propertyEntity = new EntityFactory.PropertyEntityBuilder().build(property);
+                if (propertyEntity != null) {
+                    entities.add(propertyEntity);
+                }
+            });
+            return entities;
         }
 
     }
@@ -490,6 +517,18 @@ public class EntityFactory {
                 }
             });
             return entities;
+        }
+
+    }
+
+    public static class AmenitiesEntityBuilder {
+
+        public AmenitiesEntity build(Amenities amenities) {
+            return null;
+        }
+
+        public static List<AmenitiesEntity> listFrom(List<Amenities> amenities) {
+            return null;
         }
 
     }

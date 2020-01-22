@@ -1,7 +1,6 @@
 package com.daffodil.renters.core.model.entities;
 
 import lombok.Getter;
-import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -129,74 +128,23 @@ public class PropertyEntity {
         return rooms.size();
     }
 
-    public PropertyEntity setId(long id) {
+    public PropertyEntity(long id, String description, PROPERTY_TYPE propertyType, FURNISHING_TYPE furnishingType, int area, long rent, boolean roommates, long securityDeposit, long brokerage, int lockInPeriod, Date listedOn, BuildingEntity building, SellerEntity seller, AmenitiesEntity amenities, List<RoomEntity> rooms, List<ParkingSpotEntity> parkingSpots) {
         this.id = id;
-        return this;
-    }
-
-    public PropertyEntity setDescription(String description) {
         this.description = description;
-        return this;
-    }
-
-    public PropertyEntity setPropertyType(PROPERTY_TYPE propertyType) {
         this.propertyType = propertyType;
-        return this;
-    }
-
-    public PropertyEntity setFurnishingType(FURNISHING_TYPE furnishingType) {
         this.furnishingType = furnishingType;
-        return this;
-    }
-
-    public PropertyEntity setArea(int area) {
         this.area = area;
-        return this;
-    }
-
-    public PropertyEntity setRent(long rent) {
         this.rent = rent;
-        return this;
-    }
-
-    public PropertyEntity setRoommates(boolean roommates) {
         this.roommates = roommates;
-        return this;
-    }
-
-    public PropertyEntity setSecurityDeposit(long securityDeposit) {
         this.securityDeposit = securityDeposit;
-        return this;
-    }
-
-    public PropertyEntity setBrokerage(long brokerage) {
         this.brokerage = brokerage;
-        return this;
-    }
-
-    public PropertyEntity setLockInPeriod(int lockInPeriod) {
         this.lockInPeriod = lockInPeriod;
-        return this;
-    }
-
-    public PropertyEntity setListedOn(Date listedOn) {
         this.listedOn = listedOn;
-        return this;
-    }
-
-    public PropertyEntity setBuilding(BuildingEntity building) {
         this.building = building;
-        return this;
-    }
-
-    public PropertyEntity setSeller(SellerEntity seller) {
         this.seller = seller;
-        return this;
-    }
-
-    public PropertyEntity setAmenities(AmenitiesEntity amenities) {
         this.amenities = amenities;
-        return this;
+        setRooms(rooms);
+        setParkingSpots(parkingSpots);
     }
 
     public PropertyEntity setRooms(List<RoomEntity> rooms) {
