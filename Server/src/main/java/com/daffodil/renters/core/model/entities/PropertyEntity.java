@@ -1,6 +1,7 @@
 package com.daffodil.renters.core.model.entities;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -74,6 +75,10 @@ public class PropertyEntity {
     @Getter
     @ManyToOne
     private SellerEntity seller;
+
+    @Getter
+    @ManyToOne
+    private AmenitiesEntity amenities;
 
     // Children
     @Getter
@@ -186,6 +191,11 @@ public class PropertyEntity {
 
     public PropertyEntity setSeller(SellerEntity seller) {
         this.seller = seller;
+        return this;
+    }
+
+    public PropertyEntity setAmenities(AmenitiesEntity amenities) {
+        this.amenities = amenities;
         return this;
     }
 

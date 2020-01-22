@@ -50,9 +50,25 @@ public class Building {
     private Optional<Double> longitude;
 
     @Getter
+    @Setter
     private Optional<List<Property>> properties;
 
     @Getter
+    @Setter
     private Optional<List<ParkingSpot>> sharedParkingSpots;
 
+    public Building(Optional<Long> id, Optional<String> addressBuildingName, Optional<String> addressLocalityName, Optional<String> addressSubdivision, Optional<String> addressCity, Optional<String> addressState, Optional<String> addressPinCode, Optional<Date> buildingConstructed, Optional<Double> latitude, Optional<Double> longitude, Optional<List<Property>> properties, Optional<List<ParkingSpot>> sharedParkingSpots) {
+        this.id = id;
+        this.addressBuildingName = addressBuildingName;
+        this.addressLocalityName = addressLocalityName;
+        this.addressSubdivision = addressSubdivision;
+        this.addressCity = addressCity;
+        this.addressState = addressState;
+        this.addressPinCode = addressPinCode;
+        this.buildingConstructed = buildingConstructed;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.properties = properties;
+        this.sharedParkingSpots = sharedParkingSpots;
+    }
 }

@@ -1,8 +1,8 @@
 package com.daffodil.renters.core.model.entities;
 
-import com.daffodil.renters.core.model.beans.Occupant;
+import com.daffodil.renters.core.model.beans.postables.Occupant;
 import com.daffodil.renters.core.model.beans.postables.ParkingSpot;
-import com.daffodil.renters.core.model.beans.Room;
+import com.daffodil.renters.core.model.beans.postables.Room;
 import com.daffodil.renters.core.model.beans.postables.Building;
 import com.daffodil.renters.core.model.beans.postables.Property;
 

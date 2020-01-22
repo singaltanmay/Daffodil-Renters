@@ -1,7 +1,5 @@
 package com.daffodil.renters.core.model.beans.postables;
 
-import com.daffodil.renters.core.model.beans.House;
-import com.daffodil.renters.core.model.beans.Occupant;
 import com.daffodil.renters.core.model.entities.BuildingEntity;
 import com.daffodil.renters.core.model.entities.OccupantEntity;
 import com.daffodil.renters.core.model.entities.ParkingSpotEntity;
@@ -19,7 +17,6 @@ public class PostableFactory {
             return null;
         }
     }
-
 
     public static class PropertyBuilder {
         //TODO

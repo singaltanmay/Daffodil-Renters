@@ -1,6 +1,5 @@
 package com.daffodil.renters.core.model.beans.postables;
 
-import com.daffodil.renters.core.model.beans.Occupant;
 import com.daffodil.renters.core.model.entities.ParkingSpotEntity;
 import lombok.Getter;
 import lombok.Setter;

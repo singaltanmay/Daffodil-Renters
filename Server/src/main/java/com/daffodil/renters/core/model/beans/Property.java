@@ -1,6 +1,8 @@
 package com.daffodil.renters.core.model.beans;
 
+import com.daffodil.renters.core.model.beans.postables.Amenities;
 import com.daffodil.renters.core.model.beans.postables.ParkingSpot;
+import com.daffodil.renters.core.model.beans.postables.Seller;
 
 import java.util.Date;
 import java.util.List;

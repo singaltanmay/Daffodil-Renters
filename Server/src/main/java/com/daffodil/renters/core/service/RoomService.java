@@ -1,7 +1,7 @@
 package com.daffodil.renters.core.service;
 
-import com.daffodil.renters.core.model.beans.Occupant;
-import com.daffodil.renters.core.model.beans.Room;
+import com.daffodil.renters.core.model.beans.postables.Occupant;
+import com.daffodil.renters.core.model.beans.postables.Room;
 import com.daffodil.renters.core.model.entities.EntityFactory;
 import com.daffodil.renters.core.model.entities.RoomEntity;
 import com.daffodil.renters.core.repo.HouseRepository;

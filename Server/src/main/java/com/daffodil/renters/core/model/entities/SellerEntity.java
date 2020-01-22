@@ -24,6 +24,9 @@ public class SellerEntity {
     private String phoneNumber;
 
     @Getter
+    private SELLER_TYPE sellerType;
+
+    @Getter
     @OneToMany(mappedBy = "seller", cascade = CascadeType.ALL)
     List<PropertyEntity> propertyEntities;
 
@@ -62,6 +65,11 @@ public class SellerEntity {
 
     public SellerEntity setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+        return this;
+    }
+
+    public SellerEntity setSellerType(SELLER_TYPE sellerType) {
+        this.sellerType = sellerType;
         return this;
     }
 

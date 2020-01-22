@@ -1,6 +1,7 @@
 package com.daffodil.renters.core.model.beans;
 
 import com.daffodil.renters.core.model.beans.postables.ParkingSpot;
+import com.daffodil.renters.core.model.beans.postables.Room;
 import com.daffodil.renters.core.model.entities.PropertyEntity;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;

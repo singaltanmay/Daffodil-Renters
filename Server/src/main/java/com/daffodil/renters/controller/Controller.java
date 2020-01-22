@@ -1,8 +1,8 @@
 package com.daffodil.renters.controller;
 
 import com.daffodil.renters.core.model.beans.House;
-import com.daffodil.renters.core.model.beans.Occupant;
-import com.daffodil.renters.core.model.beans.Room;
+import com.daffodil.renters.core.model.beans.postables.Occupant;
+import com.daffodil.renters.core.model.beans.postables.Room;
 import com.daffodil.renters.core.service.HouseService;
 import com.daffodil.renters.core.service.OccupantService;
 import com.daffodil.renters.core.service.RoomService;

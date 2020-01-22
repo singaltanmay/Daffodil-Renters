@@ -2,17 +2,16 @@ package com.daffodil.renters.core.model.entities;
 
 import lombok.Getter;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
+import java.util.List;
 
 public class AmenitiesEntity {
 
-    // Parent
+
+    @Getter
     @Id
-    @Column(nullable = false)
-    @OneToOne
-    private PropertyEntity property;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
 
     @Getter
     boolean gasPipeline;
@@ -29,16 +28,27 @@ public class AmenitiesEntity {
     @Getter
     boolean parkingAllowed;
 
+    @Getter
+    @OneToMany(mappedBy = "amenities")
+    private List<PropertyEntity> properties;
+
+
+    private void mapAllProperties() {
+        List<PropertyEntity> properties = this.properties;
+        new Thread(() -> {
+            if (properties != null) {
+                properties.forEach(AmenitiesEntity.this::mapProperty);
+            }
+        }).start();
+    }
+
+    private void mapProperty(PropertyEntity entity) {
+        if (entity != null) {
+            entity.setAmenities(AmenitiesEntity.this);
+        }
+    }
+
     protected AmenitiesEntity() {
-    }
-
-    public AmenitiesEntity(PropertyEntity property) {
-        this.property = property;
-    }
-
-    public AmenitiesEntity setProperty(PropertyEntity property) {
-        this.property = property;
-        return this;
     }
 
     public AmenitiesEntity setGasPipeline(boolean gasPipeline) {
@@ -75,4 +85,11 @@ public class AmenitiesEntity {
         this.parkingAllowed = parkingAllowed;
         return this;
     }
+
+    public AmenitiesEntity setProperties(List<PropertyEntity> properties) {
+        this.properties = properties;
+        mapAllProperties();
+        return this;
+    }
+
 }
