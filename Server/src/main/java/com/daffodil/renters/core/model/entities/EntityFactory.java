@@ -4,12 +4,107 @@ import com.daffodil.renters.core.model.beans.House;
 import com.daffodil.renters.core.model.beans.Occupant;
 import com.daffodil.renters.core.model.beans.ParkingSpot;
 import com.daffodil.renters.core.model.beans.Room;
+import lombok.Getter;
 
+import javax.persistence.*;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
 public class EntityFactory {
+
+    public static class BuildingEntityBuilder {
+
+        private long id;
+        private String addressBuildingName;
+        private String addressLocalityName;
+        private String addressSubdivision;
+        private String addressCity;
+        private String addressState;
+        private String addressPinCode;
+        private Date buildingConstructed;
+        private double latitude;
+        private double longitude;
+        private List<PropertyEntity> properties;
+        private List<ParkingSpotEntity> sharedParkingSpots;
+
+        public BuildingEntityBuilder setId(long id) {
+            this.id = id;
+            return this;
+        }
+
+        public BuildingEntityBuilder setAddressBuildingName(String addressBuildingName) {
+            this.addressBuildingName = addressBuildingName;
+            return this;
+        }
+
+        public BuildingEntityBuilder setAddressLocalityName(String addressLocalityName) {
+            this.addressLocalityName = addressLocalityName;
+            return this;
+        }
+
+        public BuildingEntityBuilder setAddressSubdivision(String addressSubdivision) {
+            this.addressSubdivision = addressSubdivision;
+            return this;
+        }
+
+        public BuildingEntityBuilder setAddressCity(String addressCity) {
+            this.addressCity = addressCity;
+            return this;
+        }
+
+        public BuildingEntityBuilder setAddressState(String addressState) {
+            this.addressState = addressState;
+            return this;
+        }
+
+        public BuildingEntityBuilder setAddressPinCode(String addressPinCode) {
+            this.addressPinCode = addressPinCode;
+            return this;
+        }
+
+        public BuildingEntityBuilder setBuildingConstructed(Date buildingConstructed) {
+            this.buildingConstructed = buildingConstructed;
+            return this;
+        }
+
+        public BuildingEntityBuilder setLatitude(double latitude) {
+            this.latitude = latitude;
+            return this;
+        }
+
+        public BuildingEntityBuilder setLongitude(double longitude) {
+            this.longitude = longitude;
+            return this;
+        }
+
+        public BuildingEntityBuilder setProperties(List<PropertyEntity> properties) {
+            this.properties = properties;
+            return this;
+        }
+
+        public BuildingEntityBuilder setSharedParkingSpots(List<ParkingSpotEntity> sharedParkingSpots) {
+            this.sharedParkingSpots = sharedParkingSpots;
+            return this;
+        }
+
+        public BuildingEntity build() {
+            return new BuildingEntity()
+                    .setId(this.id)
+                    .setAddressBuildingName(this.addressBuildingName)
+                    .setAddressLocalityName(this.addressLocalityName)
+                    .setAddressSubdivision(this.addressSubdivision)
+                    .setAddressCity(this.addressCity)
+                    .setAddressState(this.addressState)
+                    .setAddressPinCode(this.addressPinCode)
+                    .setBuildingConstructed(this.buildingConstructed)
+                    .setLatitude(this.latitude)
+                    .setLongitude(this.longitude)
+                    .setProperties(this.properties)
+                    .setSharedParkingSpots(this.sharedParkingSpots);
+        }
+
+    }
 
     public static class HouseEntityBuilder {
         private long id;
