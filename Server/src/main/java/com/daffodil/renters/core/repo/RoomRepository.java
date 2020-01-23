@@ -28,4 +28,5 @@ public interface RoomRepository extends CrudRepository<RoomEntity, Long> {
     @Modifying
     @Query("UPDATE RoomEntity r SET r.capacity = :capacity, r.rent = :rent WHERE r.id = :id")
     void updateRoomById(@Param("id") long roomId, @Param("capacity") long capacity, @Param("rent") long rent);
+
 }
