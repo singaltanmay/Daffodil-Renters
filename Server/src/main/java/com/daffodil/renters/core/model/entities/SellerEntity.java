@@ -1,6 +1,7 @@
 package com.daffodil.renters.core.model.entities;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
@@ -13,17 +14,22 @@ public class SellerEntity {
     }
 
     @Getter
+    @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     @Getter
+    @Setter
     private String firstName;
     @Getter
+    @Setter
     private String lastName;
     @Getter
+    @Setter
     private String phoneNumber;
 
     @Getter
+    @Setter
     private SELLER_TYPE sellerType;
 
     @Getter
@@ -48,29 +54,13 @@ public class SellerEntity {
     public SellerEntity() {
     }
 
-    public SellerEntity setId(long id) {
+    public SellerEntity(long id, String firstName, String lastName, String phoneNumber, SELLER_TYPE sellerType, List<PropertyEntity> propertyEntities) {
         this.id = id;
-        return this;
-    }
-
-    public SellerEntity setFirstName(String firstName) {
         this.firstName = firstName;
-        return this;
-    }
-
-    public SellerEntity setLastName(String lastName) {
         this.lastName = lastName;
-        return this;
-    }
-
-    public SellerEntity setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
-        return this;
-    }
-
-    public SellerEntity setSellerType(SELLER_TYPE sellerType) {
         this.sellerType = sellerType;
-        return this;
+        setPropertyEntities(propertyEntities);
     }
 
     public SellerEntity setPropertyEntities(List<PropertyEntity> propertyEntities) {

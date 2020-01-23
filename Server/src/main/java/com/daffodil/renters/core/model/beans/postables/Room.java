@@ -1,6 +1,5 @@
 package com.daffodil.renters.core.model.beans.postables;
 
-import com.daffodil.renters.core.model.beans.House;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,22 +22,16 @@ public class Room {
     @Getter
     @Setter
     private Optional<List<Occupant>> occupants;
-
     @Getter
     @Setter
     private Optional<Property> property;
 
-    @Getter
-    @Setter
-    private Optional<House> house;
-
-    public Room(Optional<Long> id, Optional<Long> capacity, Optional<Long> rent, Optional<List<Occupant>> occupants, Optional<Property> property, Optional<House> house) {
+    public Room(Optional<Long> id, Optional<Long> capacity, Optional<Long> rent, Optional<List<Occupant>> occupants, Optional<Property> property) {
         this.id = id;
         this.capacity = capacity;
         this.rent = rent;
         this.occupants = occupants;
         this.property = property;
-        this.house = house;
     }
 
 //

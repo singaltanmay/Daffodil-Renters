@@ -1,6 +1,7 @@
 package com.daffodil.renters.core.model.entities;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -23,11 +24,13 @@ public class ParkingSpotEntity {
     }
 
     @Getter
+    @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     @Getter
+    @Setter
     private boolean electric;
 
     @Getter
@@ -41,17 +44,21 @@ public class ParkingSpotEntity {
     private PARKING_TYPE parkingType = PARKING_TYPE.GENERAL;
 
     @Getter
+    @Setter
     private int price;
 
     @Getter
+    @Setter
     @ManyToOne
     private BuildingEntity building;
 
     @Getter
+    @Setter
     @ManyToOne
     private PropertyEntity property;
 
     @Getter
+    @Setter
     @ManyToOne
     private OccupantEntity occupant;
 
@@ -62,14 +69,15 @@ public class ParkingSpotEntity {
     protected ParkingSpotEntity() {
     }
 
-    public ParkingSpotEntity setId(long id) {
+    public ParkingSpotEntity(long id, boolean electric, PARKING_SIZE parkingSize, PARKING_TYPE parkingType, int price, BuildingEntity building, PropertyEntity property, OccupantEntity occupant) {
         this.id = id;
-        return this;
-    }
-
-    public ParkingSpotEntity setElectric(boolean electric) {
         this.electric = electric;
-        return this;
+        setParkingSize(parkingSize);
+        setParkingType(parkingType);
+        this.price = price;
+        this.building = building;
+        this.property = property;
+        this.occupant = occupant;
     }
 
     public ParkingSpotEntity setParkingSize(PARKING_SIZE parkingSize) {
@@ -83,26 +91,6 @@ public class ParkingSpotEntity {
         if (parkingType != null) {
             this.parkingType = parkingType;
         }
-        return this;
-    }
-
-    public ParkingSpotEntity setPrice(int price) {
-        this.price = price;
-        return this;
-    }
-
-    public ParkingSpotEntity setBuilding(BuildingEntity building) {
-        this.building = building;
-        return this;
-    }
-
-    public ParkingSpotEntity setProperty(PropertyEntity property) {
-        this.property = property;
-        return this;
-    }
-
-    public ParkingSpotEntity setOccupant(OccupantEntity occupant) {
-        this.occupant = occupant;
         return this;
     }
 }

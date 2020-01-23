@@ -1,6 +1,5 @@
 package com.daffodil.renters.core.model.beans.postables;
 
-import com.daffodil.renters.core.model.beans.Property;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -39,13 +38,13 @@ public class Amenities {
 
     @Getter
     @Setter
-    private Optional<Boolean> parkingAllowed;
+    private Optional<Boolean> petsAllowed;
 
     @Getter
     @Setter
-    private Optional<List<com.daffodil.renters.core.model.beans.Property>> properties;
+    private Optional<List<Property>> properties;
 
-    public Amenities(Optional<Long> id, Optional<Boolean> gasPipeline, Optional<Boolean> swimmingPool, Optional<Boolean> gym, Optional<Boolean> lift, Optional<Boolean> gatedCommunity, Optional<Boolean> parking, Optional<Boolean> parkingAllowed, Optional<List<Property>> properties) {
+    public Amenities(Optional<Long> id, Optional<Boolean> gasPipeline, Optional<Boolean> swimmingPool, Optional<Boolean> gym, Optional<Boolean> lift, Optional<Boolean> gatedCommunity, Optional<Boolean> parking, Optional<Boolean> petsAllowed, Optional<List<Property>> properties) {
         this.id = id;
         this.gasPipeline = gasPipeline;
         this.swimmingPool = swimmingPool;
@@ -53,7 +52,7 @@ public class Amenities {
         this.lift = lift;
         this.gatedCommunity = gatedCommunity;
         this.parking = parking;
-        this.parkingAllowed = parkingAllowed;
+        this.petsAllowed = petsAllowed;
         this.properties = properties;
     }
 

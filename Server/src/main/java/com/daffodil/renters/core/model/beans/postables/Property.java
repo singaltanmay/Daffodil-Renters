@@ -1,6 +1,6 @@
 package com.daffodil.renters.core.model.beans.postables;
 
-import com.daffodil.renters.core.model.entities.*;
+import com.daffodil.renters.core.model.entities.PropertyEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -56,11 +56,11 @@ public class Property {
 
     @Getter
     @Setter
-    private Optional<BuildingEntity> building;
+    private Optional<Building> building;
 
     @Getter
     @Setter
-    private Optional<SellerEntity> seller;
+    private Optional<Seller> seller;
 
     @Getter
     @Setter
@@ -74,7 +74,7 @@ public class Property {
     @Setter
     private Optional<List<ParkingSpot>> parkingSpots;
 
-    public Property(Optional<Long> id, Optional<String> description, Optional<PropertyEntity.PROPERTY_TYPE> propertyType, Optional<PropertyEntity.FURNISHING_TYPE> furnishingType, Optional<Integer> area, Optional<Long> rent, Optional<Boolean> roommates, Optional<Long> securityDeposit, Optional<Long> brokerage, Optional<Integer> lockInPeriod, Optional<Date> listedOn, Optional<BuildingEntity> building, Optional<SellerEntity> seller, Optional<Amenities> amenities, Optional<List<Room>> rooms, Optional<List<ParkingSpot>> parkingSpots) {
+    public Property(Optional<Long> id, Optional<String> description, Optional<PropertyEntity.PROPERTY_TYPE> propertyType, Optional<PropertyEntity.FURNISHING_TYPE> furnishingType, Optional<Integer> area, Optional<Long> rent, Optional<Boolean> roommates, Optional<Long> securityDeposit, Optional<Long> brokerage, Optional<Integer> lockInPeriod, Optional<Date> listedOn, Optional<Building> building, Optional<Seller> seller, Optional<Amenities> amenities, Optional<List<Room>> rooms, Optional<List<ParkingSpot>> parkingSpots) {
         this.id = id;
         this.description = description;
         this.propertyType = propertyType;

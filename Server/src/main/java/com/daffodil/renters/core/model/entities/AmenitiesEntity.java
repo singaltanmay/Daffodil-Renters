@@ -1,32 +1,44 @@
 package com.daffodil.renters.core.model.entities;
 
 import lombok.Getter;
+import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.util.List;
 
 public class AmenitiesEntity {
 
 
     @Getter
+    @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     @Getter
+    @Setter
     boolean gasPipeline;
     @Getter
+    @Setter
     boolean swimmingPool;
     @Getter
+    @Setter
     boolean gym;
     @Getter
+    @Setter
     boolean lift;
     @Getter
+    @Setter
     boolean gatedCommunity;
     @Getter
+    @Setter
     boolean parking;
     @Getter
-    boolean parkingAllowed;
+    @Setter
+    boolean petsAllowed;
 
     @Getter
     @OneToMany(mappedBy = "amenities")
@@ -51,39 +63,16 @@ public class AmenitiesEntity {
     protected AmenitiesEntity() {
     }
 
-    public AmenitiesEntity setGasPipeline(boolean gasPipeline) {
+    public AmenitiesEntity(long id, boolean gasPipeline, boolean swimmingPool, boolean gym, boolean lift, boolean gatedCommunity, boolean parking, boolean petsAllowed, List<PropertyEntity> properties) {
+        this.id = id;
         this.gasPipeline = gasPipeline;
-        return this;
-    }
-
-    public AmenitiesEntity setSwimmingPool(boolean swimmingPool) {
         this.swimmingPool = swimmingPool;
-        return this;
-    }
-
-    public AmenitiesEntity setGym(boolean gym) {
         this.gym = gym;
-        return this;
-    }
-
-    public AmenitiesEntity setLift(boolean lift) {
         this.lift = lift;
-        return this;
-    }
-
-    public AmenitiesEntity setGatedCommunity(boolean gatedCommunity) {
         this.gatedCommunity = gatedCommunity;
-        return this;
-    }
-
-    public AmenitiesEntity setParking(boolean parking) {
         this.parking = parking;
-        return this;
-    }
-
-    public AmenitiesEntity setParkingAllowed(boolean parkingAllowed) {
-        this.parkingAllowed = parkingAllowed;
-        return this;
+        this.petsAllowed = petsAllowed;
+        this.properties = properties;
     }
 
     public AmenitiesEntity setProperties(List<PropertyEntity> properties) {

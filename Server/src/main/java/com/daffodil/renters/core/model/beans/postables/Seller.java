@@ -1,19 +1,25 @@
 package com.daffodil.renters.core.model.beans.postables;
 
-import com.daffodil.renters.core.model.beans.Property;
 import com.daffodil.renters.core.model.entities.SellerEntity;
+import lombok.Getter;
 
 import java.util.List;
 import java.util.Optional;
 
 public class Seller {
 
+    @Getter
     private Optional<Long> id;
+    @Getter
     private Optional<String> firstName;
+    @Getter
     private Optional<String> lastName;
+    @Getter
     private Optional<String> phoneNumber;
+    @Getter
     private Optional<SellerEntity.SELLER_TYPE> sellerType;
-    private Optional<List<com.daffodil.renters.core.model.beans.Property>> properties;
+    @Getter
+    private Optional<List<Property>> properties;
 
     public Seller(Optional<Long> id, Optional<String> firstName, Optional<String> lastName, Optional<String> phoneNumber, Optional<SellerEntity.SELLER_TYPE> sellerType, Optional<List<Property>> properties) {
         this.id = id;

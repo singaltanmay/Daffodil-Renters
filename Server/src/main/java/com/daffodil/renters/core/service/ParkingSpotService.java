@@ -1,6 +1,5 @@
 package com.daffodil.renters.core.service;
 
-import com.daffodil.renters.core.model.beans.House;
 import com.daffodil.renters.core.model.beans.postables.Occupant;
 import com.daffodil.renters.core.model.beans.postables.ParkingSpot;
 import com.daffodil.renters.core.model.entities.EntityFactory;
@@ -69,7 +68,7 @@ public class ParkingSpotService {
             Occupant occupant = parkingSpot.getOccupant();
             if (parkingSpot.getProperty() == null && occupant != null) {
                 long roomId = occupant.getRoom().getId();
-                House build = new House.Builder().build(roomRepository.findRoomById(roomId).getProperty());
+                Building build = new Building.Builder().build(roomRepository.findRoomById(roomId).getProperty());
                 parkingSpot.setProperty(build);
             }
         });

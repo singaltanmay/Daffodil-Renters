@@ -1,6 +1,5 @@
 package com.daffodil.renters.controller;
 
-import com.daffodil.renters.core.model.beans.House;
 import com.daffodil.renters.core.model.beans.postables.Occupant;
 import com.daffodil.renters.core.model.beans.postables.ParkingSpot;
 import com.daffodil.renters.core.model.beans.postables.Room;
@@ -74,12 +73,12 @@ public class AdminController {
     }
 
     @PostMapping(path = "/house")
-    public void insertHouse(@RequestBody House house) {
-        houseService.insertHouse(house);
+    public void insertHouse(@RequestBody Building building) {
+        houseService.insertHouse(building);
     }
 
     @PutMapping(path = "/house")
-    public void updateHouseById(@RequestParam("id") long id, @RequestBody House insertable) {
+    public void updateHouseById(@RequestParam("id") long id, @RequestBody Building insertable) {
         houseService.updateHouseById(id, insertable);
     }
 
@@ -91,7 +90,7 @@ public class AdminController {
     }
 
     @PostMapping(value = "debug/house/query")
-    public String getFilteredQueryString(@RequestBody House.Filter filter) {
+    public String getFilteredQueryString(@RequestBody Building.Filter filter) {
         return houseService.getFilteredQueryGeneratedString(filter);
     }
 

@@ -1,6 +1,5 @@
 package com.daffodil.renters.controller;
 
-import com.daffodil.renters.core.model.beans.House;
 import com.daffodil.renters.core.model.beans.postables.Occupant;
 import com.daffodil.renters.core.model.beans.postables.Room;
 import com.daffodil.renters.core.service.HouseService;
@@ -32,14 +31,14 @@ public class Controller {
     @GetMapping(value = "house")
     public ResponseEntity<?> getHouseById(@RequestParam("id") Optional<Long> id, @RequestParam("page") Optional<Integer> page) {
         if (id.isPresent()) {
-            Optional<House> house = houseService.getHouseById(id.get());
+            Optional<Building> house = houseService.getHouseById(id.get());
             return new ResponseEntity<>(house.orElse(null), HttpStatus.OK);
         } else return new ResponseEntity<>(houseService.getAllHouses(page.orElse(1)), HttpStatus.OK);
     }
 
     // Kinda like a GET method but used POST to get params as a JSON file
     @PostMapping(value = "house")
-    public List<House> getHousesFiltered(@RequestBody Optional<House.Filter> filter, @RequestParam("page") Optional<Integer> page) {
+    public List<Building> getHousesFiltered(@RequestBody Optional<Building.Filter> filter, @RequestParam("page") Optional<Integer> page) {
         if (filter.isEmpty()) return houseService.getAllHouses(page.orElse(1));
         else return houseService.getHousesUsingFilteredQuery(filter.get());
     }

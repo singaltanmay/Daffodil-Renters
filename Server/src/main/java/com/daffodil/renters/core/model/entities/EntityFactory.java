@@ -1,6 +1,7 @@
 package com.daffodil.renters.core.model.entities;
 
 import com.daffodil.renters.core.model.beans.postables.*;
+import lombok.Getter;
 
 import java.util.Date;
 import java.util.LinkedList;
@@ -327,11 +328,11 @@ public class EntityFactory {
 
         public RoomEntity build(Room room) {
             if (room == null) return null;
-            this.id = room.getId();
-            this.capacity = room.getCapacity();
-            this.rent = room.getRent();
-            this.property = new PropertyEntityBuilder().build(room.getProperty());
-            this.occupants = EntityFactory.OccupantEntityBuilder.listFrom(room.getOccupants());
+            room.getId().ifPresent(this::setId);
+            room.getCapacity().ifPresent(this::setCapacity);
+            room.getRent().ifPresent(this::setRent);
+            room.getProperty().ifPresent(it -> this.setProperty(new PropertyEntityBuilder().build(it)));
+            room.getOccupants().ifPresent(it -> this.setOccupants(OccupantEntityBuilder.listFrom(it)));
             return this.build();
         }
 
@@ -414,14 +415,14 @@ public class EntityFactory {
 
         public OccupantEntity build(Occupant occupant) {
             if (occupant == null) return null;
-            this.id = occupant.getId();
-            this.firstName = occupant.getFirstName();
-            this.lastName = occupant.getLastName();
-            this.phoneNumber = occupant.getPhoneNumber();
-            this.dateMovedIn = occupant.getDateMovedIn();
-            this.timeLastRentPaid = occupant.getTimeLastRentPaid();
-            this.room = new RoomEntityBuilder().build(occupant.getRoom());
-            this.parkingSpots = EntityFactory.ParkingSpotEntityBuilder.listFrom(occupant.getParkingSpots());
+            occupant.getId().ifPresent(this::setId);
+            occupant.getFirstName().ifPresent(this::setFirstName);
+            occupant.getLastName().ifPresent(this::setLastName);
+            occupant.getPhoneNumber().ifPresent(this::setPhoneNumber);
+            occupant.getDateMovedIn().ifPresent(this::setDateMovedIn);
+            occupant.getTimeLastRentPaid().ifPresent(this::setTimeLastRentPaid);
+            occupant.getRoom().ifPresent(it -> this.setRoom(new RoomEntityBuilder().build(it)));
+            occupant.getParkingSpots().ifPresent(it -> this.setParkingSpots(ParkingSpotEntityBuilder.listFrom(it)));
             return this.build();
         }
 
@@ -446,6 +447,7 @@ public class EntityFactory {
         private ParkingSpotEntity.PARKING_SIZE parkingSize;
         private ParkingSpotEntity.PARKING_TYPE parkingType;
         private int price;
+        private BuildingEntity buildingEntity;
         private PropertyEntity propertyEntity;
         private OccupantEntity occupantEntity;
 
@@ -474,6 +476,11 @@ public class EntityFactory {
             return this;
         }
 
+        public ParkingSpotEntityBuilder setBuildingEntity(BuildingEntity buildingEntity) {
+            this.buildingEntity = buildingEntity;
+            return this;
+        }
+
         public ParkingSpotEntityBuilder setPropertyEntity(PropertyEntity propertyEntity) {
             this.propertyEntity = propertyEntity;
             return this;
@@ -485,25 +492,27 @@ public class EntityFactory {
         }
 
         public ParkingSpotEntity build() {
-            return new ParkingSpotEntity()
-                    .setId(this.id)
-                    .setElectric(this.electric)
-                    .setParkingSize(this.parkingSize)
-                    .setParkingType(this.parkingType)
-                    .setPrice(this.price)
-                    .setBuilding(this.propertyEntity)
-                    .setOccupant(this.occupantEntity);
+            return new ParkingSpotEntity(
+                    this.id,
+                    this.electric,
+                    this.parkingSize,
+                    this.parkingType,
+                    this.price,
+                    this.buildingEntity,
+                    this.propertyEntity,
+                    this.occupantEntity);
         }
 
         public ParkingSpotEntity build(ParkingSpot parkingSpot) {
             if (parkingSpot == null) return null;
-            this.id = parkingSpot.getId();
-            this.electric = parkingSpot.isElectric();
-            this.parkingSize = parkingSpot.getParkingSize();
-            this.parkingType = parkingSpot.getParkingType();
-            this.price = parkingSpot.getPrice();
-            this.propertyEntity = new PropertyEntityBuilder().build(parkingSpot.getProperty());
-            this.occupantEntity = new OccupantEntityBuilder().build(parkingSpot.getOccupant());
+            parkingSpot.getId().ifPresent(this::setId);
+            parkingSpot.getElectric().ifPresent(this::setElectric);
+            parkingSpot.getParkingSize().ifPresent(this::setParkingSize);
+            parkingSpot.getParkingType().ifPresent(this::setParkingType);
+            parkingSpot.getPrice().ifPresent(this::setPrice);
+            parkingSpot.getBuilding().ifPresent(it -> new BuildingEntityBuilder().build(it));
+            parkingSpot.getProperty().ifPresent(it -> new PropertyEntityBuilder().build(it));
+            parkingSpot.getOccupant().ifPresent(it -> new OccupantEntityBuilder().build(it));
             return this.build();
         }
 
@@ -523,13 +532,186 @@ public class EntityFactory {
 
     public static class AmenitiesEntityBuilder {
 
+        @Getter
+        private long id;
+        @Getter
+        boolean gasPipeline;
+        @Getter
+        boolean swimmingPool;
+        @Getter
+        boolean gym;
+        @Getter
+        boolean lift;
+        @Getter
+        boolean gatedCommunity;
+        @Getter
+        boolean parking;
+        @Getter
+        boolean petsAllowed;
+        @Getter
+        private List<PropertyEntity> properties;
+
+        public AmenitiesEntityBuilder setId(long id) {
+            this.id = id;
+            return this;
+        }
+
+        public AmenitiesEntityBuilder setGasPipeline(boolean gasPipeline) {
+            this.gasPipeline = gasPipeline;
+            return this;
+        }
+
+        public AmenitiesEntityBuilder setSwimmingPool(boolean swimmingPool) {
+            this.swimmingPool = swimmingPool;
+            return this;
+        }
+
+        public AmenitiesEntityBuilder setGym(boolean gym) {
+            this.gym = gym;
+            return this;
+        }
+
+        public AmenitiesEntityBuilder setLift(boolean lift) {
+            this.lift = lift;
+            return this;
+        }
+
+        public AmenitiesEntityBuilder setGatedCommunity(boolean gatedCommunity) {
+            this.gatedCommunity = gatedCommunity;
+            return this;
+        }
+
+        public AmenitiesEntityBuilder setParking(boolean parking) {
+            this.parking = parking;
+            return this;
+        }
+
+        public AmenitiesEntityBuilder setPetsAllowed(boolean petsAllowed) {
+            this.petsAllowed = petsAllowed;
+            return this;
+        }
+
+        public AmenitiesEntityBuilder setProperties(List<PropertyEntity> properties) {
+            this.properties = properties;
+            return this;
+        }
+
+        public AmenitiesEntity build() {
+            return new AmenitiesEntity(
+                    this.id,
+                    this.gasPipeline,
+                    this.swimmingPool,
+                    this.gym,
+                    this.lift,
+                    this.gatedCommunity,
+                    this.parking,
+                    this.petsAllowed,
+                    this.properties
+            );
+        }
+
         public AmenitiesEntity build(Amenities amenities) {
-            return null;
+            amenities.getId().ifPresent(this::setId);
+            amenities.getGasPipeline().ifPresent(this::setGasPipeline);
+            amenities.getSwimmingPool().ifPresent(this::setSwimmingPool);
+            amenities.getGym().ifPresent(this::setGym);
+            amenities.getLift().ifPresent(this::setLift);
+            amenities.getGatedCommunity().ifPresent(this::setGatedCommunity);
+            amenities.getParking().ifPresent(this::setParking);
+            amenities.getPetsAllowed().ifPresent(this::setPetsAllowed);
+            amenities.getProperties().ifPresent(it -> this.setProperties(PropertyEntityBuilder.listFrom(it)));
+            return this.build();
         }
 
-        public static List<AmenitiesEntity> listFrom(List<Amenities> amenities) {
-            return null;
+        public static List<AmenitiesEntity> listFrom(List<Amenities> amenitiess) {
+            if (amenitiess == null) return new LinkedList<>();
+            List<AmenitiesEntity> entities = new LinkedList<>();
+            amenitiess.forEach(amenities -> {
+                AmenitiesEntity amenitiesEntity = new EntityFactory.AmenitiesEntityBuilder().build(amenities);
+                if (amenitiesEntity != null) {
+                    entities.add(amenitiesEntity);
+                }
+            });
+            return entities;
         }
 
+    }
+
+    public static class SellerEntityBuilder {
+        @Getter
+        private long id;
+        @Getter
+        private String firstName;
+        @Getter
+        private String lastName;
+        @Getter
+        private String phoneNumber;
+        @Getter
+        private SellerEntity.SELLER_TYPE sellerType;
+        @Getter
+        List<PropertyEntity> propertyEntities;
+
+        public SellerEntityBuilder setId(long id) {
+            this.id = id;
+            return this;
+        }
+
+        public SellerEntityBuilder setFirstName(String firstName) {
+            this.firstName = firstName;
+            return this;
+        }
+
+        public SellerEntityBuilder setLastName(String lastName) {
+            this.lastName = lastName;
+            return this;
+        }
+
+        public SellerEntityBuilder setPhoneNumber(String phoneNumber) {
+            this.phoneNumber = phoneNumber;
+            return this;
+        }
+
+        public SellerEntityBuilder setSellerType(SellerEntity.SELLER_TYPE sellerType) {
+            this.sellerType = sellerType;
+            return this;
+        }
+
+        public SellerEntityBuilder setPropertyEntities(List<PropertyEntity> propertyEntities) {
+            this.propertyEntities = propertyEntities;
+            return this;
+        }
+
+        public SellerEntity build() {
+            return new SellerEntity(
+                    this.id,
+                    this.firstName,
+                    this.lastName,
+                    this.phoneNumber,
+                    this.sellerType,
+                    this.propertyEntities
+            );
+        }
+
+        public SellerEntity build(Seller seller) {
+            seller.getId().ifPresent(this::setId);
+            seller.getFirstName().ifPresent(this::setFirstName);
+            seller.getLastName().ifPresent(this::setLastName);
+            seller.getPhoneNumber().ifPresent(this::setPhoneNumber);
+            seller.getSellerType().ifPresent(this::setSellerType);
+            seller.getProperties().ifPresent(it -> this.setPropertyEntities(PropertyEntityBuilder.listFrom(it)));
+            return this.build();
+        }
+
+        public List<SellerEntity> listFrom(List<Seller> sellers) {
+            if (sellers == null) return new LinkedList<>();
+            List<SellerEntity> entities = new LinkedList<>();
+            sellers.forEach(seller -> {
+                SellerEntity sellerEntity = new EntityFactory.SellerEntityBuilder().build(seller);
+                if (sellerEntity != null) {
+                    entities.add(sellerEntity);
+                }
+            });
+            return entities;
+        }
     }
 }

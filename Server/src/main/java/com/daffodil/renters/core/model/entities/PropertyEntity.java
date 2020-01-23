@@ -1,6 +1,7 @@
 package com.daffodil.renters.core.model.entities;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -24,6 +25,7 @@ public class PropertyEntity {
     }
 
     @Getter
+    @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false)
@@ -43,39 +45,49 @@ public class PropertyEntity {
     private FURNISHING_TYPE furnishingType;
 
     @Getter
+    @Setter
     int area;
 
     // Rent for new tenant
     // Has to be dynamically calculated if roommates
     @Getter
+    @Setter
     long rent;
 
     @Getter
+    @Setter
     boolean roommates;
 
     @Getter
+    @Setter
     private long securityDeposit;
 
     @Getter
+    @Setter
     private long brokerage;
 
     @Getter
+    @Setter
     private int lockInPeriod;
 
     @Getter
+    @Setter
     private Date listedOn;
 
     // Parents
     // Building of which this property is a part of
     @Getter
+    @Setter
     @ManyToOne
     BuildingEntity building;
     // Seller of the builder - Broker or Owner
     @Getter
+    @Setter
     @ManyToOne
     private SellerEntity seller;
 
     @Getter
+    @Setter
     @ManyToOne
     private AmenitiesEntity amenities;
 

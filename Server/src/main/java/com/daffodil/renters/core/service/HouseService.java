@@ -1,6 +1,6 @@
 package com.daffodil.renters.core.service;
 
-import com.daffodil.renters.core.model.beans.House;
+import com.daffodil.renters.core.model.beans.postables.Building;
 import com.daffodil.renters.core.model.beans.postables.Room;
 import com.daffodil.renters.core.model.entities.*;
 import com.daffodil.renters.core.repo.HouseRepository;
@@ -31,47 +31,47 @@ public class HouseService {
         this.parkingSpotService = parkingSpotService;
     }
 
-    public List<House> getAllHouses(int page) {
+    public List<Building> getAllHouses(int page) {
         return foreignRelationsInjector(houseRepository.findAll());
     }
 
-    public Optional<House> getHouseById(long id) {
+    public Optional<Building> getHouseById(long id) {
         PropertyEntity houseById = houseRepository.findHouseById(id);
         if (houseById != null) {
-            List<House> houses = foreignRelationsInjector(List.of(houseById));
-            if (houses.isEmpty() || houses.get(0) == null) return Optional.empty();
-            else return Optional.of(houses.get(0));
+            List<Building> buildings = foreignRelationsInjector(List.of(houseById));
+            if (buildings.isEmpty() || buildings.get(0) == null) return Optional.empty();
+            else return Optional.of(buildings.get(0));
         } else return Optional.empty();
     }
 
-    public List<House> getHousesUsingFilteredQuery(House.Filter filter) {
+    public List<Building> getHousesUsingFilteredQuery(Building.Filter filter) {
         return foreignRelationsInjector(new QueryUtils(factory).executeFilteredQuery(filter));
     }
 
     @Transactional
-    public void insertHouse(House house) {
-        PropertyEntity build = new EntityFactory.PropertyEntityBuilder().build(house);
+    public void insertHouse(Building building) {
+        PropertyEntity build = new EntityFactory.PropertyEntityBuilder().build(building);
         occupantParkingSpotsHouseInjector(build);
         houseRepository.save(build);
     }
 
     @Transactional
-    public void updateHouseById(long houseId, House house) {
+    public void updateHouseById(long houseId, Building building) {
         if (!houseRepository.existsById(houseId)) {
             return;
         }
         roomService.deleteAllRoomsOfHouse(houseId);
 
-        List<Room> rooms = house.getRooms();
+        List<Room> rooms = building.getRooms();
         rooms.forEach(room -> {
             roomService.insertRoom(room, houseId);
         });
 
         houseRepository.updateHouseById(
                 houseId,
-                house.getAddress(),
-                house.getLatitude(),
-                house.getLongitude()
+                building.getAddress(),
+                building.getLatitude(),
+                building.getLongitude()
         );
     }
 
@@ -95,18 +95,18 @@ public class HouseService {
         }
     }
 
-    private List<House> foreignRelationsInjector(Iterable<PropertyEntity> entities) {
-        List<House> houses = House.listFrom(entities);
-        houses.forEach(house -> {
+    private List<Building> foreignRelationsInjector(Iterable<PropertyEntity> entities) {
+        List<Building> buildings = Building.listFrom(entities);
+        buildings.forEach(house -> {
             long houseId = house.getId();
             house.setRooms(roomService.getAllRoomsByHouseId(houseId));
             house.setParkingSpots(parkingSpotService.getAllParkingSpotsByHouseId(houseId));
         });
-        return houses;
+        return buildings;
     }
 
     // Debug method used to get query string
-    public String getFilteredQueryGeneratedString(House.Filter filter) {
+    public String getFilteredQueryGeneratedString(Building.Filter filter) {
         return new QueryUtils(factory).createQueryFromFilter(filter);
     }
 
@@ -119,7 +119,7 @@ public class HouseService {
             this.factory = factory;
         }
 
-        public String createQueryFromFilter(House.Filter filter) {
+        public String createQueryFromFilter(Building.Filter filter) {
             String COLUMN_ID = "h.id";
             String COLUMN_ADDRESS = "h.address";
             String COLUMN_LATITUDE = "h.latitude";
@@ -195,7 +195,7 @@ public class HouseService {
             return builder.toString();
         }
 
-        public List<PropertyEntity> executeFilteredQuery(House.Filter filter) {
+        public List<PropertyEntity> executeFilteredQuery(Building.Filter filter) {
             Query query = trn().createQuery(createQueryFromFilter(filter), PropertyEntity.class);
             List<PropertyEntity> resultList = query.getResultList();
             cmt();
