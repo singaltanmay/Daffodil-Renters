@@ -6,6 +6,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 @Table(name = "property")
@@ -83,12 +84,12 @@ public class PropertyEntity {
     // Seller of the builder - Broker or Owner
     @Getter
     @Setter
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private SellerEntity seller;
 
     @Getter
     @Setter
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private AmenitiesEntity amenities;
 
     // Children
@@ -105,7 +106,8 @@ public class PropertyEntity {
         final List<RoomEntity> rooms = this.rooms;
         new Thread(() -> {
             if (rooms != null) {
-                rooms.forEach(PropertyEntity.this::mapRoom);
+                long rentShare = PropertyEntity.this.rent / rooms.size();
+                rooms.forEach(roomEntity -> PropertyEntity.this.mapRoom(roomEntity, rentShare));
             }
         }).start();
 
@@ -121,12 +123,18 @@ public class PropertyEntity {
     }
 
     // To be run whenever a new room is added
-    private void mapRoom(RoomEntity roomEntity) {
-        if (roomEntity != null) roomEntity.setProperty(PropertyEntity.this);
+    private void mapRoom(RoomEntity roomEntity, long roomRent) {
+        if (roomEntity != null) {
+            roomEntity.setProperty(PropertyEntity.this);
+            roomEntity.setRent(roomRent);
+            roomEntity.mapAllOccupantParkingSpots(Optional.of(this.building));
+        }
     }
 
     private void mapParkingSpot(ParkingSpotEntity parkingSpotEntity) {
-        if (parkingSpotEntity != null) parkingSpotEntity.setProperty(PropertyEntity.this);
+        if (parkingSpotEntity != null) {
+            parkingSpotEntity.setProperty(PropertyEntity.this);
+        }
     }
 
     protected PropertyEntity() {
@@ -161,7 +169,7 @@ public class PropertyEntity {
 
     public PropertyEntity setRooms(List<RoomEntity> rooms) {
         this.rooms = rooms;
-        mapAllParkingSpots();
+        mapAllRooms();
         return this;
     }
 

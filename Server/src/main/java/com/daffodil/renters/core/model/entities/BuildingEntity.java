@@ -74,6 +74,7 @@ public class BuildingEntity {
     private void mapProperty(PropertyEntity propertyEntity) {
         if (propertyEntity != null) {
             propertyEntity.setBuilding(BuildingEntity.this);
+            propertyEntity.getParkingSpots().forEach(it -> it.setBuilding(BuildingEntity.this));
         }
     }
 

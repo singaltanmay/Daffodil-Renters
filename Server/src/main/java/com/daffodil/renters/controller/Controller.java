@@ -1,22 +1,37 @@
-//package com.daffodil.renters.controller;
-//
-//import com.daffodil.renters.core.model.beans.postables.Occupant;
-//import com.daffodil.renters.core.model.beans.postables.Room;
-//import com.daffodil.renters.core.service.HouseService;
-//import com.daffodil.renters.core.service.OccupantService;
-//import com.daffodil.renters.core.service.RoomService;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.http.HttpStatus;
-//import org.springframework.http.ResponseEntity;
-//import org.springframework.web.bind.annotation.*;
-//
-//import java.util.List;
-//import java.util.Optional;
-//
-//@RequestMapping("daffodil/api")
-//@RestController
-//public class Controller {
-//
+package com.daffodil.renters.controller;
+
+import com.daffodil.renters.core.model.beans.postables.Building;
+import com.daffodil.renters.core.service.AppService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Optional;
+
+@RequestMapping("daffodil/api")
+@RestController
+public class Controller {
+
+    private final AppService appService;
+
+    @Autowired
+    public Controller(AppService appService) {
+        this.appService = appService;
+    }
+
+    @PostMapping(value = "listing")
+    public ResponseEntity<?> createListing(@RequestBody Optional<Building> building) {
+        if (building.isPresent()) {
+            appService.createListing(building.get());
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    //
 //    private final HouseService houseService;
 //    private final RoomService roomService;
 //    private final OccupantService occupantService;
@@ -74,4 +89,4 @@
 //        else return occupantService.getOccupantsUsingFilteredQuery(filter.get());
 //    }
 //
-//}
+}

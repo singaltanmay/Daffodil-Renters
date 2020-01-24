@@ -1,10 +1,10 @@
 package com.daffodil.renters.core.model.entities;
 
 import lombok.Getter;
-import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 @Table(name = "room")
@@ -35,14 +35,33 @@ public class RoomEntity {
         List<OccupantEntity> occupants = this.occupants;
         new Thread(() -> {
             if (occupants != null) {
-                occupants.forEach(RoomEntity.this::mapOccupant);
+                occupants.forEach(entity -> RoomEntity.this.mapOccupant(entity, Optional.empty()));
             }
         }).start();
     }
 
-    private void mapOccupant(OccupantEntity entity) {
+    public void mapAllOccupantParkingSpots(Optional<BuildingEntity> buildingEntity) {
+        List<OccupantEntity> occupants = this.occupants;
+        new Thread(() -> {
+            if (occupants != null) {
+                occupants.forEach(entity -> RoomEntity.this.mapOccupant(entity, buildingEntity));
+            }
+        }).start();
+    }
+
+    private void mapOccupant(OccupantEntity entity, Optional<BuildingEntity> buildingEntity) {
         if (entity != null) {
             entity.setRoom(RoomEntity.this);
+            mapOccupantParkingSpot(entity, buildingEntity);
+        }
+    }
+
+    private void mapOccupantParkingSpot(OccupantEntity occupantEntity, Optional<BuildingEntity> buildingEntity) {
+        if (occupantEntity != null) {
+            occupantEntity.getParkingSpots().forEach(it -> {
+                it.setProperty(RoomEntity.this.property);
+                buildingEntity.ifPresent(it::setBuilding);
+            });
         }
     }
 
@@ -90,6 +109,7 @@ public class RoomEntity {
 
     public RoomEntity setProperty(PropertyEntity property) {
         this.property = property;
+        mapAllOccupantParkingSpots(Optional.empty());
         return this;
     }
 
