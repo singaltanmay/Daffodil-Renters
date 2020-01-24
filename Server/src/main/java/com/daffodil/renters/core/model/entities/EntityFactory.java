@@ -133,6 +133,7 @@ public class EntityFactory {
 
     public static class PropertyEntityBuilder {
         private long id;
+        private String unit;
         private String description;
         private PropertyEntity.PROPERTY_TYPE propertyType;
         private PropertyEntity.FURNISHING_TYPE furnishingType;
@@ -151,6 +152,11 @@ public class EntityFactory {
 
         public PropertyEntityBuilder setId(long id) {
             this.id = id;
+            return this;
+        }
+
+        public PropertyEntityBuilder setUnit(String unit) {
+            this.unit = unit;
             return this;
         }
 
@@ -232,6 +238,7 @@ public class EntityFactory {
         public PropertyEntity build() {
             return new PropertyEntity(
                     this.id,
+                    this.unit,
                     this.description,
                     this.propertyType,
                     this.furnishingType,
@@ -252,6 +259,7 @@ public class EntityFactory {
         public PropertyEntity build(Property property) {
             if (property == null) return null;
             property.getId().ifPresent(this::setId);
+            property.getUnit().ifPresent(this::setUnit);
             property.getDescription().ifPresent(this::setDescription);
             property.getPropertyType().ifPresent(this::setPropertyType);
             property.getFurnishingType().ifPresent(this::setFurnishingType);

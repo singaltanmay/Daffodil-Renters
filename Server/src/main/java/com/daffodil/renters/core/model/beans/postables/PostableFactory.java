@@ -148,6 +148,8 @@ public class PostableFactory {
         @Getter
         private long id;
         @Getter
+        private String unit;
+        @Getter
         private String description;
         @Getter
         private PropertyEntity.PROPERTY_TYPE propertyType;
@@ -180,6 +182,11 @@ public class PostableFactory {
 
         public PropertyBuilder setId(long id) {
             this.id = id;
+            return this;
+        }
+
+        public PropertyBuilder setUnit(String unit) {
+            this.unit = unit;
             return this;
         }
 
@@ -261,6 +268,7 @@ public class PostableFactory {
         public Property build() {
             return new Property(
                     Optional.of(this.id),
+                    Optional.of(this.unit),
                     Optional.of(this.description),
                     Optional.of(this.propertyType),
                     Optional.of(this.furnishingType),
@@ -281,6 +289,7 @@ public class PostableFactory {
 
         public Property build(PropertyEntity property) {
             this.id = property.getId();
+            this.unit = property.getUnit();
             this.description = property.getDescription();
             this.propertyType = property.getPropertyType();
             this.furnishingType = property.getFurnishingType();

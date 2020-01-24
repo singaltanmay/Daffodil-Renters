@@ -31,6 +31,12 @@ public class PropertyEntity {
     @Column(nullable = false)
     private long id;
 
+    // The room no, apartment no etc
+    // Unit identifier in the building
+    @Getter
+    @Setter
+    private String unit;
+
     @Getter
     private String description;
 
@@ -155,8 +161,9 @@ public class PropertyEntity {
         return rooms.size();
     }
 
-    public PropertyEntity(long id, String description, PROPERTY_TYPE propertyType, FURNISHING_TYPE furnishingType, int area, long rent, boolean roommates, long securityDeposit, long brokerage, int lockInPeriod, Date listedOn, BuildingEntity building, SellerEntity seller, AmenitiesEntity amenities, List<RoomEntity> rooms, List<ParkingSpotEntity> parkingSpots) {
+    public PropertyEntity(long id, String unit, String description, PROPERTY_TYPE propertyType, FURNISHING_TYPE furnishingType, int area, long rent, boolean roommates, long securityDeposit, long brokerage, int lockInPeriod, Date listedOn, BuildingEntity building, SellerEntity seller, AmenitiesEntity amenities, List<RoomEntity> rooms, List<ParkingSpotEntity> parkingSpots) {
         this.id = id;
+        this.unit = unit;
         this.description = description;
         this.propertyType = propertyType;
         this.furnishingType = furnishingType;

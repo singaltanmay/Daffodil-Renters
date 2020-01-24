@@ -5,10 +5,7 @@ import com.daffodil.renters.core.service.AppService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -29,6 +26,11 @@ public class Controller {
             appService.createListing(building.get());
             return new ResponseEntity<>(HttpStatus.OK);
         } else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping(value = "listing")
+    public ResponseEntity<?> getAllListings(@RequestParam("property_id") Optional<Long> property_id, @RequestParam("min") Optional<Boolean> min, @RequestParam("page") Optional<Integer> page) {
+        return appService.getAllListings(property_id, min, page);
     }
 
     //

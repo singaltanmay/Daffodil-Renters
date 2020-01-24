@@ -18,6 +18,10 @@ public class Property {
 
     @Getter
     @Setter
+    private Optional<String> unit;
+
+    @Getter
+    @Setter
     private Optional<String> description;
 
     @Getter
@@ -76,8 +80,9 @@ public class Property {
     @Setter
     private Optional<List<ParkingSpot>> parkingSpots;
 
-    public Property(Optional<Long> id, Optional<String> description, Optional<PropertyEntity.PROPERTY_TYPE> propertyType, Optional<PropertyEntity.FURNISHING_TYPE> furnishingType, Optional<Integer> area, Optional<Long> rent, Optional<Boolean> roommates, Optional<Long> securityDeposit, Optional<Long> brokerage, Optional<Integer> lockInPeriod, Optional<Date> listedOn, Optional<Building> building, Optional<Seller> seller, Optional<Amenities> amenities, Optional<List<Room>> rooms, Optional<List<ParkingSpot>> parkingSpots) {
+    public Property(Optional<Long> id, Optional<String> unit, Optional<String> description, Optional<PropertyEntity.PROPERTY_TYPE> propertyType, Optional<PropertyEntity.FURNISHING_TYPE> furnishingType, Optional<Integer> area, Optional<Long> rent, Optional<Boolean> roommates, Optional<Long> securityDeposit, Optional<Long> brokerage, Optional<Integer> lockInPeriod, Optional<Date> listedOn, Optional<Building> building, Optional<Seller> seller, Optional<Amenities> amenities, Optional<List<Room>> rooms, Optional<List<ParkingSpot>> parkingSpots) {
         this.id = id;
+        this.unit = unit;
         this.description = description;
         this.propertyType = propertyType;
         this.furnishingType = furnishingType;

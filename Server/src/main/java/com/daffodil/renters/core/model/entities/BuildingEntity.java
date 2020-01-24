@@ -17,7 +17,7 @@ public class BuildingEntity {
     private long id;
 
     // Composite Address
-    // Building name/number with floor number, apartment no etc
+    // Building name/number etc
     @Getter
     private String addressBuildingName;
     // Name of society/colony/apartment complex
