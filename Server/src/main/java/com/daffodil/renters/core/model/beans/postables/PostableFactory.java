@@ -126,7 +126,7 @@ public class PostableFactory {
             this.latitude = entity.getLatitude();
             this.longitude = entity.getLongitude();
             this.properties = PropertyBuilder.listFrom(entity.getProperties());
-            this.sharedParkingSpots = ParkingSpotBuilder.listFrom(entity.getSharedParkingSpots());
+            this.sharedParkingSpots = ParkingSpotBuilder.listFrom(entity.getParkingSpots());
             return this.build();
         }
 

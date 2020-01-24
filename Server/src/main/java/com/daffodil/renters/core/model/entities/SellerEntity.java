@@ -6,6 +6,8 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.List;
 
+@Entity
+@Table(name = "seller")
 public class SellerEntity {
 
     public enum SELLER_TYPE {

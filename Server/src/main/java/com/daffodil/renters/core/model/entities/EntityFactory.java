@@ -262,8 +262,8 @@ public class EntityFactory {
             property.getBrokerage().ifPresent(this::setBrokerage);
             property.getLockInPeriod().ifPresent(this::setLockInPeriod);
             property.getListedOn().ifPresent(this::setListedOn);
-            property.getBuilding().ifPresent(this::setBuilding);
-            property.getSeller().ifPresent(this::setSeller);
+            property.getBuilding().ifPresent(it -> this.setBuilding(new BuildingEntityBuilder().build(it)));
+            property.getSeller().ifPresent(it -> this.setSeller(new SellerEntityBuilder().build(it)));
             property.getAmenities().ifPresent(it -> this.setAmenities(new AmenitiesEntityBuilder().build(it)));
             property.getRooms().ifPresent(it -> this.setRooms(RoomEntityBuilder.listFrom(it)));
             property.getParkingSpots().ifPresent(it -> this.setParkingSpots(ParkingSpotEntityBuilder.listFrom(it)));

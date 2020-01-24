@@ -6,6 +6,8 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
+@Entity
+@Table(name = "building")
 public class BuildingEntity {
 
     @Getter
@@ -48,7 +50,8 @@ public class BuildingEntity {
 
     // Parking spots common to everyone in the building
     @Getter
-    List<ParkingSpotEntity> sharedParkingSpots;
+    @OneToMany(mappedBy = "building", cascade = CascadeType.ALL)
+    List<ParkingSpotEntity> parkingSpots;
 
     private void mapAllProperties() {
         final List<PropertyEntity> properties = this.properties;
@@ -60,7 +63,7 @@ public class BuildingEntity {
     }
 
     private void mapAllSharedParkingSpots() {
-        final List<ParkingSpotEntity> parkingSpots = this.sharedParkingSpots;
+        final List<ParkingSpotEntity> parkingSpots = this.parkingSpots;
         new Thread(() -> {
             if (parkingSpots != null) {
                 parkingSpots.forEach(BuildingEntity.this::mapSharedParkingSpot);
@@ -90,7 +93,7 @@ public class BuildingEntity {
         this.longitude = longitude;
     }
 
-    public BuildingEntity(long id, String addressBuildingName, String addressLocalityName, String addressSubdivision, String addressCity, String addressState, String addressPinCode, Date buildingConstructed, double latitude, double longitude, List<PropertyEntity> properties, List<ParkingSpotEntity> sharedParkingSpots) {
+    public BuildingEntity(long id, String addressBuildingName, String addressLocalityName, String addressSubdivision, String addressCity, String addressState, String addressPinCode, Date buildingConstructed, double latitude, double longitude, List<PropertyEntity> properties, List<ParkingSpotEntity> parkingSpots) {
         this.id = id;
         this.addressBuildingName = addressBuildingName;
         this.addressLocalityName = addressLocalityName;
@@ -102,7 +105,7 @@ public class BuildingEntity {
         this.latitude = latitude;
         this.longitude = longitude;
         this.setProperties(properties);
-        this.setSharedParkingSpots(sharedParkingSpots);
+        this.setParkingSpots(parkingSpots);
     }
 
     // Setters
@@ -162,8 +165,8 @@ public class BuildingEntity {
         return this;
     }
 
-    public BuildingEntity setSharedParkingSpots(List<ParkingSpotEntity> sharedParkingSpots) {
-        this.sharedParkingSpots = sharedParkingSpots;
+    public BuildingEntity setParkingSpots(List<ParkingSpotEntity> parkingSpots) {
+        this.parkingSpots = parkingSpots;
         mapAllSharedParkingSpots();
         return this;
     }

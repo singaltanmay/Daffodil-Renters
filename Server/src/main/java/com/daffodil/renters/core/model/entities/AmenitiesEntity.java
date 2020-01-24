@@ -3,12 +3,11 @@ package com.daffodil.renters.core.model.entities;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.List;
 
+@Entity
+@Table(name = "amenities")
 public class AmenitiesEntity {
 
 
@@ -43,7 +42,6 @@ public class AmenitiesEntity {
     @Getter
     @OneToMany(mappedBy = "amenities")
     private List<PropertyEntity> properties;
-
 
     private void mapAllProperties() {
         List<PropertyEntity> properties = this.properties;

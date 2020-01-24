@@ -1,11 +1,13 @@
 package com.daffodil.renters.core.model.beans.postables;
 
 import com.daffodil.renters.core.model.entities.SellerEntity;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 
 import java.util.List;
 import java.util.Optional;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Seller {
 
     @Getter
