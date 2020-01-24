@@ -53,37 +53,42 @@ public class BuildingEntity {
     @OneToMany(mappedBy = "building", cascade = CascadeType.ALL)
     List<ParkingSpotEntity> parkingSpots;
 
-    private void mapAllProperties() {
-        final List<PropertyEntity> properties = this.properties;
-        new Thread(() -> {
-            if (properties != null) {
-                properties.forEach(BuildingEntity.this::mapProperty);
-            }
-        }).start();
+    public void performPostParentCreationMappings() {
+        triggerParkingSpotsPostParentCreationMappings();
+        triggerPropertiesPostParentCreationMappings();
     }
 
-    private void mapAllSharedParkingSpots() {
+    // Set this building for all child parking spots
+    private void triggerParkingSpotsPostParentCreationMappings() {
         final List<ParkingSpotEntity> parkingSpots = this.parkingSpots;
         new Thread(() -> {
             if (parkingSpots != null) {
-                parkingSpots.forEach(BuildingEntity.this::mapSharedParkingSpot);
+                parkingSpots.forEach(BuildingEntity.this::triggerParkingSpotMappings);
             }
         }).start();
     }
 
-    private void mapProperty(PropertyEntity propertyEntity) {
-        if (propertyEntity != null) {
-            propertyEntity.setBuilding(BuildingEntity.this);
-            propertyEntity.getParkingSpots().forEach(it -> it.setBuilding(BuildingEntity.this));
-        }
-    }
-
-    private void mapSharedParkingSpot(ParkingSpotEntity parkingSpotEntity) {
+    private void triggerParkingSpotMappings(ParkingSpotEntity parkingSpotEntity) {
         if (parkingSpotEntity != null) {
-            parkingSpotEntity.setBuilding(BuildingEntity.this);
+            parkingSpotEntity.performPostParentCreationMappings(BuildingEntity.this);
         }
     }
 
+    // Set this building for all child properties
+    private void triggerPropertiesPostParentCreationMappings() {
+        final List<PropertyEntity> properties = this.properties;
+        new Thread(() -> {
+            if (properties != null) {
+                properties.forEach(BuildingEntity.this::triggerPropertyMappings);
+            }
+        }).start();
+    }
+
+    private void triggerPropertyMappings(PropertyEntity propertyEntity) {
+        if (propertyEntity != null) {
+            propertyEntity.performPostParentCreationMappings(BuildingEntity.this);
+        }
+    }
     protected BuildingEntity() {
     }
 
@@ -107,6 +112,7 @@ public class BuildingEntity {
         this.longitude = longitude;
         this.setProperties(properties);
         this.setParkingSpots(parkingSpots);
+        performPostParentCreationMappings();
     }
 
     // Setters
@@ -162,13 +168,12 @@ public class BuildingEntity {
 
     public BuildingEntity setProperties(List<PropertyEntity> properties) {
         this.properties = properties;
-        mapAllProperties();
         return this;
     }
 
     public BuildingEntity setParkingSpots(List<ParkingSpotEntity> parkingSpots) {
         this.parkingSpots = parkingSpots;
-        mapAllSharedParkingSpots();
         return this;
     }
+
 }

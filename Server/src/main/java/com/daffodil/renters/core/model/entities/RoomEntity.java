@@ -4,7 +4,6 @@ import lombok.Getter;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Optional;
 
 @Entity
 @Table(name = "room")
@@ -31,37 +30,23 @@ public class RoomEntity {
     @ManyToOne
     private PropertyEntity property;
 
-    private void mapAllOccupants() {
+    public void performPostParentCreationMappings(PropertyEntity propertyEntity) {
+        this.property = propertyEntity;
+        triggerOccupantsPostParentCreationMapping();
+    }
+
+    private void triggerOccupantsPostParentCreationMapping() {
         List<OccupantEntity> occupants = this.occupants;
         new Thread(() -> {
             if (occupants != null) {
-                occupants.forEach(entity -> RoomEntity.this.mapOccupant(entity, Optional.empty()));
+                occupants.forEach(RoomEntity.this::triggerOccupantMappings);
             }
         }).start();
     }
 
-    public void mapAllOccupantParkingSpots(Optional<BuildingEntity> buildingEntity) {
-        List<OccupantEntity> occupants = this.occupants;
-        new Thread(() -> {
-            if (occupants != null) {
-                occupants.forEach(entity -> RoomEntity.this.mapOccupant(entity, buildingEntity));
-            }
-        }).start();
-    }
-
-    private void mapOccupant(OccupantEntity entity, Optional<BuildingEntity> buildingEntity) {
-        if (entity != null) {
-            entity.setRoom(RoomEntity.this);
-            mapOccupantParkingSpot(entity, buildingEntity);
-        }
-    }
-
-    private void mapOccupantParkingSpot(OccupantEntity occupantEntity, Optional<BuildingEntity> buildingEntity) {
-        if (occupantEntity != null) {
-            occupantEntity.getParkingSpots().forEach(it -> {
-                it.setProperty(RoomEntity.this.property);
-                buildingEntity.ifPresent(it::setBuilding);
-            });
+    private void triggerOccupantMappings(OccupantEntity occupant) {
+        if (occupant != null) {
+            occupant.performPostParentCreationMappings(RoomEntity.this);
         }
     }
 
@@ -88,7 +73,6 @@ public class RoomEntity {
 
     public RoomEntity setOccupants(List<OccupantEntity> occupants) {
         this.occupants = occupants;
-        mapAllOccupants();
         return this;
     }
 
@@ -109,7 +93,6 @@ public class RoomEntity {
 
     public RoomEntity setProperty(PropertyEntity property) {
         this.property = property;
-        mapAllOccupantParkingSpots(Optional.empty());
         return this;
     }
 

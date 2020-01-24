@@ -62,6 +62,24 @@ public class ParkingSpotEntity {
     @ManyToOne
     private OccupantEntity occupant;
 
+    // Called by building entity on shared parking spots belonging to no property specifically
+    public void performPostParentCreationMappings(BuildingEntity entity) {
+        this.building = entity;
+    }
+
+    // Called by PropertyEntity on parking spots reserved for a property but not for any occupant
+    public void performPostParentCreationMappings(PropertyEntity entity) {
+        this.property = entity;
+        this.building = this.property.getBuilding();
+    }
+
+    // Called by OccupantEntity on parking spots rented by owners
+    public void performPostParentCreationMappings(OccupantEntity entity) {
+        this.occupant = entity;
+        this.property = this.occupant.getRoom().getProperty();
+        this.building = this.property.getBuilding();
+    }
+
     public ParkingSpotEntity(BuildingEntity building) {
         this.building = building;
     }

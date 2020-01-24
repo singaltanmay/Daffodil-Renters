@@ -6,7 +6,6 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Entity
 @Table(name = "property")
@@ -101,39 +100,47 @@ public class PropertyEntity {
     @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
     List<ParkingSpotEntity> parkingSpots;
 
-    // To be run whenever rooms are inserted
-    private void mapAllRooms() {
+    public void performPostParentCreationMappings(BuildingEntity buildingEntity) {
+        this.building = buildingEntity;
+        triggerParkingSpotsPostParentCreationMappings();
+        triggerRoomsPostParentCreationMappings();
+    }
+
+    // Called by parent after this has been constructed
+    // Tells the child root to tell it's child occupants to map it's parking spots to their building
+    // Done post construction as now root building has already been constructed
+    private void triggerRoomsPostParentCreationMappings() {
         final List<RoomEntity> rooms = this.rooms;
         new Thread(() -> {
             if (rooms != null) {
-                long rentShare = PropertyEntity.this.rent / rooms.size();
-                rooms.forEach(roomEntity -> PropertyEntity.this.mapRoom(roomEntity, rentShare));
-            }
-        }).start();
-
-    }
-
-    private void mapAllParkingSpots() {
-        final List<ParkingSpotEntity> parkingSpots = this.parkingSpots;
-        new Thread(() -> {
-            if (parkingSpots != null) {
-                parkingSpots.forEach(PropertyEntity.this::mapParkingSpot);
+                rooms.forEach(PropertyEntity.this::triggerRoomMappings);
             }
         }).start();
     }
 
-    // To be run whenever a new room is added
-    private void mapRoom(RoomEntity roomEntity, long roomRent) {
-        if (roomEntity != null) {
-            roomEntity.setProperty(PropertyEntity.this);
-            roomEntity.setRent(roomRent);
-            roomEntity.mapAllOccupantParkingSpots(Optional.of(this.building));
+    private void triggerRoomMappings(RoomEntity entity) {
+        if (entity != null) {
+            entity.performPostParentCreationMappings(PropertyEntity.this);
         }
     }
 
-    private void mapParkingSpot(ParkingSpotEntity parkingSpotEntity) {
+
+    // Called after object construction because even though property is available during construction, building isn't
+    private void triggerParkingSpotsPostParentCreationMappings() {
+        final List<ParkingSpotEntity> parkingSpots = this.parkingSpots;
+        new Thread(() -> {
+            if (parkingSpots != null) {
+                parkingSpots.forEach(PropertyEntity.this::triggerParkingSpotMappings);
+            }
+        }).start();
+    }
+
+    // Called by parent after object construction
+    private void triggerParkingSpotMappings(ParkingSpotEntity parkingSpotEntity) {
         if (parkingSpotEntity != null) {
             parkingSpotEntity.setProperty(PropertyEntity.this);
+            parkingSpotEntity.setBuilding(PropertyEntity.this.building);
+            parkingSpotEntity.performPostParentCreationMappings(PropertyEntity.this);
         }
     }
 
@@ -164,7 +171,7 @@ public class PropertyEntity {
         this.seller = seller;
         this.amenities = amenities;
         setRooms(rooms);
-        setParkingSpots(parkingSpots);
+        this.parkingSpots = parkingSpots;
     }
 
     public PropertyEntity setRooms(List<RoomEntity> rooms) {
@@ -173,9 +180,26 @@ public class PropertyEntity {
         return this;
     }
 
-    public PropertyEntity setParkingSpots(List<ParkingSpotEntity> parkingSpots) {
-        this.parkingSpots = parkingSpots;
-        mapAllParkingSpots();
-        return this;
+    // Called during object construction
+    // To be run whenever rooms are inserted
+    private void mapAllRooms() {
+        final List<RoomEntity> rooms = this.rooms;
+        new Thread(() -> {
+            if (rooms != null) {
+                long rentShare = PropertyEntity.this.rent / rooms.size();
+                rooms.forEach(roomEntity -> PropertyEntity.this.mapRoom(roomEntity, rentShare));
+            }
+        }).start();
+
+    }
+
+    // Called during object construction
+    // Set this property for each room
+    // Set rent to all rooms as a fraction of total rent of this property
+    private void mapRoom(RoomEntity roomEntity, long roomRent) {
+        if (roomEntity != null) {
+            roomEntity.setProperty(PropertyEntity.this);
+            roomEntity.setRent(roomRent);
+        }
     }
 }
