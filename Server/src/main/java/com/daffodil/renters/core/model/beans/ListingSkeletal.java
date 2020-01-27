@@ -4,7 +4,7 @@ import com.daffodil.renters.core.model.entities.PropertyEntity;
 import lombok.Getter;
 import lombok.Setter;
 
-public class PropertySkeletal {
+public class ListingSkeletal {
 
     @Getter
     @Setter

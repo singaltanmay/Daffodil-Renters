@@ -7,7 +7,7 @@ import com.daffodil.renters.core.model.beans.postables.Seller;
 import java.util.Date;
 import java.util.List;
 
-public class Property extends PropertySkeletal {
+public class Listing extends ListingSkeletal {
 
     String description;
     Amenities amenities;

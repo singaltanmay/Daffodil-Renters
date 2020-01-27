@@ -1,6 +1,6 @@
 package com.daffodil.renters.core.service;
 
-import com.daffodil.renters.core.model.beans.PropertySkeletal;
+import com.daffodil.renters.core.model.beans.ListingSkeletal;
 import com.daffodil.renters.core.model.beans.postables.Building;
 import com.daffodil.renters.core.model.beans.postables.Property;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,9 +42,9 @@ public class AppService {
 
     }
 
-    public PropertySkeletal getMinListing(Building building, Property property) {
+    public ListingSkeletal getMinListing(Building building, Property property) {
 
-        PropertySkeletal p = new PropertySkeletal();
+        ListingSkeletal p = new ListingSkeletal();
 
         building.getLatitude().ifPresent(p::setLatitude);
         building.getLongitude().ifPresent(p::setLongitude);
