@@ -21,109 +21,110 @@ public class Controller {
     }
 
 //    {
-//	"a_building":"H-23",
-//	"a_locality":"Unitech Uniworld City South",
-//	"a_subdiv":"Sector 30",
-//	"a_city":"Gurgaon",
-//	"a_state":"Haryana",
-//	"a_pincode":"122001",
-//	"constructed":"2010-10-12",
-//	"latitude":28.358732,
-//	"longitude":77.156245,
-//	"properties":[{
-//		"description":"Lorem ipsum",
-//		"propertyType":"APARTMENT",
-//		"furnishingType":"UNFURNISHED",
-//		"area":"3000",
-//		"rent":"55000",
-//		"brokerage":"30000",
-//		"securityDeposit":"120000",
-//		"roommates":"true",
-//		"lockInPeriod":"4",
-//		"listedOn":"2019-06-14",
-//		"rooms":[{
-//		"capacity":2,
-//		"occupants":[{
-//			"firstName":"Shiv",
-//			"lastName":"Sharma",
-//			"phoneNumber":"+919836452738",
-//			"parkingSpots":[{
-//				"electric":true,
-//				"parkingSize":"SCOOTER",
-//				"parkingType":"RESERVED",
-//				"price":1500
+//        "a_building":"H-23",
+//            "a_locality":"Unitech Uniworld City South",
+//            "a_subdiv":"Sector 30",
+//            "a_city":"Gurgaon",
+//            "a_state":"Haryana",
+//            "a_pincode":"122001",
+//            "constructed":"2010-10-12",
+//            "latitude":28.358732,
+//            "longitude":77.156245,
+//            "properties":[{
+//        "unit":"3-B",
+//                "description":"Lorem ipsum",
+//                "propertyType":"APARTMENT",
+//                "furnishingType":"UNFURNISHED",
+//                "area":"3000",
+//                "rent":"55000",
+//                "brokerage":"30000",
+//                "securityDeposit":"120000",
+//                "roommates":"true",
+//                "lockInPeriod":"4",
+//                "listedOn":"2019-06-14",
+//                "rooms":[{
+//            "capacity":2,
+//                    "occupants":[{
+//                "firstName":"Shiv",
+//                        "lastName":"Sharma",
+//                        "phoneNumber":"+919836452738",
+//                        "parkingSpots":[{
+//                    "electric":true,
+//                            "parkingSize":"SCOOTER",
+//                            "parkingType":"RESERVED",
+//                            "price":1500
 //
-//			},
-//			{
-//			"parkingSize":"MINI_TRUCK",
-//			"parkingType":"RESERVED",
-//			"price":2357
-//			}]
-//		},
-//		{
-//			"firstName":"Kanika",
-//			"lastName":"Shethi",
-//			"phoneNumber":"+919543234567"
-//		}]
-//	},
-//	{
-//		"capacity":1,
-//		"occupants":[{
-//			"firstName":"Ashok",
-//			"lastName":"Yadav",
-//			"phoneNumber":"+4498263514"
-//		}]
-//	},
-//	{
-//		"capacity":3,
-//		"occupants":[{
-//			"firstName":"Vipin",
-//			"lastName":"Kumaar",
-//			"phoneNumber":"+123476768",
-//			"rent":15000
-//		}]
-//	}],
-//		"seller":{
-//			"firstName":"Kanika",
-//			"lastName":"Shethi",
-//			"phoneNumber":"9726318273",
-//			"sellerType":"AGENT"
-//		},
-//		"amenities":{
-//			"gym":true
-//		},
-//		"parkingSpots":[{
-//			"electric":true
-//		}]
-//	}],
-//	"shared_p_spots":[{
-//		"parkingType":"EMERGENCY_VEHICLE",
-//		"parkingSize":"MINI_TRUCK"
-//	},
-//	{
-//		"parkingType":"HANDICAPPED",
-//		"parkingSize":"CAR"
-//	},
-//	{
-//		"parkingType":"HANDICAPPED",
-//		"parkingSize":"CAR"
-//	},
-//	{
-//		"parkingSize":"CAR"
-//	},
-//	{
-//		"parkingSize":"CAR"
-//	},
-//	{
-//		"parkingSize":"BICYCLE"
-//	},
-//	{
-//		"parkingSize":"BICYCLE"
-//	},
-//	{
-//		"parkingSize":"BICYCLE"
-//	}]
-//}
+//                },
+//                {
+//                    "parkingSize":"MINI_TRUCK",
+//                        "parkingType":"RESERVED",
+//                        "price":2357
+//                }]
+//            },
+//            {
+//                "firstName":"Kanika",
+//                    "lastName":"Shethi",
+//                    "phoneNumber":"+919543234567"
+//            }]
+//        },
+//        {
+//            "capacity":1,
+//                "occupants":[{
+//            "firstName":"Ashok",
+//                    "lastName":"Yadav",
+//                    "phoneNumber":"+4498263514"
+//        }]
+//        },
+//        {
+//            "capacity":3,
+//                "occupants":[{
+//            "firstName":"Vipin",
+//                    "lastName":"Kumaar",
+//                    "phoneNumber":"+123476768",
+//                    "rent":15000
+//        }]
+//        }],
+//        "seller":{
+//            "firstName":"Kanika",
+//                    "lastName":"Shethi",
+//                    "phoneNumber":"9726318273",
+//                    "sellerType":"AGENT"
+//        },
+//        "amenities":{
+//            "gym":true
+//        },
+//        "parkingSpots":[{
+//            "electric":true
+//        }]
+//    }],
+//        "shared_p_spots":[{
+//        "parkingType":"EMERGENCY_VEHICLE",
+//                "parkingSize":"MINI_TRUCK"
+//    },
+//        {
+//            "parkingType":"HANDICAPPED",
+//                "parkingSize":"CAR"
+//        },
+//        {
+//            "parkingType":"HANDICAPPED",
+//                "parkingSize":"CAR"
+//        },
+//        {
+//            "parkingSize":"CAR"
+//        },
+//        {
+//            "parkingSize":"CAR"
+//        },
+//        {
+//            "parkingSize":"BICYCLE"
+//        },
+//        {
+//            "parkingSize":"BICYCLE"
+//        },
+//        {
+//            "parkingSize":"BICYCLE"
+//        }]
+//    }
 
     @PostMapping(value = "listing")
     public ResponseEntity<?> createListing(@RequestBody Optional<Building> building) {
@@ -138,18 +139,6 @@ public class Controller {
         return appService.getListing(property_id, min, page);
     }
 
-    //
-//    private final HouseService houseService;
-//    private final RoomService roomService;
-//    private final OccupantService occupantService;
-//
-//    @Autowired
-//    public Controller(HouseService houseService, RoomService roomService, OccupantService occupantService) {
-//        this.houseService = houseService;
-//        this.roomService = roomService;
-//        this.occupantService = occupantService;
-//    }
-//
 //    @GetMapping(value = "house")
 //    public ResponseEntity<?> getHouseById(@RequestParam("id") Optional<Long> id, @RequestParam("page") Optional<Integer> page) {
 //        if (id.isPresent()) {

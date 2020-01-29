@@ -1,7 +1,7 @@
 package com.daffodil.renters.api
 
 import com.daffodil.renters.application.RentersApplication
-import com.daffodil.renters.model.House
+import com.daffodil.renters.model.ListingSkeletal
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -39,8 +39,8 @@ class RetrofitClient : RentersApplication() {
 
     interface APIClient {
 
-        @GET("/daffodil/api/house")
-        fun getAllHouses(): Call<List<House>>
+        @GET("daffodil/api/listing?min=true")
+        fun getAllListingSkeletals(): Call<List<ListingSkeletal>>
 
     }
 

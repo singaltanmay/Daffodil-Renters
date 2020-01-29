@@ -3,7 +3,7 @@
 
     <string name="emulator_ip_address">10.0.2.2</string>
     <string name="raspberry_pi_ethernet">192.168.0.100</string>
-    <string name="iphone_6s_hotspot">172.20.10.3</string>
+    <string name="iphone_6s_hotspot">172.20.10.2</string>
 
     <!-- Networking set up -->
     <string name="default_ip_address">@string/iphone_6s_hotspot</string>

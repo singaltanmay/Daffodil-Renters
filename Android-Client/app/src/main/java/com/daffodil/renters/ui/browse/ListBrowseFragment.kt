@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.daffodil.renters.R
-import com.daffodil.renters.model.House
+import com.daffodil.renters.model.ListingSkeletal
 
 class ListBrowseFragment : BrowseFragmentBase(), BrowseFragmentBase.ChildFragmentInteraction {
 
@@ -39,17 +39,17 @@ class ListBrowseFragment : BrowseFragmentBase(), BrowseFragmentBase.ChildFragmen
         recyclerView.adapter = adapter
     }
 
-    override fun onDataLoaded(houses: List<House>?) {
-        adapter.data = houses
+    override fun onDataLoaded(listings: List<ListingSkeletal>?) {
+        adapter.data = listings
         adapter.notifyDataSetChanged()
     }
 
-    class BrowseItemAdapter(var data: List<House>?) :
+    class BrowseItemAdapter(var data: List<ListingSkeletal>?) :
         RecyclerView.Adapter<BrowseItemAdapter.BrowseItemViewHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BrowseItemViewHolder {
             val view =
-                LayoutInflater.from(parent.context).inflate(R.layout.house_card_item, parent, false)
+                LayoutInflater.from(parent.context).inflate(R.layout.listing_card_item, parent, false)
 
             return BrowseItemViewHolder(view)
         }

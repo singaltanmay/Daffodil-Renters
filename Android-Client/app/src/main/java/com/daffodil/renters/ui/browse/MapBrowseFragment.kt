@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.daffodil.renters.R
-import com.daffodil.renters.model.House
+import com.daffodil.renters.model.ListingSkeletal
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -18,7 +18,7 @@ class MapBrowseFragment : BrowseFragmentBase(), BrowseFragmentBase.ChildFragment
     OnMapReadyCallback {
 
     private var map: GoogleMap? = null
-    private var houses: List<House>? = null
+    private var listings: List<ListingSkeletal>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,18 +66,18 @@ class MapBrowseFragment : BrowseFragmentBase(), BrowseFragmentBase.ChildFragment
             28.465080, 77.056168
         )
         map?.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12.5f))
-        setHouseMarkers()
+        setListingSkeletalMarkers()
     }
 
-    fun setHouseMarkers() {
-        if (map != null && houses != null) {
+    fun setListingSkeletalMarkers() {
+        if (map != null && listings != null) {
 
             var avgLat: Double? = null
             var avgLong: Double? = null
 
-            val size = houses!!.size
+            val size = listings!!.size
 
-            houses?.forEach {
+            listings?.forEach {
                 val latitude = it.latitude
                 val longitude = it.longitude
                 map?.addMarker(
@@ -101,8 +101,8 @@ class MapBrowseFragment : BrowseFragmentBase(), BrowseFragmentBase.ChildFragment
         }
     }
 
-    override fun onDataLoaded(houses: List<House>?) {
-        this.houses = houses
-        setHouseMarkers()
+    override fun onDataLoaded(listings: List<ListingSkeletal>?) {
+        this.listings = listings
+        setListingSkeletalMarkers()
     }
 }
