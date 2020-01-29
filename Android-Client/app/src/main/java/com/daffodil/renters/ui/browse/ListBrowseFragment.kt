@@ -1,5 +1,6 @@
 package com.daffodil.renters.ui.browse
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -35,7 +36,7 @@ class ListBrowseFragment : BrowseFragmentBase(), BrowseFragmentBase.ChildFragmen
     private fun initRecyclerView() {
         val recyclerView = parentView.findViewById<RecyclerView>(R.id.browse_recycler)
         recyclerView.layoutManager = LinearLayoutManager(context)
-        adapter = BrowseItemAdapter(null)
+        adapter = BrowseItemAdapter(null, context)
         recyclerView.adapter = adapter
     }
 
@@ -44,18 +45,23 @@ class ListBrowseFragment : BrowseFragmentBase(), BrowseFragmentBase.ChildFragmen
         adapter.notifyDataSetChanged()
     }
 
-    class BrowseItemAdapter(var data: List<ListingSkeletal>?) :
+    class BrowseItemAdapter(var data: List<ListingSkeletal>?, val context: Context?) :
         RecyclerView.Adapter<BrowseItemAdapter.BrowseItemViewHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BrowseItemViewHolder {
             val view =
-                LayoutInflater.from(parent.context).inflate(R.layout.listing_card_item, parent, false)
+                LayoutInflater.from(parent.context)
+                    .inflate(R.layout.listing_card_item, parent, false)
 
             return BrowseItemViewHolder(view)
         }
 
         override fun onBindViewHolder(holder: BrowseItemViewHolder, position: Int) {
-            holder.addressTextView.text = data?.get(position)?.address
+            val listing = data?.get(position)
+
+            holder.rentTextView.text =
+                "${context?.getString(R.string.currency_symbol)} ${listing?.rent.toString()}"
+            holder.addressTextView.text = listing?.address
         }
 
         override fun getItemCount(): Int = data?.size ?: 0
@@ -65,6 +71,7 @@ class ListBrowseFragment : BrowseFragmentBase(), BrowseFragmentBase.ChildFragmen
 
             val parent = itemView
 
+            val rentTextView = parent.findViewById<TextView>(R.id.rent_text_view)
             val addressTextView = parent.findViewById<TextView>(R.id.address_text_view)
 
         }
