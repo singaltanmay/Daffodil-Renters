@@ -1,5 +1,6 @@
 package com.daffodil.renters.ui.browse
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -11,6 +12,7 @@ import com.daffodil.renters.R
 import com.daffodil.renters.application.RentersApplication
 import com.daffodil.renters.ui.MenuBottomSheetDialogFragment
 import com.daffodil.renters.ui.NavigationHost
+import com.daffodil.renters.ui.settings.SettingsActivity
 import com.google.android.material.bottomappbar.BottomAppBar
 
 class BrowseActivity : AppCompatActivity(),
@@ -82,10 +84,14 @@ class BrowseActivity : AppCompatActivity(),
             when (item.itemId) {
                 R.id.action_item_filter_houses -> {
                     FilterHousesBottomDialogFragment().show(supportFragmentManager, null)
-                    return@setOnMenuItemClickListener true
+                    true
+                }
+                R.id.action_open_app_settings -> {
+                    startActivity(Intent(this, SettingsActivity::class.java))
+                    true
                 }
                 else -> {
-                    return@setOnMenuItemClickListener false
+                    false
                 }
             }
 

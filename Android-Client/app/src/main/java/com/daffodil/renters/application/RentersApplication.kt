@@ -9,10 +9,10 @@ import com.daffodil.renters.R
 open class RentersApplication : Application() {
 
     companion object {
-        val SHARED_PREFERENCES_KEY = "RentersPrefs"
-
-        val SERVER_IP_ADDRESS_KEY = "ne98t3"
+        val SHARED_PREFERENCES_KEY = /*RentersPrefs*/"com.daffodil.renters_preferences"
         val SERVER_PORT_NUMBER_KEY = "seniogh3"
+
+        lateinit var serverIpAddressKey: String
 
         lateinit var instance: RentersApplication
             private set
@@ -21,29 +21,41 @@ open class RentersApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         instance = this
+        serverIpAddressKey =
+            instance.applicationContext.getString(R.string.server_ip_address_key)
     }
 
     var serverIpAddress: String
         get() {
             val default = instance.resources.getString(R.string.default_ip_address)
-            return getAppPreferences().getString(
-                SERVER_IP_ADDRESS_KEY,
+            return if (getAppPreferences().contains(serverIpAddressKey)) {
+                getAppPreferences().getString(
+                    serverIpAddressKey,
+                    default
+                ) ?: default
+            } else {
+                serverIpAddress = default
                 default
-            ) ?: default
+            }
         }
         set(value) {
             getAppPreferences().edit {
-                putString(SERVER_IP_ADDRESS_KEY, value)
+                putString(serverIpAddressKey, value)
             }
         }
 
     var serverPortNumber: String
         get() {
             val default = instance.resources.getString(R.string.default_port_number)
-            return getAppPreferences().getString(
-                SERVER_PORT_NUMBER_KEY,
+            return if (getAppPreferences().contains(SERVER_PORT_NUMBER_KEY)) {
+                getAppPreferences().getString(
+                    SERVER_PORT_NUMBER_KEY,
+                    default
+                ) ?: default
+            } else {
+                serverPortNumber = default
                 default
-            ) ?: default
+            }
         }
         set(value) {
             getAppPreferences().edit {

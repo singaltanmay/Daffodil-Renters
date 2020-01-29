@@ -30,7 +30,7 @@ open class BrowseFragmentBase : Fragment() {
     }
 
     interface ChildFragmentInteraction {
-        fun onDataLoaded(houses: List<ListingSkeletal>?)
+        fun onDataLoaded(listings: List<ListingSkeletal>?)
     }
 
     override fun onStart() {
