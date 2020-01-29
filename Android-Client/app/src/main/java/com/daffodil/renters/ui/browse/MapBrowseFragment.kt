@@ -6,11 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.daffodil.renters.R
+import com.daffodil.renters.application.RentersApplication
 import com.daffodil.renters.model.ListingSkeletal
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
@@ -62,8 +64,10 @@ class MapBrowseFragment : BrowseFragmentBase(), BrowseFragmentBase.ChildFragment
      */
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
+
+        // Coordinates of daffodil software
         val latLng = LatLng(
-            28.465080, 77.056168
+            28.465082, 77.056162
         )
         map?.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12.5f))
         setListingSkeletalMarkers()
@@ -71,6 +75,10 @@ class MapBrowseFragment : BrowseFragmentBase(), BrowseFragmentBase.ChildFragment
 
     fun setListingSkeletalMarkers() {
         if (map != null && listings != null) {
+
+            val moveToAvgLatLang =
+                (context?.applicationContext as RentersApplication).getAppPreferences()
+                    .getBoolean("MAP_INIT_AVG_LATLANG", false)
 
             var avgLat: Double? = null
             var avgLong: Double? = null
@@ -81,21 +89,23 @@ class MapBrowseFragment : BrowseFragmentBase(), BrowseFragmentBase.ChildFragment
                 val latitude = it.latitude
                 val longitude = it.longitude
                 map?.addMarker(
-                        MarkerOptions().position(
-                            LatLng(
-                                latitude,
-                                longitude
-                            )
-                        ).title(it.address)
-                            .alpha(2.34f)
-                    )
-                if (avgLat == null) avgLat = (latitude / size)
-                else avgLat?.plus(latitude / size)
-                if (avgLong == null) avgLong = (longitude / size)
-                else avgLong?.plus(longitude / size)
+                    MarkerOptions().position(
+                        LatLng(
+                            latitude,
+                            longitude
+                        )
+                    ).title(it.address)
+                        .alpha(2.34f)
+                )
+                if (moveToAvgLatLang) {
+                    if (avgLat == null) avgLat = (latitude / size)
+                    else avgLat?.plus(latitude / size)
+                    if (avgLong == null) avgLong = (longitude / size)
+                    else avgLong?.plus(longitude / size)
                 }
+            }
 
-            if (avgLat != null && avgLong != null)
+            if (moveToAvgLatLang && avgLat != null && avgLong != null)
                 map?.moveCamera(CameraUpdateFactory.newLatLng(LatLng(avgLat!!, avgLong!!)))
 
         }
