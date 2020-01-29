@@ -2,10 +2,11 @@ package com.daffodil.renters.core.repo;
 
 import com.daffodil.renters.core.model.entities.BuildingEntity;
 import com.daffodil.renters.core.model.entities.PropertyEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
 
-public interface PropertyRepository extends CrudRepository<PropertyEntity, Long> {
+public interface PropertyRepository extends JpaRepository<PropertyEntity, Long> {
 
-    BuildingEntity findBuildingById(long property_id);
+//    PropertyEntity findBuildingById(long property_id);
 
 }

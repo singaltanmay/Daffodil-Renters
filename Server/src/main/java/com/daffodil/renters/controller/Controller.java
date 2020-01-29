@@ -135,7 +135,7 @@ public class Controller {
 
     @GetMapping(value = "listing")
     public ResponseEntity<?> getAllListings(@RequestParam("property_id") Optional<Long> property_id, @RequestParam("min") Optional<Boolean> min, @RequestParam("page") Optional<Integer> page) {
-        return appService.getAllListings(property_id, min, page);
+        return appService.getListing(property_id, min, page);
     }
 
     //

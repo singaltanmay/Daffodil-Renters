@@ -84,7 +84,7 @@ public class PropertyEntity {
     // Building of which this property is a part of
     @Getter
     @Setter
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     BuildingEntity building;
     // Seller of the builder - Broker or Owner
     @Getter
@@ -208,5 +208,28 @@ public class PropertyEntity {
             roomEntity.setProperty(PropertyEntity.this);
             roomEntity.setRent(roomRent);
         }
+    }
+
+    @Override
+    public String toString() {
+        return "PropertyEntity{" +
+                "id=" + id +
+                ", unit='" + unit + '\'' +
+                ", description='" + description + '\'' +
+                ", propertyType=" + propertyType +
+                ", furnishingType=" + furnishingType +
+                ", area=" + area +
+                ", rent=" + rent +
+                ", roommates=" + roommates +
+                ", securityDeposit=" + securityDeposit +
+                ", brokerage=" + brokerage +
+                ", lockInPeriod=" + lockInPeriod +
+                ", listedOn=" + listedOn +
+                ", building=" + building +
+                ", seller=" + seller +
+                ", amenities=" + amenities +
+                ", rooms=" + rooms +
+                ", parkingSpots=" + parkingSpots +
+                '}';
     }
 }

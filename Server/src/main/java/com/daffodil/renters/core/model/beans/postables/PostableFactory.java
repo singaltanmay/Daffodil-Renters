@@ -3,10 +3,7 @@ package com.daffodil.renters.core.model.beans.postables;
 import com.daffodil.renters.core.model.entities.*;
 import lombok.Getter;
 
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class PostableFactory {
 
@@ -99,18 +96,18 @@ public class PostableFactory {
 
         public Building build() {
             return new Building(
-                    Optional.of(this.id),
-                    Optional.of(this.addressBuildingName),
-                    Optional.of(this.addressLocalityName),
-                    Optional.of(this.addressSubdivision),
-                    Optional.of(this.addressCity),
-                    Optional.of(this.addressState),
-                    Optional.of(this.addressPinCode),
-                    Optional.of(this.buildingConstructed),
-                    Optional.of(this.latitude),
-                    Optional.of(this.longitude),
-                    Optional.of(this.properties),
-                    Optional.of(this.sharedParkingSpots)
+                    NullableOptional(this.id),
+                    NullableOptional(this.addressBuildingName),
+                    NullableOptional(this.addressLocalityName),
+                    NullableOptional(this.addressSubdivision),
+                    NullableOptional(this.addressCity),
+                    NullableOptional(this.addressState),
+                    NullableOptional(this.addressPinCode),
+                    NullableOptional(this.buildingConstructed),
+                    NullableOptional(this.latitude),
+                    NullableOptional(this.longitude),
+                    NullableOptional(this.properties),
+                    NullableOptional(this.sharedParkingSpots)
             );
         }
 
@@ -130,7 +127,7 @@ public class PostableFactory {
             return this.build();
         }
 
-        public static List<Building> listFrom(List<BuildingEntity> entities) {
+        public static List<Building> listFrom(Iterable<BuildingEntity> entities) {
             List<Building> buildings = new LinkedList<>();
             if (entities != null) {
                 for (BuildingEntity entity : entities) {
@@ -267,44 +264,49 @@ public class PostableFactory {
 
         public Property build() {
             return new Property(
-                    Optional.of(this.id),
-                    Optional.of(this.unit),
-                    Optional.of(this.description),
-                    Optional.of(this.propertyType),
-                    Optional.of(this.furnishingType),
-                    Optional.of(this.area),
-                    Optional.of(this.rent),
-                    Optional.of(this.roommates),
-                    Optional.of(this.securityDeposit),
-                    Optional.of(this.brokerage),
-                    Optional.of(this.lockInPeriod),
-                    Optional.of(this.listedOn),
-                    Optional.of(this.building),
-                    Optional.of(this.seller),
-                    Optional.of(this.amenities),
-                    Optional.of(this.rooms),
-                    Optional.of(this.parkingSpots)
+                    NullableOptional(this.id),
+                    NullableOptional(this.unit),
+                    NullableOptional(this.description),
+                    NullableOptional(this.propertyType),
+                    NullableOptional(this.furnishingType),
+                    NullableOptional(this.area),
+                    NullableOptional(this.rent),
+                    NullableOptional(this.roommates),
+                    NullableOptional(this.securityDeposit),
+                    NullableOptional(this.brokerage),
+                    NullableOptional(this.lockInPeriod),
+                    NullableOptional(this.listedOn),
+                    this.building == null ? Optional.empty() : NullableOptional(this.building),
+                    NullableOptional(this.seller),
+                    NullableOptional(this.amenities),
+                    NullableOptional(this.rooms),
+                    NullableOptional(this.parkingSpots)
             );
         }
 
         public Property build(PropertyEntity property) {
-            this.id = property.getId();
-            this.unit = property.getUnit();
-            this.description = property.getDescription();
-            this.propertyType = property.getPropertyType();
-            this.furnishingType = property.getFurnishingType();
-            this.area = property.getArea();
-            this.rent = property.getRent();
-            this.roommates = property.isRoommates();
-            this.securityDeposit = property.getSecurityDeposit();
-            this.brokerage = property.getBrokerage();
-            this.lockInPeriod = property.getLockInPeriod();
-            this.listedOn = property.getListedOn();
-            this.building = new BuildingBuilder().build(property.getBuilding());
-            this.seller = new SellerBuilder().build(property.getSeller());
-            this.amenities = new AmenitiesBuilder().build(property.getAmenities());
-            this.rooms = RoomBuilder.listFrom(property.getRooms());
-            this.parkingSpots = ParkingSpotBuilder.listFrom(property.getParkingSpots());
+            try {
+
+                this.id = property.getId();
+                this.unit = property.getUnit();
+                this.description = property.getDescription();
+                this.propertyType = property.getPropertyType();
+                this.furnishingType = property.getFurnishingType();
+                this.area = property.getArea();
+                this.rent = property.getRent();
+                this.roommates = property.isRoommates();
+                this.securityDeposit = property.getSecurityDeposit();
+                this.brokerage = property.getBrokerage();
+                this.lockInPeriod = property.getLockInPeriod();
+                this.listedOn = property.getListedOn();
+//            this.building = new BuildingBuilder().build(property.getBuilding());
+                this.seller = new SellerBuilder().build(property.getSeller());
+                this.amenities = new AmenitiesBuilder().build(property.getAmenities());
+                this.rooms = RoomBuilder.listFrom(property.getRooms());
+                this.parkingSpots = ParkingSpotBuilder.listFrom(property.getParkingSpots());
+            }catch (Exception e){
+                e.printStackTrace();
+            }
             return this.build();
         }
 
@@ -312,6 +314,8 @@ public class PostableFactory {
             List<Property> properties = new LinkedList<>();
             if (entities != null) {
                 for (PropertyEntity entity : entities) {
+                    System.out.println("-----");
+                    System.out.println(entity);
                     Property build = new PropertyBuilder().build(entity);
                     properties.add(build);
                 }
@@ -359,11 +363,11 @@ public class PostableFactory {
 
         public Room build() {
             return new Room(
-                    Optional.of(this.id),
-                    Optional.of(this.capacity),
-                    Optional.of(this.rent),
-                    Optional.of(this.occupants),
-                    Optional.of(this.property)
+                    NullableOptional(this.id),
+                    NullableOptional(this.capacity),
+                    NullableOptional(this.rent),
+                    NullableOptional(this.occupants),
+                    this.property == null ? Optional.empty() : NullableOptional(this.property)
             );
         }
 
@@ -372,7 +376,7 @@ public class PostableFactory {
             this.capacity = entity.getCapacity();
             this.rent = entity.getRent();
             this.occupants = OccupantBuilder.listFrom(entity.getOccupants());
-            this.property = new PropertyBuilder().build(entity.getProperty());
+//            this.property = new PropertyBuilder().build(entity.getProperty());
             return this.build();
         }
 
@@ -463,16 +467,16 @@ public class PostableFactory {
 
         public Occupant build() {
             return new Occupant(
-                    Optional.of(this.id),
-                    Optional.of(this.firstName),
-                    Optional.of(this.lastName),
-                    Optional.of(this.phoneNumber),
-                    Optional.of(this.dateMovedIn),
-                    Optional.of(this.timeRentLastPaid),
-                    Optional.of(this.room),
-                    Optional.of(this.rent),
-                    Optional.of(this.dateRentDue),
-                    Optional.of(this.parkingSpots)
+                    NullableOptional(this.id),
+                    NullableOptional(this.firstName),
+                    NullableOptional(this.lastName),
+                    NullableOptional(this.phoneNumber),
+                    NullableOptional(this.dateMovedIn),
+                    NullableOptional(this.timeRentLastPaid),
+                    this.room == null ? Optional.empty() : NullableOptional(this.room),
+                    NullableOptional(this.rent),
+                    NullableOptional(this.dateRentDue),
+                    NullableOptional(this.parkingSpots)
             );
         }
 
@@ -483,14 +487,14 @@ public class PostableFactory {
             this.phoneNumber = occupant.getPhoneNumber();
             this.dateMovedIn = occupant.getDateMovedIn();
             this.timeRentLastPaid = occupant.getTimeLastRentPaid();
-            this.room = new RoomBuilder().build(occupant.getRoom());
+//            this.room = new RoomBuilder().build(occupant.getRoom());
             this.rent = occupant.getRent();
             this.dateRentDue = occupant.getDateRentDue();
             this.parkingSpots = ParkingSpotBuilder.listFrom(occupant.getParkingSpots());
             return this.build();
         }
 
-        public static List<Occupant> listFrom(List<OccupantEntity> entities) {
+        public static List<Occupant> listFrom(Iterable<OccupantEntity> entities) {
             List<Occupant> occupants = new LinkedList<>();
             if (entities != null) {
                 for (OccupantEntity entity : entities) {
@@ -554,14 +558,15 @@ public class PostableFactory {
 
         public ParkingSpot build() {
             return new ParkingSpot(
-                    Optional.of(this.id),
-                    Optional.of(this.electric),
-                    Optional.of(this.parkingSize),
-                    Optional.of(this.parkingType),
-                    Optional.of(this.price),
-                    Optional.of(this.building),
-                    Optional.of(this.property),
-                    Optional.of(this.occupant));
+                    NullableOptional(this.id),
+                    NullableOptional(this.electric),
+                    NullableOptional(this.parkingSize),
+                    NullableOptional(this.parkingType),
+                    NullableOptional(this.price),
+                    this.building == null ? Optional.empty() : NullableOptional(this.building),
+                    this.property == null ? Optional.empty() : NullableOptional(this.property),
+                    this.occupant == null ? Optional.empty() : NullableOptional(this.occupant)
+            );
         }
 
         public ParkingSpot build(ParkingSpotEntity entity) {
@@ -571,9 +576,9 @@ public class PostableFactory {
             this.parkingSize = entity.getParkingSize();
             this.parkingType = entity.getParkingType();
             this.price = entity.getPrice();
-            this.building = new BuildingBuilder().build(entity.getBuilding());
-            this.property = new PropertyBuilder().build(entity.getProperty());
-            this.occupant = new OccupantBuilder().build(entity.getOccupant());
+//            this.building = new BuildingBuilder().build(entity.getBuilding());
+//            this.property = new PropertyBuilder().build(entity.getProperty());
+//            this.occupant = new OccupantBuilder().build(entity.getOccupant());
             return this.build();
         }
 
@@ -636,13 +641,14 @@ public class PostableFactory {
         }
 
         public Seller build() {
+
             return new Seller(
-                    Optional.of(this.id),
-                    Optional.of(this.firstName),
-                    Optional.of(this.lastName),
-                    Optional.of(this.phoneNumber),
-                    Optional.of(this.sellerType),
-                    Optional.of(this.properties)
+                    NullableOptional(this.id),
+                    NullableOptional(this.firstName),
+                    NullableOptional(this.lastName),
+                    NullableOptional(this.phoneNumber),
+                    NullableOptional(this.sellerType),
+                    NullableOptional(Objects.requireNonNullElseGet(this.properties, LinkedList::new))
             );
         }
 
@@ -652,11 +658,11 @@ public class PostableFactory {
             this.lastName = entity.getLastName();
             this.phoneNumber = entity.getPhoneNumber();
             this.sellerType = entity.getSellerType();
-            this.properties = PropertyBuilder.listFrom(entity.getPropertyEntities());
+//            this.properties = PropertyBuilder.listFrom(entity.getPropertyEntities());
             return this.build();
         }
 
-        public static List<Seller> listFrom(List<SellerEntity> entities) {
+        public static List<Seller> listFrom(Iterable<SellerEntity> entities) {
             List<Seller> sellers = new LinkedList<>();
             if (entities != null) {
                 for (SellerEntity entity : entities) {
@@ -737,15 +743,15 @@ public class PostableFactory {
 
         public Amenities build() {
             return new Amenities(
-                    Optional.of(this.id),
-                    Optional.of(this.gasPipeline),
-                    Optional.of(this.swimmingPool),
-                    Optional.of(this.gym),
-                    Optional.of(this.lift),
-                    Optional.of(this.gatedCommunity),
-                    Optional.of(this.parking),
-                    Optional.of(this.petsAllowed),
-                    Optional.of(this.properties)
+                    NullableOptional(this.id),
+                    NullableOptional(this.gasPipeline),
+                    NullableOptional(this.swimmingPool),
+                    NullableOptional(this.gym),
+                    NullableOptional(this.lift),
+                    NullableOptional(this.gatedCommunity),
+                    NullableOptional(this.parking),
+                    NullableOptional(this.petsAllowed),
+                    NullableOptional(Objects.requireNonNullElseGet(this.properties, LinkedList::new))
             );
         }
 
@@ -758,11 +764,11 @@ public class PostableFactory {
             this.gasPipeline = entity.isGatedCommunity();
             this.parking = entity.isParking();
             this.petsAllowed = entity.isPetsAllowed();
-            this.properties = PropertyBuilder.listFrom(entity.getProperties());
+//            this.properties = PropertyBuilder.listFrom(entity.getProperties());
             return this.build();
         }
 
-        public static List<Amenities> listFrom(List<AmenitiesEntity> entities) {
+        public static List<Amenities> listFrom(Iterable<AmenitiesEntity> entities) {
             List<Amenities> amenitiess = new LinkedList<>();
             if (entities != null) {
                 for (AmenitiesEntity entity : entities) {
@@ -773,6 +779,12 @@ public class PostableFactory {
             return amenitiess;
         }
 
+    }
+
+    private static <T> Optional<T> NullableOptional(T data) {
+        if (data == null) {
+            return Optional.empty();
+        } else return Optional.of(data);
     }
 
 }
