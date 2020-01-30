@@ -61,7 +61,12 @@ class ListBrowseFragment : BrowseFragmentBase(), BrowseFragmentBase.ChildFragmen
 
             holder.rentTextView.text =
                 "${context?.getString(R.string.currency_symbol)} ${listing?.rent.toString()}"
-            holder.addressTextView.text = listing?.address
+            holder.bhkTextView.text = "${listing?.bedrooms} BHK ${listing?.propertyType}"
+            holder.addressTextView.text =
+                "${listing?.addressSubdivision}, ${listing?.addressLocalityName}"
+            holder.areaTextView.text = "${listing?.area} sq.ft"
+            holder.furnishingTextView.text =
+                listing?.furnishing.toString().toLowerCase().capitalize()
         }
 
         override fun getItemCount(): Int = data?.size ?: 0
@@ -72,7 +77,10 @@ class ListBrowseFragment : BrowseFragmentBase(), BrowseFragmentBase.ChildFragmen
             val parent = itemView
 
             val rentTextView = parent.findViewById<TextView>(R.id.rent_text_view)
+            val bhkTextView = parent.findViewById<TextView>(R.id.bhk_text_view)
             val addressTextView = parent.findViewById<TextView>(R.id.address_text_view)
+            val areaTextView = parent.findViewById<TextView>(R.id.area_text_view)
+            val furnishingTextView = parent.findViewById<TextView>(R.id.furnishing_text_view)
 
         }
     }
