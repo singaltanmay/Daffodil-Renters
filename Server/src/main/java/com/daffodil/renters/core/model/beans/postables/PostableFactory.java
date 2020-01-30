@@ -7,6 +7,12 @@ import java.util.*;
 
 public class PostableFactory {
 
+    private static <T> Optional<T> NullableOptional(T data) {
+        if (data == null) {
+            return Optional.empty();
+        } else return Optional.of(data);
+    }
+
     public static class BuildingBuilder {
 
         @Getter
@@ -33,6 +39,17 @@ public class PostableFactory {
         private List<Property> properties;
         @Getter
         private List<ParkingSpot> sharedParkingSpots;
+
+        public static List<Building> listFrom(List<BuildingEntity> entities) {
+            List<Building> buildings = new LinkedList<>();
+            if (entities != null) {
+                for (BuildingEntity entity : entities) {
+                    Building build = new BuildingBuilder().build(entity);
+                    buildings.add(build);
+                }
+            }
+            return buildings;
+        }
 
         public BuildingBuilder setId(Long id) {
             this.id = id;
@@ -127,17 +144,6 @@ public class PostableFactory {
             return this.build();
         }
 
-        public static List<Building> listFrom(Iterable<BuildingEntity> entities) {
-            List<Building> buildings = new LinkedList<>();
-            if (entities != null) {
-                for (BuildingEntity entity : entities) {
-                    Building build = new BuildingBuilder().build(entity);
-                    buildings.add(build);
-                }
-            }
-            return buildings;
-        }
-
     }
 
     public static class PropertyBuilder {
@@ -176,6 +182,17 @@ public class PostableFactory {
         private List<Room> rooms;
         @Getter
         private List<ParkingSpot> parkingSpots;
+
+        public static List<Property> listFrom(List<PropertyEntity> entities) {
+            List<Property> properties = new LinkedList<>();
+            if (entities != null) {
+                for (PropertyEntity entity : entities) {
+                    Property build = new PropertyBuilder().build(entity);
+                    properties.add(build);
+                }
+            }
+            return properties;
+        }
 
         public PropertyBuilder setId(long id) {
             this.id = id;
@@ -304,23 +321,10 @@ public class PostableFactory {
                 this.amenities = new AmenitiesBuilder().build(property.getAmenities());
                 this.rooms = RoomBuilder.listFrom(property.getRooms());
                 this.parkingSpots = ParkingSpotBuilder.listFrom(property.getParkingSpots());
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             return this.build();
-        }
-
-        public static List<Property> listFrom(List<PropertyEntity> entities) {
-            List<Property> properties = new LinkedList<>();
-            if (entities != null) {
-                for (PropertyEntity entity : entities) {
-                    System.out.println("-----");
-                    System.out.println(entity);
-                    Property build = new PropertyBuilder().build(entity);
-                    properties.add(build);
-                }
-            }
-            return properties;
         }
     }
 
@@ -335,6 +339,17 @@ public class PostableFactory {
         private List<Occupant> occupants;
         @Getter
         private Property property;
+
+        public static List<Room> listFrom(List<RoomEntity> entities) {
+            List<Room> rooms = new LinkedList<>();
+            if (entities != null) {
+                for (RoomEntity entity : entities) {
+                    Room build = new RoomBuilder().build(entity);
+                    rooms.add(build);
+                }
+            }
+            return rooms;
+        }
 
         public RoomBuilder setId(long id) {
             this.id = id;
@@ -379,17 +394,6 @@ public class PostableFactory {
 //            this.property = new PropertyBuilder().build(entity.getProperty());
             return this.build();
         }
-
-        public static List<Room> listFrom(List<RoomEntity> entities) {
-            List<Room> rooms = new LinkedList<>();
-            if (entities != null) {
-                for (RoomEntity entity : entities) {
-                    Room build = new RoomBuilder().build(entity);
-                    rooms.add(build);
-                }
-            }
-            return rooms;
-        }
     }
 
     public static class OccupantBuilder {
@@ -414,6 +418,17 @@ public class PostableFactory {
         private Date dateRentDue;
         @Getter
         private List<ParkingSpot> parkingSpots;
+
+        public static List<Occupant> listFrom(Iterable<OccupantEntity> entities) {
+            List<Occupant> occupants = new LinkedList<>();
+            if (entities != null) {
+                for (OccupantEntity entity : entities) {
+                    Occupant build = new OccupantBuilder().build(entity);
+                    occupants.add(build);
+                }
+            }
+            return occupants;
+        }
 
         public OccupantBuilder setId(long id) {
             this.id = id;
@@ -493,17 +508,6 @@ public class PostableFactory {
             this.parkingSpots = ParkingSpotBuilder.listFrom(occupant.getParkingSpots());
             return this.build();
         }
-
-        public static List<Occupant> listFrom(Iterable<OccupantEntity> entities) {
-            List<Occupant> occupants = new LinkedList<>();
-            if (entities != null) {
-                for (OccupantEntity entity : entities) {
-                    Occupant build = new OccupantBuilder().build(entity);
-                    occupants.add(build);
-                }
-            }
-            return occupants;
-        }
     }
 
     public static class ParkingSpotBuilder {
@@ -515,6 +519,17 @@ public class PostableFactory {
         private Building building;
         private Property property;
         private Occupant occupant;
+
+        public static List<ParkingSpot> listFrom(Iterable<ParkingSpotEntity> entities) {
+            List<ParkingSpot> parkingSpots = new LinkedList<>();
+            if (entities != null) {
+                for (ParkingSpotEntity entity : entities) {
+                    ParkingSpot build = new ParkingSpotBuilder().build(entity);
+                    parkingSpots.add(build);
+                }
+            }
+            return parkingSpots;
+        }
 
         public ParkingSpotBuilder setId(long id) {
             this.id = id;
@@ -582,17 +597,6 @@ public class PostableFactory {
             return this.build();
         }
 
-        public static List<ParkingSpot> listFrom(Iterable<ParkingSpotEntity> entities) {
-            List<ParkingSpot> parkingSpots = new LinkedList<>();
-            if (entities != null) {
-                for (ParkingSpotEntity entity : entities) {
-                    ParkingSpot build = new ParkingSpotBuilder().build(entity);
-                    parkingSpots.add(build);
-                }
-            }
-            return parkingSpots;
-        }
-
     }
 
     public static class SellerBuilder {
@@ -609,6 +613,17 @@ public class PostableFactory {
         private SellerEntity.SELLER_TYPE sellerType;
         @Getter
         private List<Property> properties;
+
+        public static List<Seller> listFrom(Iterable<SellerEntity> entities) {
+            List<Seller> sellers = new LinkedList<>();
+            if (entities != null) {
+                for (SellerEntity entity : entities) {
+                    Seller build = new SellerBuilder().build(entity);
+                    sellers.add(build);
+                }
+            }
+            return sellers;
+        }
 
         public SellerBuilder setId(long id) {
             this.id = id;
@@ -662,17 +677,6 @@ public class PostableFactory {
             return this.build();
         }
 
-        public static List<Seller> listFrom(Iterable<SellerEntity> entities) {
-            List<Seller> sellers = new LinkedList<>();
-            if (entities != null) {
-                for (SellerEntity entity : entities) {
-                    Seller build = new SellerBuilder().build(entity);
-                    sellers.add(build);
-                }
-            }
-            return sellers;
-        }
-
     }
 
     public static class AmenitiesBuilder {
@@ -695,6 +699,17 @@ public class PostableFactory {
         private boolean petsAllowed;
         @Getter
         private List<Property> properties;
+
+        public static List<Amenities> listFrom(Iterable<AmenitiesEntity> entities) {
+            List<Amenities> amenitiess = new LinkedList<>();
+            if (entities != null) {
+                for (AmenitiesEntity entity : entities) {
+                    Amenities build = new AmenitiesBuilder().build(entity);
+                    amenitiess.add(build);
+                }
+            }
+            return amenitiess;
+        }
 
         public AmenitiesBuilder setId(long id) {
             this.id = id;
@@ -768,23 +783,6 @@ public class PostableFactory {
             return this.build();
         }
 
-        public static List<Amenities> listFrom(Iterable<AmenitiesEntity> entities) {
-            List<Amenities> amenitiess = new LinkedList<>();
-            if (entities != null) {
-                for (AmenitiesEntity entity : entities) {
-                    Amenities build = new AmenitiesBuilder().build(entity);
-                    amenitiess.add(build);
-                }
-            }
-            return amenitiess;
-        }
-
-    }
-
-    private static <T> Optional<T> NullableOptional(T data) {
-        if (data == null) {
-            return Optional.empty();
-        } else return Optional.of(data);
     }
 
 }

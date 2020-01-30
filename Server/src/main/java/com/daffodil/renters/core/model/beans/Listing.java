@@ -19,4 +19,10 @@ public class Listing extends ListingSkeletal {
     Date listedOn;
     List<ParkingSpot> parkingSpots;
 
+    public static class Filter extends ListingSkeletal.Filter {
+
+        public Filter() {
+        }
+    }
+
 }

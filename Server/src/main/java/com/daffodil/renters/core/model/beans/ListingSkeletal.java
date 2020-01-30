@@ -4,6 +4,8 @@ import com.daffodil.renters.core.model.entities.PropertyEntity;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Optional;
+
 public class ListingSkeletal {
 
     @Getter
@@ -53,5 +55,18 @@ public class ListingSkeletal {
     @Getter
     @Setter
     private boolean roommates;
+
+    public static class Filter {
+
+        public Optional<Long> propertyId = Optional.empty();
+        public Optional<Long> latitude = Optional.empty();
+        public Optional<Long> longitude = Optional.empty();
+        public Optional<Double> rangeKm = Optional.empty();
+
+        public Filter() {
+        }
+
+    }
+
 
 }

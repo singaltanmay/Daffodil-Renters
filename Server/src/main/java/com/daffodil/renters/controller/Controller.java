@@ -1,5 +1,6 @@
 package com.daffodil.renters.controller;
 
+import com.daffodil.renters.core.model.beans.Listing;
 import com.daffodil.renters.core.model.beans.postables.Building;
 import com.daffodil.renters.core.service.AppService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -126,17 +127,24 @@ public class Controller {
 //        }]
 //    }
 
-    @PostMapping(value = "listing")
-    public ResponseEntity<?> createListing(@RequestBody Optional<Building> building) {
-        if (building.isPresent()) {
-            appService.createListing(building.get());
-            return new ResponseEntity<>(HttpStatus.OK);
-        } else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    @GetMapping(value = "listing")
+    public ResponseEntity<?> getAllListings(@RequestParam("property_id") Optional<Long> property_id, @RequestParam("min") Optional<Boolean> min) {
+        return appService.getListing(property_id, min);
     }
 
-    @GetMapping(value = "listing")
-    public ResponseEntity<?> getAllListings(@RequestParam("property_id") Optional<Long> property_id, @RequestParam("min") Optional<Boolean> min, @RequestParam("page") Optional<Integer> page) {
-        return appService.getListing(property_id, min, page);
+    @PostMapping(value = "listing")
+    public ResponseEntity<?> getFilteredListing(@RequestBody Optional<Listing.Filter> filter, @RequestParam("min") Optional<Boolean> min) {
+        if (filter.isPresent()) {
+            return appService.getFilteredListing(filter.get(), min);
+        } else return appService.getListing(Optional.empty(), min);
+    }
+
+    @PostMapping(value = "building")
+    public ResponseEntity<?> createNewBuilding(@RequestBody Optional<Building> building) {
+        if (building.isPresent()) {
+            appService.createBuilding(building.get());
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
 //    @GetMapping(value = "house")
