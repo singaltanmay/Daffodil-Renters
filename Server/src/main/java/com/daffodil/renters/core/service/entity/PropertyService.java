@@ -1,4 +1,4 @@
-package com.daffodil.renters.core.service;
+package com.daffodil.renters.core.service.entity;
 
 import com.daffodil.renters.core.model.beans.Listing;
 import com.daffodil.renters.core.model.beans.postables.PostableFactory;
