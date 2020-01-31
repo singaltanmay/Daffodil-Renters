@@ -8,6 +8,7 @@ import com.daffodil.renters.core.model.beans.postables.Room;
 import com.daffodil.renters.core.service.entity.BuildingService;
 import com.daffodil.renters.core.service.entity.PropertyService;
 import com.daffodil.renters.core.service.entity.RoomService;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -287,6 +288,30 @@ public class AppService {
 
         }
 
+    }
+
+
+    public ServiceBundle getServiceBundle() {
+        return new ServiceBundle(
+                this.buildingService,
+                this.propertyService,
+                this.roomService
+        );
+    }
+
+    public class ServiceBundle {
+        @Getter
+        private BuildingService buildingService;
+        @Getter
+        private PropertyService propertyService;
+        @Getter
+        private RoomService roomService;
+
+        public ServiceBundle(BuildingService buildingService, PropertyService propertyService, RoomService roomService) {
+            this.buildingService = buildingService;
+            this.propertyService = propertyService;
+            this.roomService = roomService;
+        }
     }
 
 }
