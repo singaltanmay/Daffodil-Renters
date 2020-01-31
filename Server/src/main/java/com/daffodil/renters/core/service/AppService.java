@@ -8,6 +8,7 @@ import com.daffodil.renters.core.model.beans.postables.Room;
 import com.daffodil.renters.core.service.entity.BuildingService;
 import com.daffodil.renters.core.service.entity.PropertyService;
 import com.daffodil.renters.core.service.entity.RoomService;
+import com.daffodil.renters.core.service.pooledactions.FilteredQueryTask;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,7 @@ import java.util.Optional;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ForkJoinPool;
 
 @Service
 public class AppService {
@@ -290,13 +292,35 @@ public class AppService {
 
     }
 
-
     public ServiceBundle getServiceBundle() {
         return new ServiceBundle(
                 this.buildingService,
                 this.propertyService,
                 this.roomService
         );
+    }
+
+    public ResponseEntity<?> getFilteredListingForkJoinPooled(Listing.Filter filter, Optional<Boolean> min) {
+
+        /**
+         * Tell all children that a deep search is not required
+         */
+        if (min.isPresent() && min.get()) filter.minListing = true;
+
+        ForkJoinPool forkJoinPool = new ForkJoinPool(Runtime.getRuntime().availableProcessors());
+
+        if (filter.minListing) {
+
+            FilteredQueryTask queryTask = new FilteredQueryTask(filter, getServiceBundle());
+            List<ListingSkeletal> skeletals = forkJoinPool.invoke(queryTask);
+            return new ResponseEntity<>(skeletals, HttpStatus.OK);
+
+        } else {
+            // TODO generate max listings
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+
     }
 
     public class ServiceBundle {

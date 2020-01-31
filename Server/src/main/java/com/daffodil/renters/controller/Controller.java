@@ -135,7 +135,7 @@ public class Controller {
     @PostMapping(value = "listing")
     public ResponseEntity<?> getFilteredListing(@RequestBody Optional<Listing.Filter> filter, @RequestParam("min") Optional<Boolean> min) {
         if (filter.isPresent()) {
-            return appService.getFilteredListing(filter.get(), min);
+            return appService.getFilteredListingForkJoinPooled(filter.get(), min);
         } else return appService.getListing(Optional.empty(), min);
     }
 

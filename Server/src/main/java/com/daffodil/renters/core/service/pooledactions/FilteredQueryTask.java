@@ -1,4 +1,4 @@
-package com.daffodil.renters.core.service.forkjoinpol;
+package com.daffodil.renters.core.service.pooledactions;
 
 import com.daffodil.renters.core.model.beans.Listing;
 import com.daffodil.renters.core.model.beans.ListingSkeletal;
@@ -26,7 +26,9 @@ public class FilteredQueryTask extends RecursiveTask<List<ListingSkeletal>> {
 
         List<Building> join = task.join();
 
-        // TODO convert list of buildings into a list of Listing / SkeletalListing
+        if (filter.minListing) {
+            // TODO convert list of buildings into a list of Listing / SkeletalListing
+        }
 
         return null;
     }
