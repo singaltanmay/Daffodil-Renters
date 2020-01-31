@@ -316,7 +316,6 @@ public class PostableFactory {
                 this.brokerage = property.getBrokerage();
                 this.lockInPeriod = property.getLockInPeriod();
                 this.listedOn = property.getListedOn();
-//            this.building = new BuildingBuilder().build(property.getBuilding());
                 this.seller = new SellerBuilder().build(property.getSeller());
                 this.amenities = new AmenitiesBuilder().build(property.getAmenities());
                 this.rooms = RoomBuilder.listFrom(property.getRooms());

@@ -53,7 +53,7 @@ public class BuildingService {
         return null;
     }
 
-    List<Building> foreignRelationsInjector(List<BuildingEntity> entities) {
+    private List<Building> foreignRelationsInjector(List<BuildingEntity> entities) {
 
         List<Building> buildings = PostableFactory.BuildingBuilder.listFrom(entities);
 //        if (buildings != null) {
@@ -70,9 +70,13 @@ public class BuildingService {
     }
 
     public List<Building> runFilteredQuery(Listing.Filter filter) {
+
         List<BuildingEntity> buildingEntities = new QueryUtils(entityManagerFactory).runFilteredQuery(filter);
 
-        // These buildings do not have any properties or parking spots associated with them
+        /**
+         * They have no information about their children anyway.
+         * Accessing entity.child results in exception thus nullifying them
+         */
         buildingEntities.forEach(it -> {
             it.setProperties(null);
             it.setParkingSpots(null);
@@ -110,8 +114,8 @@ public class BuildingService {
 
                 if (filter.latitude.isPresent() && filter.longitude.isPresent()) {
 
-                    Long lat = filter.latitude.get();
-                    Long lon = filter.longitude.get();
+                    Double lat = filter.latitude.get();
+                    Double lon = filter.longitude.get();
 
                     filter.rangeKm.ifPresentOrElse(rng -> {
 
@@ -156,6 +160,7 @@ public class BuildingService {
         public List<BuildingEntity> runFilteredQuery(Listing.Filter filter) {
 
             String queryString = createQueryString(filter);
+            System.out.println(this.getClass().getSimpleName() + " -> Query String : " + queryString);
             Query query = trn().createQuery(queryString, BuildingEntity.class);
             List<BuildingEntity> buildings = query.getResultList();
             cmt();

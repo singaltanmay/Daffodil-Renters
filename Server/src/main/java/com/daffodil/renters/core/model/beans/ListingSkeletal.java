@@ -10,7 +10,7 @@ public class ListingSkeletal {
 
     @Getter
     @Setter
-    private long id;
+    private long propertyId;
     @Getter
     @Setter
     private double latitude;
@@ -58,12 +58,44 @@ public class ListingSkeletal {
 
     public static class Filter {
 
+        /**
+         * Used while querying to determine depth of recursive queries required.
+         */
+        public boolean minListing = false;
+
+        public Optional<Long> buildingId = Optional.empty();
         public Optional<Long> propertyId = Optional.empty();
-        public Optional<Long> latitude = Optional.empty();
-        public Optional<Long> longitude = Optional.empty();
+
+        public Optional<Double> latitude = Optional.empty();
+        public Optional<Double> longitude = Optional.empty();
         public Optional<Double> rangeKm = Optional.empty();
 
         public Filter() {
+        }
+
+        public Filter setBuildingId(Optional<Long> buildingId) {
+            this.buildingId = buildingId;
+            return this;
+        }
+
+        public Filter setPropertyId(Optional<Long> propertyId) {
+            this.propertyId = propertyId;
+            return this;
+        }
+
+        public Filter setLatitude(Optional<Double> latitude) {
+            this.latitude = latitude;
+            return this;
+        }
+
+        public Filter setLongitude(Optional<Double> longitude) {
+            this.longitude = longitude;
+            return this;
+        }
+
+        public Filter setRangeKm(Optional<Double> rangeKm) {
+            this.rangeKm = rangeKm;
+            return this;
         }
 
     }

@@ -1,25 +1,67 @@
-//package com.daffodil.renters.core.service;
-//
-//import com.daffodil.renters.core.model.beans.postables.Occupant;
-//import com.daffodil.renters.core.model.beans.postables.Room;
-//import com.daffodil.renters.core.model.entities.EntityFactory;
-//import com.daffodil.renters.core.model.entities.RoomEntity;
-//import com.daffodil.renters.core.repo.HouseRepository;
-//import com.daffodil.renters.core.repo.RoomRepository;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Service;
-//
-//import javax.persistence.EntityManager;
-//import javax.persistence.EntityManagerFactory;
-//import javax.persistence.Query;
-//import javax.transaction.Transactional;
-//import java.util.List;
-//import java.util.Optional;
-//import java.util.stream.Collectors;
-//
-//@Service
-//public class RoomService {
-//
+package com.daffodil.renters.core.service;
+
+import com.daffodil.renters.core.model.beans.Listing;
+import com.daffodil.renters.core.model.beans.postables.PostableFactory;
+import com.daffodil.renters.core.model.beans.postables.Room;
+import com.daffodil.renters.core.model.entities.RoomEntity;
+import com.daffodil.renters.core.repo.RoomRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.LinkedList;
+import java.util.List;
+
+@Service
+public class RoomService {
+
+    RoomRepository roomRepository;
+
+    @Autowired
+    public RoomService(RoomRepository roomRepository) {
+        this.roomRepository = roomRepository;
+    }
+
+    // TODO
+    public List<Room> runFilteredQuery(Listing.Filter filter) {
+
+        // Only number of rooms is required
+        if (filter.minListing) {
+            List<Room> rooms = new LinkedList<>();
+            int count = roomRepository.countByPropertyId(filter.propertyId.get());
+            for (int i = 0; i < count; i++) {
+                rooms.add(null);
+            }
+            return rooms;
+        }
+
+        // TODO deeper search
+
+        List<RoomEntity> roomByPropertyId = roomRepository.findRoomByPropertyId(filter.propertyId.get());
+
+        roomByPropertyId.forEach(it -> {
+            it.setOccupants(null);
+        });
+
+        return foreignRelationsInjector(roomByPropertyId);
+
+    }
+
+    public List<Room> findRoomsByPropertyId(long propertyId) {
+        return foreignRelationsInjector(roomRepository.findRoomByPropertyId(propertyId));
+    }
+
+
+    public List<Room> foreignRelationsInjector(List<RoomEntity> entities) {
+
+        List<Room> rooms = PostableFactory.RoomBuilder.listFrom(entities);
+
+        // TODO inject relknsg
+
+        return rooms;
+    }
+
+}
+
 //    HouseRepository houseRepository;
 //    RoomRepository roomRepository;
 //
