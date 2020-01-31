@@ -1,4 +1,4 @@
-package com.daffodil.renters.core.service;
+package com.daffodil.renters.core.service.entity;
 
 import com.daffodil.renters.core.model.beans.Listing;
 import com.daffodil.renters.core.model.beans.postables.PostableFactory;
@@ -21,7 +21,6 @@ public class RoomService {
         this.roomRepository = roomRepository;
     }
 
-    // TODO
     public List<Room> runFilteredQuery(Listing.Filter filter) {
 
         // Only number of rooms is required

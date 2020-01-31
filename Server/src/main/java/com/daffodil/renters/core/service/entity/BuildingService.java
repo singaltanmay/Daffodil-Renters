@@ -1,4 +1,4 @@
-package com.daffodil.renters.core.service;
+package com.daffodil.renters.core.service.entity;
 
 import com.daffodil.renters.core.model.beans.Listing;
 import com.daffodil.renters.core.model.beans.postables.Building;
@@ -8,6 +8,7 @@ import com.daffodil.renters.core.model.entities.EntityFactory;
 import com.daffodil.renters.core.model.entities.PropertyEntity;
 import com.daffodil.renters.core.repo.BuildingRepository;
 import com.daffodil.renters.core.repo.PropertyRepository;
+import com.daffodil.renters.core.service.GeoLocationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
