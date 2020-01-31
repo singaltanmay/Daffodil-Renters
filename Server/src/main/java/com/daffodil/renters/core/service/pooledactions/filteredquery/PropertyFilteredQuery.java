@@ -1,4 +1,4 @@
-package com.daffodil.renters.core.service.pooledactions;
+package com.daffodil.renters.core.service.pooledactions.filteredquery;
 
 import com.daffodil.renters.core.model.beans.Listing;
 import com.daffodil.renters.core.model.beans.postables.Property;
@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.Callable;
 
-public class PropertyFilteredQuery extends GenericFilteredQuery<Property> {
+class PropertyFilteredQuery extends GenericFilteredQuery<Property> {
 
     private Listing.Filter filter;
     private AppService.ServiceBundle serviceBundle;

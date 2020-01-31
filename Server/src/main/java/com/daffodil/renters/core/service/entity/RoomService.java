@@ -21,7 +21,6 @@ public class RoomService {
         this.roomRepository = roomRepository;
     }
 
-    // TODO
     public List<Room> runFilteredQuery(Listing.Filter filter) {
 
         // Only number of rooms is required

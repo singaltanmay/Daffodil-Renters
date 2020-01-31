@@ -8,7 +8,7 @@ import com.daffodil.renters.core.model.beans.postables.Room;
 import com.daffodil.renters.core.service.entity.BuildingService;
 import com.daffodil.renters.core.service.entity.PropertyService;
 import com.daffodil.renters.core.service.entity.RoomService;
-import com.daffodil.renters.core.service.pooledactions.FilteredQueryTask;
+import com.daffodil.renters.core.service.pooledactions.filteredquery.FilteredQueryTask;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -75,7 +75,8 @@ public class AppService {
             Building building = buildingService.getBuildingByPropertyId(id);
             Property property = building.getProperties().map(it -> it.size() > 0 ? it.get(0) : null).orElse(propertyService.getPropertyById(id));
             property.setBuilding(Optional.of(building));
-            ListingSkeletal minListing = getMinListing(property);
+            // TODO idk
+            ListingSkeletal minListing = /*getMinListing(property)*/null;
             if (minListing != null) {
                 listings.add(minListing);
             }
@@ -114,9 +115,9 @@ public class AppService {
                             Building building = buildingService.getBuildingByPropertyId(pid);
                             p.setBuilding(Optional.of(building));
                         }
-
-                        ListingSkeletal listingSkeletal = getMinListing(p);
-                        if (listingSkeletal != null) listings.add(listingSkeletal);
+// TODO idk
+//                        ListingSkeletal listingSkeletal = getMinListing(p);
+//                        if (listingSkeletal != null) listings.add(listingSkeletal);
                         latch.countDown();
                     }).start();
 
@@ -133,38 +134,6 @@ public class AppService {
         }
 
         return listings;
-    }
-
-    /**
-     * Creates a skeletal listing from a property (containing parent building)
-     */
-    private ListingSkeletal getMinListing(Property property) {
-
-        if (property == null || property.getBuilding().isEmpty()) return null;
-
-        ListingSkeletal p = new ListingSkeletal();
-
-        Building building = property.getBuilding().get();
-
-        building.getLatitude().ifPresent(p::setLatitude);
-        building.getLongitude().ifPresent(p::setLongitude);
-        building.getAddressBuildingName().ifPresent(p::setAddressBuildingName);
-        building.getAddressLocalityName().ifPresent(p::setAddressLocalityName);
-        building.getAddressSubdivision().ifPresent(p::setAddressSubdivision);
-        building.getAddressCity().ifPresent(p::setAddressCity);
-        building.getAddressState().ifPresent(p::setAddressState);
-        building.getAddressPinCode().ifPresent(p::setAddressPinCode);
-
-        property.getId().ifPresent(p::setPropertyId);
-        property.getRooms().ifPresent(rooms -> p.setBedrooms(rooms.size()));
-        property.getPropertyType().ifPresent(p::setPropertyType);
-        property.getFurnishingType().ifPresent(p::setFurnishing);
-        property.getArea().ifPresent(p::setArea);
-        property.getRent().ifPresent(p::setRent);
-        property.getRoommates().ifPresent(p::setRoommates);
-
-        return p;
-
     }
 
     /**

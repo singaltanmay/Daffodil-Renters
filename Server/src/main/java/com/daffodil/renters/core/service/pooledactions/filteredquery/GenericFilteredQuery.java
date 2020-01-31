@@ -1,11 +1,11 @@
-package com.daffodil.renters.core.service.pooledactions;
+package com.daffodil.renters.core.service.pooledactions.filteredquery;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.RecursiveTask;
 
-public abstract class GenericFilteredQuery<Postable> extends RecursiveTask<List<Postable>> {
+abstract class GenericFilteredQuery<Postable> extends RecursiveTask<List<Postable>> {
 
     /**
      * Used by calling task to store index of parent in list
