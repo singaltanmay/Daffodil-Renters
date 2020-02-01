@@ -23,7 +23,8 @@
                 android:layout_margin="8dp"
                 android:textAppearance="?textAppearanceHeadline6"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="₹ 56239" />
 
         <TextView
                 android:id="@+id/bhk_text_view"
@@ -32,7 +33,8 @@
                 android:layout_margin="8dp"
                 android:textAppearance="?textAppearanceSubtitle1"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/rent_text_view" />
+                app:layout_constraintTop_toBottomOf="@id/rent_text_view"
+                tools:text="3 BHK Independent Floor" />
 
         <TextView
                 android:id="@+id/address_text_view"
@@ -42,7 +44,8 @@
                 android:background="@android:color/transparent"
                 android:textAppearance="?textAppearanceBody1"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/bhk_text_view" />
+                app:layout_constraintTop_toBottomOf="@id/bhk_text_view"
+                tools:text="Sector 30, Uniworld Unitech Garden City" />
 
         <TextView
                 android:id="@+id/area_text_view"
@@ -51,7 +54,8 @@
                 android:layout_margin="8dp"
                 android:textAppearance="?textAppearanceCaption"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/address_text_view" />
+                app:layout_constraintTop_toBottomOf="@id/address_text_view"
+                tools:text="350 sq. ft" />
 
 
         <TextView
@@ -62,7 +66,8 @@
                 android:textAppearance="?textAppearanceCaption"
                 app:layout_constraintStart_toEndOf="@id/area_text_view"
                 app:layout_constraintTop_toBottomOf="@id/address_text_view"
-                tools:layout_editor_absoluteX="16dp" />
+                tools:layout_editor_absoluteX="16dp"
+                tools:text="Fully Furnished" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
