@@ -72,10 +72,13 @@ class ListBrowseFragment : BrowseFragmentBase(), BrowseFragmentBase.ChildFragmen
             var distance = listing?.distanceKm
             if (distance != null) {
                 val string: String
-                distance = distance.times(1000).roundToInt().toDouble()
-                if (distance < 1000) {
-                    string = "$distance m"
-                } else string = "${distance.div(1000)} Km"
+                val distInt = distance.times(1000).roundToInt()
+                if (distInt < 1000) {
+                    string = "$distInt m"
+                } else {
+                    // 2509
+                    string = "${distInt.toDouble()/*2509.0*/.div(100)/*25.09*/.roundToInt()/*25*/.toDouble()/*25.0*/.div(10)/*2.5*/} Km"
+                }
 
                 holder.distanceTextView.text = string
             }
