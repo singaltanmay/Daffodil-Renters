@@ -1,74 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.browse.BrowseFragmentBase">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.browse.BrowseActivity">
 
     <FrameLayout
-        android:id="@+id/container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="start|top"
+            android:layout_marginTop="?attr/actionBarSize"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/asfmogin0" />
+
+    <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/asfmogin0"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="4dp">
+
+        <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/browse_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/colorSecondaryDark"
+                android:foregroundGravity="right"
+                android:gravity="fill_horizontal"
+                app:titleTextAppearance="?attr/textAppearanceBody1" />
+
+    </com.google.android.material.appbar.AppBarLayout>
 
 
-    <com.google.android.material.bottomappbar.BottomAppBar
-        android:id="@+id/bottom_app_bar"
-        android:layout_width="match_parent"
-        android:layout_height="?android:attr/actionBarSize"
-        android:layout_gravity="bottom"
-        app:backgroundTint="@color/colorPrimary"
-        app:fabAlignmentMode="center"
-        app:hideOnScroll="true"
-        app:menu="@menu/browse_bottom_app_bar">
-
-        <LinearLayout
-            android:id="@+id/bottom_app_bar_content_container"
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/browse_filter_fab"
             android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:layout_marginVertical="4dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingHorizontal="4dp">
-
-            <ImageView
-                android:id="@+id/bottom_app_bar_chevron"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                app:srcCompat="@drawable/ic_arrow_drop_up_black_24dp"
-                app:tint="?attr/colorOnPrimarySurface" />
-
-            <ImageView
-                android:id="@+id/bottom_app_bar_logo"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="8dp"
-                app:srcCompat="@drawable/ic_view_headline_black_24dp"
-                app:tint="?attr/colorOnPrimarySurface" />
-
-            <TextView
-                android:id="@+id/bottom_app_bar_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginHorizontal="8dp"
-                android:text="@string/view_type_list"
-                android:textAppearance="?attr/textAppearanceBody1"
-                android:textColor="?attr/colorOnPrimarySurface" />
-
-        </LinearLayout>
-
-    </com.google.android.material.bottomappbar.BottomAppBar>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/colorSecondary"
-        android:src="@drawable/ic_add_black_24dp"
-        app:fabSize="normal"
-        app:layout_anchor="@id/bottom_app_bar" />
-
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_margin="16dp"
+            android:background="@color/colorSecondary"
+            android:src="@drawable/ic_add_black_24dp"
+            android:text="@string/filter_fab_title"
+            app:fabSize="normal"
+            app:icon="@drawable/ic_filter_list_white_24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

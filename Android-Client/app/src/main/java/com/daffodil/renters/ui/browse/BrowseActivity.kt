@@ -1,47 +1,66 @@
 package com.daffodil.renters.ui.browse
 
-import android.content.Intent
 import android.os.Bundle
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.view.Menu
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import com.daffodil.renters.R
 import com.daffodil.renters.application.RentersApplication
-import com.daffodil.renters.ui.MenuBottomSheetDialogFragment
 import com.daffodil.renters.ui.NavigationHost
-import com.daffodil.renters.ui.settings.SettingsActivity
-import com.google.android.material.bottomappbar.BottomAppBar
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 
-class BrowseActivity : AppCompatActivity(),
+class BrowseActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
     NavigationHost {
 
-    private lateinit var linearLayout: LinearLayout
+    /**
+     * Shared Preferences key used to store the display view type to render.
+     */
+    val BROWSE_ACTIVITY_DISPALY_TYPE_KEY = "browse_disp_type"
 
-    val BROWSE_HOMES_DISPALY_TYPE_KEY = "fnw89ht3"
+    /**
+     * Values cannot be changed as they correspond to index in
+     * values/strings.xml/layout_change_spinner_items array.
+     */
+    val BROWSE_HOMES_DISPLAY_TYPE_LIST = 0
+    val BROWSE_HOMES_DISPLAY_TYPE_MAP = 1
 
-    val BROWSE_HOMES_DISPLAY_TYPE_LIST = 1
-    val BROWSE_HOMES_DISPLAY_TYPE_MAP = 2
+    var spinnerEnabled = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.browse_activity)
 
-        linearLayout = findViewById(R.id.bottom_app_bar_content_container)
+        val actionBar = findViewById<Toolbar>(R.id.browse_toolbar)
+        setSupportActionBar(actionBar)
+        actionBar.setTitleTextColor(resources.getColor(R.color.design_default_color_surface))
 
         if (savedInstanceState == null) initInitialFragment()
-
-        initBottomNavBar()
+        setupFilterFab()
 
     }
 
-    override fun onStart() {
-        super.onStart()
-        initBottomNavBarDisplaySwitcher()
+    /**
+     * Only enable spinner on first click.
+     * If not disabled before fragment transaction app will always load in list mode
+     */
+    private fun initDisplayChangerSpinner(spinner: Spinner) {
+        spinner.setSelection(browseHomesDisplayType)
+        spinner.setOnTouchListener { _, _ ->
+            spinnerEnabled = true
+            return@setOnTouchListener false
+        }
     }
 
+    /**
+     * Initialize the initial fragment based on previous display type selected by user.
+     */
     private fun initInitialFragment() {
         val fragment: BrowseFragmentBase
 
@@ -65,95 +84,81 @@ class BrowseActivity : AppCompatActivity(),
 
     }
 
-    private fun initBottomNavBarDisplaySwitcher() {
-        when (browseHomesDisplayType) {
-            BROWSE_HOMES_DISPLAY_TYPE_LIST -> {
-                setDisplayTogglerViews(BROWSE_HOMES_DISPLAY_TYPE_LIST)
+    /**
+     * Setup top action bar by inflating menu
+     */
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.run { inflate(R.menu.browse_top_app_bar, menu) }
+        val spinner = menu?.findItem(R.id.action_change_layout_spinner)?.actionView as Spinner
+
+        val adapter = ArrayAdapter.createFromResource(
+            this,
+            R.array.layout_change_spinner_items, android.R.layout.simple_spinner_item
+        )
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinner.adapter = adapter
+        spinner.onItemSelectedListener = this
+
+        initDisplayChangerSpinner(spinner)
+
+        return true
+    }
+
+    /**
+     * What to do if no option selected on spinner
+     */
+    override fun onNothingSelected(parent: AdapterView<*>?) {
+        Toast.makeText(this, "Nothing selected", Toast.LENGTH_SHORT).show()
+    }
+
+    /**
+     * Set up logic to be executed when spinner item clicked
+     */
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        if (!spinnerEnabled) return
+        when (position) {
+            0 -> {
+                Thread {
+                    navigateTo(ListBrowseFragment(), false)
+                    browseHomesDisplayType = BROWSE_HOMES_DISPLAY_TYPE_LIST
+                }.start()
             }
-            BROWSE_HOMES_DISPLAY_TYPE_MAP -> {
-                setDisplayTogglerViews(BROWSE_HOMES_DISPLAY_TYPE_MAP)
+            1 -> {
+                Thread {
+                    navigateTo(MapBrowseFragment(), false)
+                    browseHomesDisplayType = BROWSE_HOMES_DISPLAY_TYPE_MAP
+                }.start()
             }
         }
     }
 
-    private fun initBottomNavBar() {
-
-        val bottomAppBar = findViewById<BottomAppBar>(R.id.bottom_app_bar)
-        bottomAppBar.setOnMenuItemClickListener { item ->
-
-            when (item.itemId) {
-                R.id.action_item_filter_houses -> {
-                    FilterHousesBottomDialogFragment().show(supportFragmentManager, null)
-                    true
-                }
-                R.id.action_open_app_settings -> {
-                    startActivity(Intent(this, SettingsActivity::class.java))
-                    true
-                }
-                else -> {
-                    false
-                }
-            }
-
-        }
-
-        linearLayout.setOnClickListener {
-
-            MenuBottomSheetDialogFragment(R.menu.menu_house_display_layout) {
-                when (it.itemId) {
-                    R.id.action_display_type_map -> {
-                        navigateTo(MapBrowseFragment(), false)
-                        setDisplayTogglerViews(BROWSE_HOMES_DISPLAY_TYPE_MAP)
-                        browseHomesDisplayType =
-                            BROWSE_HOMES_DISPLAY_TYPE_MAP
-                        return@MenuBottomSheetDialogFragment true
-                    }
-                    R.id.action_display_type_list -> {
-                        navigateTo(ListBrowseFragment(), false)
-                        setDisplayTogglerViews(BROWSE_HOMES_DISPLAY_TYPE_LIST)
-                        browseHomesDisplayType =
-                            BROWSE_HOMES_DISPLAY_TYPE_LIST
-                        return@MenuBottomSheetDialogFragment true
-                    }
-                }
-                false
-            }.show(supportFragmentManager, null)
-
+    /**
+     * Setup the filter fab by setting click listener
+     */
+    private fun setupFilterFab() {
+        val fab = findViewById<ExtendedFloatingActionButton>(R.id.browse_filter_fab)
+        fab.setOnClickListener {
+            FilterHousesBottomDialogFragment().show(
+                supportFragmentManager,
+                null
+            )
         }
     }
 
-    private fun setDisplayTogglerViews(viewType: Int) {
-
-        when (viewType) {
-            BROWSE_HOMES_DISPLAY_TYPE_MAP -> {
-                linearLayout.findViewById<TextView>(R.id.bottom_app_bar_title).text = "Map"
-                val imageView =
-                    linearLayout.findViewById<ImageView>(R.id.bottom_app_bar_logo)
-                imageView.setImageResource(R.drawable.ic_map_black_24dp)
-            }
-            BROWSE_HOMES_DISPLAY_TYPE_LIST -> {
-                linearLayout.findViewById<TextView>(R.id.bottom_app_bar_title).text = "List"
-                val imageView =
-                    linearLayout.findViewById<ImageView>(R.id.bottom_app_bar_logo)
-                imageView.setImageResource(R.drawable.ic_view_headline_black_24dp)
-            }
-        }
-
-    }
-
-
+    /**
+     * Get and Set the value of default display mode in shared preferences.
+     */
     var browseHomesDisplayType: Int
         get() {
             return (applicationContext as RentersApplication).getAppPreferences().getInt(
-                BROWSE_HOMES_DISPALY_TYPE_KEY,
+                BROWSE_ACTIVITY_DISPALY_TYPE_KEY,
                 BROWSE_HOMES_DISPLAY_TYPE_LIST
             )
         }
         set(value) {
             (applicationContext as RentersApplication).getAppPreferences()
-                .edit { putInt(BROWSE_HOMES_DISPALY_TYPE_KEY, value) }
+                .edit { putInt(BROWSE_ACTIVITY_DISPALY_TYPE_KEY, value) }
         }
-
 
     /**
      * Navigate to the given fragment.
