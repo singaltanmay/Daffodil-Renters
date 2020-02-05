@@ -18,6 +18,7 @@ import com.daffodil.renters.R
 import com.daffodil.renters.application.RentersApplication
 import com.daffodil.renters.ui.NavigationHost
 import com.daffodil.renters.ui.settings.SettingsActivity
+import com.daffodil.renters.ui.user.UserCreationActivity
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.navigation.NavigationView
 
@@ -53,19 +54,24 @@ class BrowseActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
 
         val actionBar = findViewById<Toolbar>(R.id.browse_toolbar)
         setSupportActionBar(actionBar)
-        actionBar.setTitleTextColor(
-            ContextCompat.getColor(
-                this,
-                R.color.design_default_color_surface
+
+        Thread {
+            actionBar.setTitleTextColor(
+                ContextCompat.getColor(
+                    this,
+                    R.color.design_default_color_surface
+                )
             )
-        )
-        actionBar.navigationIcon = ContextCompat.getDrawable(this, R.drawable.ic_menu_black_24dp)
+            actionBar.navigationIcon =
+                ContextCompat.getDrawable(this, R.drawable.ic_menu_black_24dp)
+        }.start()
+
         actionBar.setNavigationOnClickListener {
 
             val navigationView = findViewById<NavigationView>(R.id.browse_navigation_drawer)
             val drawerLayout = findViewById<DrawerLayout>(R.id.browse_parent_drawer_layout)
 
-            initNavigationDrawer(navigationView, drawerLayout)
+            Thread { initNavigationDrawer(navigationView, drawerLayout) }.start()
             drawerLayout.openDrawer(navigationView)
         }
 
@@ -73,18 +79,27 @@ class BrowseActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
 
     private fun initNavigationDrawer(navigationView: NavigationView, drawerLayout: DrawerLayout) {
 
-        navigationView.setNavigationItemSelectedListener {
-            drawerLayout.closeDrawer(navigationView)
-            when (it.itemId) {
-                R.id.navigate_settings -> {
-                    startActivity(Intent(this, SettingsActivity::class.java))
-                    true
-                }
-                else -> {
-                    false
+        Thread {
+            navigationView.getHeaderView(0).setOnClickListener {
+                drawerLayout.closeDrawer(navigationView)
+                startActivity(Intent(this, UserCreationActivity::class.java))
+            }
+        }.start()
+
+        Thread {
+            navigationView.setNavigationItemSelectedListener {
+                drawerLayout.closeDrawer(navigationView)
+                when (it.itemId) {
+                    R.id.navigate_settings -> {
+                        startActivity(Intent(this, SettingsActivity::class.java))
+                        true
+                    }
+                    else -> {
+                        false
+                    }
                 }
             }
-        }
+        }.start()
     }
 
     /**
@@ -92,11 +107,13 @@ class BrowseActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
      * If not disabled before fragment transaction app will always load in list mode
      */
     private fun initDisplayChangerSpinner(spinner: Spinner) {
-        spinner.setSelection(browseHomesDisplayType)
-        spinner.setOnTouchListener { _, _ ->
-            spinnerEnabled = true
-            return@setOnTouchListener false
-        }
+        Thread { spinner.setSelection(browseHomesDisplayType) }.start()
+        Thread {
+            spinner.setOnTouchListener { _, _ ->
+                spinnerEnabled = true
+                return@setOnTouchListener false
+            }
+        }.start()
     }
 
     /**
@@ -178,12 +195,14 @@ class BrowseActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
      */
     private fun setupFilterFab() {
         val fab = findViewById<ExtendedFloatingActionButton>(R.id.browse_filter_fab)
-        fab.setOnClickListener {
-            FilterHousesBottomDialogFragment().show(
-                supportFragmentManager,
-                null
-            )
-        }
+        Thread {
+            fab.setOnClickListener {
+                FilterHousesBottomDialogFragment().show(
+                    supportFragmentManager,
+                    null
+                )
+            }
+        }.start()
     }
 
     /**

@@ -29,14 +29,14 @@ class SettingsFragment : PreferenceFragmentCompat() {
         setPreferencesFromResource(R.xml.root_preferences, rootKey)
     }
 
-    override fun onPreferenceTreeClick(preference: Preference?): Boolean {
+    override fun onPreferenceTreeClick(pref: Preference?): Boolean {
 
-        // Return false if you want preference to be updated
+        // Return false if you want pref to be updated
 
-        when (preference?.key) {
+        when (pref?.key) {
             getString(R.string.server_ip_address_key) -> {
-                // Return true if you want preference to be updated
-                preference.setOnPreferenceChangeListener { preference, newValue ->
+                // Return true if you want pref to be updated
+                pref.setOnPreferenceChangeListener { preference, newValue ->
                     if (preference is EditTextPreference) {
                         Toast.makeText(
                             context,
@@ -52,7 +52,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         }
 
-        Log.v(LOG_TAG, preference?.key ?: "Pref is null")
+        Log.v(LOG_TAG, pref?.key ?: "Pref is null")
 
 
         return false

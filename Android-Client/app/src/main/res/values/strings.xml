@@ -1,11 +1,8 @@
 <resources>
     <string name="app_name">Renters</string>
-    <string name="view_type_list">List</string>
 
-    <string name="title_activity_maps">Map</string>
     <string name="title_activity_settings">Settings</string>
     <string name="currency_symbol">₹</string>
-    <string name="contact_seller_button_title">Contact</string>
     <string name="filter_fab_title">Filter</string>
     <string name="navigation_settings_title">Settings</string>
 
