@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.daffodil.renters.R
 import com.daffodil.renters.model.ListingSkeletal
+import kotlin.math.roundToInt
 
 class ListBrowseFragment : BrowseFragmentBase(), BrowseFragmentBase.ChildFragmentInteraction {
 
@@ -67,6 +68,18 @@ class ListBrowseFragment : BrowseFragmentBase(), BrowseFragmentBase.ChildFragmen
             holder.areaTextView.text = "${listing?.area} sq.ft"
             holder.furnishingTextView.text =
                 listing?.furnishing.toString().toLowerCase().capitalize()
+
+            var distance = listing?.distanceKm
+            if (distance != null) {
+                val string: String
+                distance = distance.times(1000).roundToInt().toDouble()
+                if (distance < 1000) {
+                    string = "$distance m"
+                } else string = "${distance.div(1000)} Km"
+
+                holder.distanceTextView.text = string
+            }
+
         }
 
         override fun getItemCount(): Int = data?.size ?: 0
@@ -81,6 +94,7 @@ class ListBrowseFragment : BrowseFragmentBase(), BrowseFragmentBase.ChildFragmen
             val addressTextView = parent.findViewById<TextView>(R.id.address_text_view)
             val areaTextView = parent.findViewById<TextView>(R.id.area_text_view)
             val furnishingTextView = parent.findViewById<TextView>(R.id.furnishing_text_view)
+            val distanceTextView = parent.findViewById<TextView>(R.id.distanceTextView)
 
         }
     }

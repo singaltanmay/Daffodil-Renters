@@ -3,7 +3,9 @@ package com.daffodil.renters.core.service.pooledactions.listingcreator;
 import com.daffodil.renters.core.model.beans.ListingSkeletal;
 import com.daffodil.renters.core.model.beans.postables.Building;
 import com.daffodil.renters.core.model.beans.postables.Property;
+import com.daffodil.renters.core.service.GeoLocationService;
 
+import java.util.Optional;
 import java.util.concurrent.RecursiveTask;
 
 /**
@@ -26,8 +28,10 @@ class MinListingFromPropertyCreator extends RecursiveTask<ListingSkeletal> {
 
         Building building = property.getBuilding().get();
 
-        building.getLatitude().ifPresent(p::setLatitude);
-        building.getLongitude().ifPresent(p::setLongitude);
+        Optional<Double> latitude = building.getLatitude();
+        latitude.ifPresent(p::setLatitude);
+        Optional<Double> longitude = building.getLongitude();
+        longitude.ifPresent(p::setLongitude);
         building.getAddressBuildingName().ifPresent(p::setAddressBuildingName);
         building.getAddressLocalityName().ifPresent(p::setAddressLocalityName);
         building.getAddressSubdivision().ifPresent(p::setAddressSubdivision);
@@ -42,6 +46,10 @@ class MinListingFromPropertyCreator extends RecursiveTask<ListingSkeletal> {
         property.getArea().ifPresent(p::setArea);
         property.getRent().ifPresent(p::setRent);
         property.getRoommates().ifPresent(p::setRoommates);
+
+        if (latitude.isPresent() && longitude.isPresent()) {
+            p.setDistanceKm(GeoLocationService.fromDegrees(latitude.get(), longitude.get()).distanceTo(GeoLocationService.fromDegrees(28.465082, 77.056162), null));
+        }
 
         return p;
 

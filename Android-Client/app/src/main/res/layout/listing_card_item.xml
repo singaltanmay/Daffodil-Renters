@@ -69,6 +69,14 @@
                 tools:layout_editor_absoluteX="16dp"
                 tools:text="Fully Furnished" />
 
+        <TextView
+                android:id="@+id/distanceTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/bhk_text_view"
+                tools:text="200 m" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.google.android.material.card.MaterialCardView>

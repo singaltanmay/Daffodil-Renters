@@ -34,14 +34,16 @@ open class ListingSkeletal {
 
     var isRoommates: Boolean = false
 
-    val address : String
-    get(){
-        return "$addressBuildingName, " +
-                "$addressLocalityName, " +
-                "$addressSubdivision, " +
-                "$addressCity, " +
-                "$addressState, " +
-                "$addressPinCode"
-    }
+    var distanceKm: Double = 0.0
+
+    val address: String
+        get() {
+            return "$addressBuildingName, " +
+                    "$addressLocalityName, " +
+                    "$addressSubdivision, " +
+                    "$addressCity, " +
+                    "$addressState, " +
+                    "$addressPinCode"
+        }
 
 }

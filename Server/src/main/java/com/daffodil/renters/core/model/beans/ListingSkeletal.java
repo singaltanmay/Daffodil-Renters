@@ -55,6 +55,9 @@ public class ListingSkeletal {
     @Getter
     @Setter
     private boolean roommates;
+    @Getter
+    @Setter
+    private double distanceKm;
 
     public static class Filter {
 
