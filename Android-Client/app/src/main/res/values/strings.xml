@@ -7,6 +7,7 @@
     <string name="currency_symbol">₹</string>
     <string name="contact_seller_button_title">Contact</string>
     <string name="filter_fab_title">Filter</string>
+    <string name="navigation_settings_title">Settings</string>
 
     <string-array name="layout_change_spinner_items">
         <item>List</item>

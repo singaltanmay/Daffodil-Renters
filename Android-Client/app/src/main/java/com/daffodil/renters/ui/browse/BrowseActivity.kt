@@ -1,5 +1,6 @@
 package com.daffodil.renters.ui.browse
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.View
@@ -9,12 +10,16 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.core.content.edit
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.daffodil.renters.R
 import com.daffodil.renters.application.RentersApplication
 import com.daffodil.renters.ui.NavigationHost
+import com.daffodil.renters.ui.settings.SettingsActivity
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+import com.google.android.material.navigation.NavigationView
 
 class BrowseActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
     NavigationHost {
@@ -35,15 +40,51 @@ class BrowseActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.browse_activity)
 
-        val actionBar = findViewById<Toolbar>(R.id.browse_toolbar)
-        setSupportActionBar(actionBar)
-        actionBar.setTitleTextColor(resources.getColor(R.color.design_default_color_surface))
+        initToolbar()
 
         if (savedInstanceState == null) initInitialFragment()
         setupFilterFab()
 
+    }
+
+    private fun initToolbar() {
+        setContentView(R.layout.browse_activity)
+
+        val actionBar = findViewById<Toolbar>(R.id.browse_toolbar)
+        setSupportActionBar(actionBar)
+        actionBar.setTitleTextColor(
+            ContextCompat.getColor(
+                this,
+                R.color.design_default_color_surface
+            )
+        )
+        actionBar.navigationIcon = ContextCompat.getDrawable(this, R.drawable.ic_menu_black_24dp)
+        actionBar.setNavigationOnClickListener {
+
+            val navigationView = findViewById<NavigationView>(R.id.browse_navigation_drawer)
+            val drawerLayout = findViewById<DrawerLayout>(R.id.browse_parent_drawer_layout)
+
+            initNavigationDrawer(navigationView, drawerLayout)
+            drawerLayout.openDrawer(navigationView)
+        }
+
+    }
+
+    private fun initNavigationDrawer(navigationView: NavigationView, drawerLayout: DrawerLayout) {
+
+        navigationView.setNavigationItemSelectedListener {
+            drawerLayout.closeDrawer(navigationView)
+            when (it.itemId) {
+                R.id.navigate_settings -> {
+                    startActivity(Intent(this, SettingsActivity::class.java))
+                    true
+                }
+                else -> {
+                    false
+                }
+            }
+        }
     }
 
     /**
