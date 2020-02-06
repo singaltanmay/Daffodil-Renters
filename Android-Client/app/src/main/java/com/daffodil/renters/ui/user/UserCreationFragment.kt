@@ -14,19 +14,11 @@ class UserCreationFragment : Fragment() {
         fun newInstance() = UserCreationFragment()
     }
 
-    private lateinit var viewModel: UserCreationViewModel
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         return inflater.inflate(R.layout.user_creation_fragment, container, false)
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(UserCreationViewModel::class.java)
-        // TODO: Use the ViewModel
     }
 
 }
