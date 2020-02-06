@@ -132,13 +132,7 @@ class BrowseActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
             else -> fragment = ListBrowseFragment()
         }
 
-        supportFragmentManager
-            .beginTransaction()
-            .add(
-                R.id.container,
-                fragment
-            )
-            .commit()
+        navigateTo(fragment)
 
     }
 
@@ -177,13 +171,13 @@ class BrowseActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
         when (position) {
             0 -> {
                 Thread {
-                    navigateTo(ListBrowseFragment(), false)
+                    navigateTo(ListBrowseFragment())
                     browseHomesDisplayType = BROWSE_HOMES_DISPLAY_TYPE_LIST
                 }.start()
             }
             1 -> {
                 Thread {
-                    navigateTo(MapBrowseFragment(), false)
+                    navigateTo(MapBrowseFragment())
                     browseHomesDisplayType = BROWSE_HOMES_DISPLAY_TYPE_MAP
                 }.start()
             }
