@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.daffodil.renters.R
@@ -22,7 +21,7 @@ class UserLoginFragment : Fragment() {
     //    // TODO: Rename and change types of parameters
 //    private var param1: String? = null
 //    private var param2: String? = null
-    private var listener: OnUserLoginListener? = null
+    private var listener: OnFragmentInteractionListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,29 +48,29 @@ class UserLoginFragment : Fragment() {
 
     private fun setupListeners() {
         cancelButton.setOnClickListener {
-            activity?.finish()
+            listener?.onCancel()
         }
         loginButton.setOnClickListener {
-            loginButtonPressed()
+            listener?.onLogin(-1)
         }
-    }
-
-    private fun loginButtonPressed() {
-        //TODO actually attempt login
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is OnUserLoginListener) {
+        if (context is OnFragmentInteractionListener) {
             listener = context
         } else {
-//            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
+            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        (activity as AppCompatActivity).supportActionBar?.show()
     }
 
     override fun onDetach() {
         super.onDetach()
-        (activity as AppCompatActivity).supportActionBar?.show()
         listener = null
     }
 
@@ -86,10 +85,9 @@ class UserLoginFragment : Fragment() {
      * (http://developer.android.com/training/basics/fragments/communicating.html)
      * for more information.
      */
-    interface OnUserLoginListener {
-        fun OnLogin(userId: Long) {
-            Toast.makeText(this as Context, "Logged In!", Toast.LENGTH_SHORT).show()
-        }
+    interface OnFragmentInteractionListener {
+        fun onLogin(userId: Long)
+        fun onCancel()
     }
 
 }

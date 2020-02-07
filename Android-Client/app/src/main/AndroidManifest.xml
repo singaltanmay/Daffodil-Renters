@@ -14,20 +14,13 @@
             android:supportsRtl="true"
             android:theme="@style/Theme.Renters"
             android:usesCleartextTraffic="true">
-        <activity android:name=".ui.BaseActivity">
+        <activity
+                android:name=".ui.BaseActivity"
+                android:windowSoftInputMode="stateAlwaysHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity android:name=".ui.user.UserCreationActivity" />
-        <activity
-                android:name=".ui.settings.SettingsActivity"
-                android:label="@string/title_activity_settings"
-                android:parentActivityName=".ui.browse.BrowseActivity">
-            <meta-data
-                    android:name="android.support.PARENT_ACTIVITY"
-                    android:value="com.daffodil.renters.ui.browse.BrowseActivity" />
         </activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -41,7 +34,7 @@
                 android:name="com.google.android.geo.API_KEY"
                 android:value="@string/google_maps_key" />
 
-        <activity android:name=".ui.browse.BrowseActivity" />
+        <activity android:name=".ui.browse.BrowseFragment" />
     </application>
 
 </manifest>

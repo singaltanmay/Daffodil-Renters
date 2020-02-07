@@ -3,11 +3,46 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/nav_graph"
-        app:startDestination="@id/userLoginFragment">
+        app:startDestination="@id/browseFragment">
 
     <fragment
             android:id="@+id/userLoginFragment"
-            tools:layout="@layout/fragment_user_login"
             android:name="com.daffodil.renters.ui.user.UserLoginFragment"
-            android:label="Login" />
+            android:label="Login"
+            tools:layout="@layout/fragment_user_login">
+        <action
+                android:id="@+id/action_userLoginFragment_to_browseFragment"
+                app:destination="@id/browseFragment"
+                app:popUpTo="@+id/userLoginFragment"
+                app:popUpToInclusive="true" />
+        <action
+                android:id="@+id/action_userLoginFragment_to_userCreationFragment"
+                app:destination="@id/userCreationFragment" />
+    </fragment>
+
+    <fragment
+            android:id="@+id/browseFragment"
+            android:name="com.daffodil.renters.ui.browse.BrowseFragment"
+            android:label="Browse"
+            tools:layout="@layout/browse_fragment" />
+    <fragment
+            android:id="@+id/settingsFragment"
+            android:name="com.daffodil.renters.ui.settings.SettingsFragment"
+            android:label="Settings" />
+    <fragment android:id="@+id/placeholder2" >
+        <action
+                android:id="@+id/action_placeholder2_to_browseFragment"
+                app:destination="@id/browseFragment" />
+        <action
+                android:id="@+id/action_placeholder2_to_settingsFragment"
+                app:destination="@id/settingsFragment" />
+        <action
+                android:id="@+id/action_placeholder2_to_userLoginFragment"
+                app:destination="@id/userLoginFragment" />
+    </fragment>
+    <fragment
+            android:id="@+id/userCreationFragment"
+            tools:layout="@layout/user_creation_fragment"
+            android:name="com.daffodil.renters.ui.user.UserCreationFragment"
+            android:label="UserCreationFragment" />
 </navigation>

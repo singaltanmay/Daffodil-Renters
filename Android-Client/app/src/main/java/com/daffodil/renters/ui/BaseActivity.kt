@@ -16,11 +16,22 @@ import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.daffodil.renters.R
+import com.daffodil.renters.ui.user.UserLoginFragment
 import kotlinx.android.synthetic.main.activity_base.*
 
-class BaseActivity : AppCompatActivity(), AppBarConfiguration.OnNavigateUpListener {
+class BaseActivity : AppCompatActivity(), AppBarConfiguration.OnNavigateUpListener,
+    UserLoginFragment.OnFragmentInteractionListener {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
+    private lateinit var navController: NavController
+
+    override fun onLogin(userId: Long) {
+        onCancel()
+    }
+
+    override fun onCancel() {
+        navController.navigate(R.id.action_userLoginFragment_to_browseFragment)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +42,7 @@ class BaseActivity : AppCompatActivity(), AppBarConfiguration.OnNavigateUpListen
 
         val navHost =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        val navController = navHost.navController
+        navController = navHost.navController
 
         appBarConfiguration = AppBarConfiguration(navController.graph)
 
@@ -44,14 +55,9 @@ class BaseActivity : AppCompatActivity(), AppBarConfiguration.OnNavigateUpListen
             } catch (e: Resources.NotFoundException) {
                 Integer.toString(destination.id)
             }
-            Toast.makeText(
-                this@BaseActivity, "Navigated to $dest",
-                Toast.LENGTH_SHORT
-            ).show()
             Log.d("NavigationActivity", "Navigated to $dest")
         }
     }
-
 
     private fun setupNavigation(navController: NavController) {
         val drawer = base_activity_navigation_drawer
@@ -62,10 +68,11 @@ class BaseActivity : AppCompatActivity(), AppBarConfiguration.OnNavigateUpListen
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 /**
-                 * All fragments that are at the top level of nagivation.
+                 * All fragments that are at the top level of navigation.
                  * Up button will not be shown for these fragments.
-                  */
-                R.id.userLoginFragment
+                 */
+                R.id.userLoginFragment,
+                R.id.browseFragment
             ),
             drawerLayout
         )
@@ -86,6 +93,7 @@ class BaseActivity : AppCompatActivity(), AppBarConfiguration.OnNavigateUpListen
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
 
         //I need to open the drawer onClick
+        // TODO open drawer even on up button
         when (item!!.itemId) {
             android.R.id.home ->
                 base_activity_drawer_layout.openDrawer(GravityCompat.START)
@@ -101,6 +109,5 @@ class BaseActivity : AppCompatActivity(), AppBarConfiguration.OnNavigateUpListen
             base_activity_drawer_layout.closeDrawer(GravityCompat.START)
         } else super.onBackPressed()
     }
-
 
 }
