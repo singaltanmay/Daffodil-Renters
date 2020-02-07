@@ -12,7 +12,7 @@ import com.daffodil.renters.R
 import com.daffodil.renters.model.ListingSkeletal
 import kotlin.math.roundToInt
 
-class ListBrowseFragment : BrowseFragmentBase(), BrowseFragmentBase.ChildFragmentInteraction {
+class ListControllerFragment : ControllerFragment(), ControllerFragment.ChildFragmentInteraction {
 
 
     private lateinit var parentView: View

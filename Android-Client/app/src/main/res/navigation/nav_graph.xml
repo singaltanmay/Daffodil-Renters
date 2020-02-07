@@ -43,6 +43,6 @@
     <fragment
             android:id="@+id/userCreationFragment"
             tools:layout="@layout/user_creation_fragment"
-            android:name="com.daffodil.renters.ui.user.UserCreationFragment"
+            android:name="com.daffodil.renters.ui.user.creation.UserCreationFragment"
             android:label="UserCreationFragment" />
 </navigation>

@@ -66,16 +66,16 @@ class BrowseFragment : Fragment(), AdapterView.OnItemSelectedListener,
      * Initialize the initial fragment based on previous display type selected by user.
      */
     private fun initInitialFragment() {
-        val fragment: BrowseFragmentBase
+        val fragment: ControllerFragment
 
         when (browseHomesDisplayType) {
             BROWSE_HOMES_DISPLAY_TYPE_LIST -> {
-                fragment = ListBrowseFragment()
+                fragment = ListControllerFragment()
             }
             BROWSE_HOMES_DISPLAY_TYPE_MAP -> {
-                fragment = MapBrowseFragment()
+                fragment = MapControllerFragment()
             }
-            else -> fragment = ListBrowseFragment()
+            else -> fragment = ListControllerFragment()
         }
 
         navigateTo(fragment)
@@ -118,13 +118,13 @@ class BrowseFragment : Fragment(), AdapterView.OnItemSelectedListener,
         when (position) {
             0 -> {
                 Thread {
-                    navigateTo(ListBrowseFragment())
+                    navigateTo(ListControllerFragment())
                     browseHomesDisplayType = BROWSE_HOMES_DISPLAY_TYPE_LIST
                 }.start()
             }
             1 -> {
                 Thread {
-                    navigateTo(MapBrowseFragment())
+                    navigateTo(MapControllerFragment())
                     browseHomesDisplayType = BROWSE_HOMES_DISPLAY_TYPE_MAP
                 }.start()
             }

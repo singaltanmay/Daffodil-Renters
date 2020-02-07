@@ -9,7 +9,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-open class BrowseFragmentBase : Fragment() {
+open class ControllerFragment : Fragment() {
 
     var childInteraction: ChildFragmentInteraction? = null
 
@@ -38,6 +38,6 @@ open class BrowseFragmentBase : Fragment() {
         loadAllListingSkeletals()
     }
 
-    fun Logv(message: String) = Log.v(BrowseFragmentBase::class.java.simpleName, message)
+    fun Logv(message: String) = Log.v(ControllerFragment::class.java.simpleName, message)
 
 }
