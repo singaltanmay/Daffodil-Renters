@@ -2,31 +2,33 @@ package com.daffodil.renters.ui.user
 
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.daffodil.renters.R
 import kotlinx.android.synthetic.main.fragment_user_login.frag_user_login_cancel_button as cancelButton
 import kotlinx.android.synthetic.main.fragment_user_login.frag_user_login_next_button as loginButton
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+//
+//// TODO: Rename parameter arguments, choose names that match
+//// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+//private const val ARG_PARAM1 = "param1"
+//private const val ARG_PARAM2 = "param2"
 
 class UserLoginFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    //    // TODO: Rename and change types of parameters
+//    private var param1: String? = null
+//    private var param2: String? = null
     private var listener: OnUserLoginListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            //            param1 = it.getString(ARG_PARAM1)
+//            param2 = it.getString(ARG_PARAM2)
         }
     }
 
@@ -41,6 +43,7 @@ class UserLoginFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+        (activity as AppCompatActivity).supportActionBar?.hide()
         Thread { setupListeners() }.start()
     }
 
@@ -62,12 +65,13 @@ class UserLoginFragment : Fragment() {
         if (context is OnUserLoginListener) {
             listener = context
         } else {
-            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
+//            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
         }
     }
 
     override fun onDetach() {
         super.onDetach()
+        (activity as AppCompatActivity).supportActionBar?.show()
         listener = null
     }
 
@@ -83,7 +87,9 @@ class UserLoginFragment : Fragment() {
      * for more information.
      */
     interface OnUserLoginListener {
-        fun OnLogin(userId: Long)
+        fun OnLogin(userId: Long) {
+            Toast.makeText(this as Context, "Logged In!", Toast.LENGTH_SHORT).show()
+        }
     }
 
 }

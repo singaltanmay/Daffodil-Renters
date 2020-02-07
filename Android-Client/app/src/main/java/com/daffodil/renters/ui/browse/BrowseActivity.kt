@@ -68,8 +68,8 @@ class BrowseActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
 
         actionBar.setNavigationOnClickListener {
 
-            val navigationView = findViewById<NavigationView>(R.id.browse_navigation_drawer)
-            val drawerLayout = findViewById<DrawerLayout>(R.id.browse_parent_drawer_layout)
+            val navigationView = findViewById<NavigationView>(R.id.base_activity_navigation_drawer)
+            val drawerLayout = findViewById<DrawerLayout>(R.id.base_activity_drawer_layout)
 
             Thread { initNavigationDrawer(navigationView, drawerLayout) }.start()
             drawerLayout.openDrawer(navigationView)
@@ -188,7 +188,7 @@ class BrowseActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
      * Setup the filter fab by setting click listener
      */
     private fun setupFilterFab() {
-        val fab = findViewById<ExtendedFloatingActionButton>(R.id.browse_filter_fab)
+        val fab : ExtendedFloatingActionButton = findViewById(R.id.browse_filter_fab)
         Thread {
             fab.setOnClickListener {
                 FilterHousesBottomDialogFragment().show(
