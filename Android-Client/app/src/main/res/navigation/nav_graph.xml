@@ -24,12 +24,16 @@
             android:id="@+id/browseFragment"
             android:name="com.daffodil.renters.ui.browse.BrowseFragment"
             android:label="Browse"
-            tools:layout="@layout/browse_fragment" />
+            tools:layout="@layout/browse_fragment" >
+        <action
+                android:id="@+id/action_browseFragment_to_userLoginFragment"
+                app:destination="@id/userLoginFragment" />
+    </fragment>
     <fragment
             android:id="@+id/settingsFragment"
             android:name="com.daffodil.renters.ui.settings.SettingsFragment"
             android:label="Settings" />
-    <fragment android:id="@+id/placeholder2" >
+    <fragment android:id="@+id/launchScreenPlaceholder">
         <action
                 android:id="@+id/action_placeholder2_to_browseFragment"
                 app:destination="@id/browseFragment" />

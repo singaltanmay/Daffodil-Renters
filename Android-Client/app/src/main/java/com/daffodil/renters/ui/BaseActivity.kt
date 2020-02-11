@@ -5,9 +5,10 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -17,6 +18,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.daffodil.renters.R
 import com.daffodil.renters.ui.user.UserLoginFragment
+import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_base.*
 
 class BaseActivity : AppCompatActivity(), AppBarConfiguration.OnNavigateUpListener,
@@ -30,7 +32,7 @@ class BaseActivity : AppCompatActivity(), AppBarConfiguration.OnNavigateUpListen
     }
 
     override fun onCancel() {
-        navController.navigate(R.id.action_userLoginFragment_to_browseFragment)
+            navController.navigate(R.id.action_userLoginFragment_to_browseFragment)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,7 +62,7 @@ class BaseActivity : AppCompatActivity(), AppBarConfiguration.OnNavigateUpListen
     }
 
     private fun setupNavigation(navController: NavController) {
-        val drawer = base_activity_navigation_drawer
+        val drawer = base_activity_navigation_view
         drawer?.setupWithNavController(navController)
         val drawerLayout = base_activity_drawer_layout
 
@@ -72,7 +74,8 @@ class BaseActivity : AppCompatActivity(), AppBarConfiguration.OnNavigateUpListen
                  * Up button will not be shown for these fragments.
                  */
                 R.id.userLoginFragment,
-                R.id.browseFragment
+                R.id.browseFragment,
+                R.id.settingsFragment
             ),
             drawerLayout
         )
@@ -81,7 +84,7 @@ class BaseActivity : AppCompatActivity(), AppBarConfiguration.OnNavigateUpListen
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val retValue = super.onCreateOptionsMenu(menu)
-        val drawer = base_activity_navigation_drawer
+        val drawer = base_activity_navigation_view
         if (drawer == null) {
             //android needs to know what menu I need
             menuInflater.inflate(R.menu.navigation_drawer, menu)

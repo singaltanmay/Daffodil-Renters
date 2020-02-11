@@ -10,7 +10,8 @@ open class RentersApplication : Application() {
 
     companion object {
         val SHARED_PREFERENCES_KEY = /*RentersPrefs*/"com.daffodil.renters_preferences"
-        val SERVER_PORT_NUMBER_KEY = "seniogh3"
+        val SERVER_PORT_NUMBER_KEY = "serverPortNumber"
+        val USER_ID_KEY = "userID"
 
         lateinit var serverIpAddressKey: String
 
@@ -67,5 +68,11 @@ open class RentersApplication : Application() {
         SHARED_PREFERENCES_KEY,
         Context.MODE_PRIVATE
     )
+
+    fun isUserLoggedIn(prefs : SharedPreferences = getAppPreferences()) = prefs.contains(USER_ID_KEY)
+
+    fun getUserId(prefs : SharedPreferences = getAppPreferences()): String? {
+        return prefs.getString(USER_ID_KEY, null)
+    }
 
 }
