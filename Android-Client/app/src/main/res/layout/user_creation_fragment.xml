@@ -1,18 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/usercreation"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:minHeight="500dp"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:paddingTop="16dp">
 
-    <TextView
-            android:id="@+id/message"
-            android:layout_width="wrap_content"
+
+    <ScrollView
+            android:id="@+id/scrollView2"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="UserCreationFragment"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.Renters.TextInputLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="68dp"
+                    android:hint="First Name">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/firstNameTextInputEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapWords"
+                        android:maxLines="1" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.Renters.TextInputLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="68dp"
+                    android:hint="Last Name">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/lastNameTextInputEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapWords"
+                        android:maxLines="1" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.Renters.TextInputLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="68dp"
+                    android:hint="Phone Number">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/phoneNumberTextInputEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="phone"
+                        android:maxLines="1" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.Renters.TextInputLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="68dp"
+                    android:hint="Email ID">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/emailIdTextInputEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textEmailAddress"
+                        android:maxLines="1" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <com.google.android.material.button.MaterialButton
+            android:id="@+id/frag_user_creation_next_button"
+            style="@style/Widget.Renters.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Next"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/frag_user_creation_cancel_button"
+            app:layout_constraintVertical_bias="0.0" />
+
+    <com.google.android.material.button.MaterialButton
+            android:id="@+id/frag_user_creation_cancel_button"
+            style="@style/Widget.Renters.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/scrollView2"
+            app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

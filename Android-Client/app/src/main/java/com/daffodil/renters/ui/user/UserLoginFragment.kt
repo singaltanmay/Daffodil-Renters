@@ -7,9 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.daffodil.renters.R
 import kotlinx.android.synthetic.main.fragment_user_login.frag_user_login_cancel_button as cancelButton
 import kotlinx.android.synthetic.main.fragment_user_login.frag_user_login_next_button as loginButton
+import kotlinx.android.synthetic.main.fragment_user_login.frag_user_login_sing_up_button as signUpButton
 
 //
 //// TODO: Rename parameter arguments, choose names that match
@@ -52,6 +54,9 @@ class UserLoginFragment : Fragment() {
         }
         loginButton.setOnClickListener {
             listener?.onLogin(-1)
+        }
+        signUpButton.setOnClickListener {
+            findNavController().navigate(R.id.action_userLoginFragment_to_userCreationFragment)
         }
     }
 
