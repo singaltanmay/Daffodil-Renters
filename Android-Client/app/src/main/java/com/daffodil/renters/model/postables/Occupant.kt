@@ -1,16 +1,12 @@
 package com.daffodil.renters.model.postables
 
-import java.util.Date
+import java.util.*
 
-data class Occupant(
-    var id: Long?,
-    var firstName: String?,
-    var lastName: String?,
-    var phoneNumber: String?,
-    var dateMovedIn: Date?,
-    var timeLastRentPaid: Date?,
-    var room: Room?,
-    var rent: Long?,
-    var dateRentDue: Date?,
-    var parkingSpots: List<ParkingSpot>?
-)
+class Occupant : User() {
+    var dateMovedIn: Date? = null
+    var timeLastRentPaid: Date? = null
+    var room: Room? = null
+    var rent: Long? = null
+    var dateRentDue: Date? = null
+    var parkingSpots: List<ParkingSpot>? = null
+}

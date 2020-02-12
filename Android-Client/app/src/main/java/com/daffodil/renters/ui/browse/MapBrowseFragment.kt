@@ -13,10 +13,11 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 
-class MapControllerFragment : ControllerFragment(), ControllerFragment.ChildFragmentInteraction,
-    OnMapReadyCallback {
+class MapBrowseFragment : ControllerFragment(), ControllerFragment.ChildFragmentInteraction,
+    OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     private var map: GoogleMap? = null
     private var listings: List<ListingSkeletal>? = null
@@ -75,6 +76,8 @@ class MapControllerFragment : ControllerFragment(), ControllerFragment.ChildFrag
     fun setListingSkeletalMarkers() {
         if (map != null && listings != null) {
 
+            Thread{map!!.setOnMarkerClickListener(this)}
+
             val moveToAvgLatLang =
                 (context?.applicationContext as RentersApplication).getAppPreferences()
                     .getBoolean("MAP_INIT_AVG_LATLANG", false)
@@ -87,7 +90,7 @@ class MapControllerFragment : ControllerFragment(), ControllerFragment.ChildFrag
             listings?.forEach {
                 val latitude = it.latitude
                 val longitude = it.longitude
-                map?.addMarker(
+                val marker = map?.addMarker(
                     MarkerOptions().position(
                         LatLng(
                             latitude,
@@ -96,6 +99,7 @@ class MapControllerFragment : ControllerFragment(), ControllerFragment.ChildFrag
                     ).title(it.address)
                         .alpha(2.34f)
                 )
+                marker?.tag = it.propertyId
                 if (moveToAvgLatLang) {
                     if (avgLat == null) avgLat = (latitude / size)
                     else avgLat?.plus(latitude / size)
@@ -108,6 +112,14 @@ class MapControllerFragment : ControllerFragment(), ControllerFragment.ChildFrag
                 map?.moveCamera(CameraUpdateFactory.newLatLng(LatLng(avgLat!!, avgLong!!)))
 
         }
+    }
+
+    override fun onMarkerClick(p0: Marker?): Boolean {
+        val id = p0?.tag as Long?
+        if (id != null) {
+            super.viewListing(id)
+            return true
+        } else return false
     }
 
     override fun onDataLoaded(listings: List<ListingSkeletal>?) {

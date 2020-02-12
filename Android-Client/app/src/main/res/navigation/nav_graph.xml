@@ -24,10 +24,13 @@
             android:id="@+id/browseFragment"
             android:name="com.daffodil.renters.ui.browse.BrowseFragment"
             android:label="Browse"
-            tools:layout="@layout/browse_fragment" >
+            tools:layout="@layout/browse_fragment">
         <action
                 android:id="@+id/action_browseFragment_to_userLoginFragment"
                 app:destination="@id/userLoginFragment" />
+        <action
+                android:id="@+id/action_browseFragment_to_listingFragment"
+                app:destination="@id/listingFragment" />
     </fragment>
     <fragment
             android:id="@+id/settingsFragment"
@@ -46,7 +49,12 @@
     </fragment>
     <fragment
             android:id="@+id/userCreationFragment"
-            tools:layout="@layout/user_creation_fragment"
             android:name="com.daffodil.renters.ui.user.creation.UserCreationFragment"
-            android:label="UserCreationFragment" />
+            android:label="UserCreationFragment"
+            tools:layout="@layout/user_creation_fragment" />
+    <fragment
+            android:id="@+id/listingFragment"
+            android:name="com.daffodil.renters.ui.listing.ListingFragment"
+            android:label="Listing"
+            tools:layout="@layout/fragment_listing" />
 </navigation>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.listing.ListingFragment">
+
+    <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_margin="8dp"
+            android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            <TextView
+                    android:id="@+id/listing_bhk_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:textAppearance="?textAppearanceHeadline6"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="3 BHK Independent Floor" />
+
+            <TextView
+                    android:id="@+id/listing_house_num_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/listing_bhk_textview"
+                    tools:text="F - 27" />
+
+            <TextView
+                    android:id="@+id/listing_area_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:layout_marginStart="8dp"
+                    android:textAppearance="?textAppearanceCaption"
+                    app:layout_constraintBottom_toBottomOf="@+id/listing_furnishing_type_textview"
+                    app:layout_constraintStart_toEndOf="@+id/listing_area_furnishing_type_divider"
+                    app:layout_constraintTop_toTopOf="@+id/listing_furnishing_type_textview"
+                    tools:text="350 sq. ft" />
+
+            <View
+                    android:id="@+id/listing_area_furnishing_type_divider"
+                    android:layout_width="1dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="8dp"
+                    android:background="@android:color/darker_gray"
+                    app:layout_constraintBottom_toBottomOf="@+id/listing_furnishing_type_textview"
+                    app:layout_constraintStart_toEndOf="@+id/listing_furnishing_type_textview"
+                    app:layout_constraintTop_toTopOf="@+id/listing_furnishing_type_textview" />
+
+
+            <TextView
+                    android:id="@+id/listing_furnishing_type_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:textAppearance="?textAppearanceCaption"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/listing_house_num_textview"
+                    tools:text="Fully Furnished" />
+
+            <TextView
+                    android:id="@+id/listing_rent_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:layout_marginStart="8dp"
+                    android:textAppearance="?textAppearanceSubtitle1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/listing_furnishing_type_textview"
+                    tools:text="₹ 56239 /month" />
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:drawableTop="@drawable/ic_pin_drop_black_24dp"
+                    android:drawableTint="@color/colorSecondaryVariant"
+                    android:text="View on Map"
+                    android:textAppearance="?textAppearanceButton"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/listing_bhk_textview" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</LinearLayout>

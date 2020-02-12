@@ -13,6 +13,7 @@ import com.daffodil.renters.R
 import com.daffodil.renters.application.RentersApplication
 import com.daffodil.renters.ui.NavigationHost
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.browse_fragment.*
 
 class BrowseFragment : Fragment(), AdapterView.OnItemSelectedListener,
@@ -47,6 +48,7 @@ class BrowseFragment : Fragment(), AdapterView.OnItemSelectedListener,
         super.onViewCreated(view, savedInstanceState)
         if (savedInstanceState == null) initInitialFragment()
         setupFilterFab()
+        promptUserWithSnackbarIfNotLoggedIn()
     }
 
     /**
@@ -71,12 +73,12 @@ class BrowseFragment : Fragment(), AdapterView.OnItemSelectedListener,
 
         when (browseHomesDisplayType) {
             BROWSE_HOMES_DISPLAY_TYPE_LIST -> {
-                fragment = ListControllerFragment()
+                fragment = ListBrowseFragment()
             }
             BROWSE_HOMES_DISPLAY_TYPE_MAP -> {
-                fragment = MapControllerFragment()
+                fragment = MapBrowseFragment()
             }
-            else -> fragment = ListControllerFragment()
+            else -> fragment = ListBrowseFragment()
         }
 
         navigateTo(fragment)
@@ -119,13 +121,13 @@ class BrowseFragment : Fragment(), AdapterView.OnItemSelectedListener,
         when (position) {
             0 -> {
                 Thread {
-                    navigateTo(ListControllerFragment())
+                    navigateTo(ListBrowseFragment())
                     browseHomesDisplayType = BROWSE_HOMES_DISPLAY_TYPE_LIST
                 }.start()
             }
             1 -> {
                 Thread {
-                    navigateTo(MapControllerFragment())
+                    navigateTo(MapBrowseFragment())
                     browseHomesDisplayType = BROWSE_HOMES_DISPLAY_TYPE_MAP
                 }.start()
             }
@@ -146,6 +148,26 @@ class BrowseFragment : Fragment(), AdapterView.OnItemSelectedListener,
             }
         }.start()
     }
+
+    /**
+     * Shows a checks if user is logged in and prompts user with a Snackbar if not logged in.
+     */
+    private fun promptUserWithSnackbarIfNotLoggedIn() {
+
+        if (!(context?.applicationContext as RentersApplication).isUserLoggedIn()) {
+
+
+            Snackbar.make(container, "Want a personalized experience?", Snackbar.LENGTH_SHORT)
+                .setAction("Login") {
+                    findNavController().navigate(R.id.action_browseFragment_to_userLoginFragment)
+                }
+                .setDuration(Snackbar.LENGTH_LONG)
+                .show()
+
+        }
+
+    }
+
 
     /**
      * Get and Set the value of default display mode in shared preferences.
