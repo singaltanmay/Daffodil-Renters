@@ -69,9 +69,9 @@ open class RentersApplication : Application() {
         Context.MODE_PRIVATE
     )
 
-    fun isUserLoggedIn(prefs : SharedPreferences = getAppPreferences()) = prefs.contains(USER_ID_KEY)
+    fun isUserLoggedIn(prefs: SharedPreferences = getAppPreferences()) = prefs.contains(USER_ID_KEY)
 
-    fun getUserId(prefs : SharedPreferences = getAppPreferences()): String? {
+    fun getUserId(prefs: SharedPreferences = getAppPreferences()): String? {
         return prefs.getString(USER_ID_KEY, null)
     }
 

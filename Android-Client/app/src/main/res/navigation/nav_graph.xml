@@ -50,7 +50,7 @@
     <fragment
             android:id="@+id/userCreationFragment"
             android:name="com.daffodil.renters.ui.user.creation.UserCreationFragment"
-            android:label="UserCreationFragment"
+            android:label="Sign Up"
             tools:layout="@layout/user_creation_fragment" />
     <fragment
             android:id="@+id/listingFragment"
