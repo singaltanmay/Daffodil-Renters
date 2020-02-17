@@ -1,6 +1,7 @@
 package com.daffodil.renters.model
 
 import com.daffodil.renters.model.postables.Property
+import kotlin.math.roundToInt
 
 open class ListingSkeletal {
 
@@ -36,14 +37,45 @@ open class ListingSkeletal {
 
     var distanceKm: Double = 0.0
 
-    val address: String
-        get() {
-            return "$addressBuildingName, " +
-                    "$addressLocalityName, " +
-                    "$addressSubdivision, " +
-                    "$addressCity, " +
-                    "$addressState, " +
-                    "$addressPinCode"
+    open inner class FormattedStrings {
+
+        fun getRentPerMonth(symbol: String? = "₹", factor: Double? = 1.0) =
+            "$symbol ${rent.times(factor ?: 1.0).toLong()} /month"
+
+        fun getHouseSizeAndType() = "$bedrooms BHK ${propertyType.toString().toSentenceCase()}"
+
+        fun getArea(unit: String? = "sq. ft.", factor: Double? = 1.0) =
+            "${area.times(factor ?: 1.0).toInt()} $unit"
+
+        fun getFurnishingTypeSentenceCase() = furnishing.toString().toSentenceCase()
+
+        fun getRoundedDistanceWithUnit(): String {
+
+            var distance = distanceKm
+            val string: String
+            val distInt = distance.times(1000).roundToInt()
+            if (distInt < 1000) {
+                string = "$distInt m"
+            } else {
+                // 2509
+                string =
+                    "${distInt.toDouble()/*2509.0*/.div(100)/*25.09*/.roundToInt()/*25*/.toDouble()/*25.0*/.div(
+                        10
+                    )/*2.5*/} Km"
+            }
+            return string
         }
+
+        fun getFullAddress(): String = "$addressBuildingName, " +
+                "$addressLocalityName, " +
+                "$addressSubdivision, " +
+                "$addressCity, " +
+                "$addressState, " +
+                "$addressPinCode"
+
+        fun String.toSentenceCase() = this.toLowerCase().capitalize()
+
+    }
+
 
 }

@@ -19,7 +19,7 @@ open class ControllerFragment : Fragment() {
 
     fun loadAllListingSkeletals() {
 
-        val call = RetrofitClient.getInstance().getAPIClient().getListings()
+        val call = RetrofitClient.getInstance().getAPIClient().getMinListings()
         call.enqueue(object : Callback<List<ListingSkeletal>> {
             override fun onResponse(
                 call: Call<List<ListingSkeletal>>,

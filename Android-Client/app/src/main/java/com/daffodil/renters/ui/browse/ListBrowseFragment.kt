@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.daffodil.renters.R
 import com.daffodil.renters.model.ListingSkeletal
-import kotlin.math.roundToInt
 
 class ListBrowseFragment : ControllerFragment(), ControllerFragment.ChildFragmentInteraction {
 
@@ -73,34 +72,21 @@ class ListBrowseFragment : ControllerFragment(), ControllerFragment.ChildFragmen
         override fun onBindViewHolder(holder: BrowseItemViewHolder, position: Int) {
             val listing = data?.get(position)
 
-            holder.rentTextView.text =
-                "${context?.getString(R.string.currency_symbol)} ${listing?.rent.toString()}"
-            holder.bhkTextView.text = "${listing?.bedrooms} BHK ${listing?.propertyType}"
-            holder.addressTextView.text =
-                "${listing?.addressSubdivision}, ${listing?.addressLocalityName}"
-            holder.areaTextView.text = "${listing?.area} sq.ft"
-            holder.furnishingTextView.text =
-                listing?.furnishing.toString().toLowerCase().capitalize()
+            if (listing != null) {
 
-            var distance = listing?.distanceKm
-            if (distance != null) {
-                val string: String
-                val distInt = distance.times(1000).roundToInt()
-                if (distInt < 1000) {
-                    string = "$distInt m"
-                } else {
-                    // 2509
-                    string =
-                        "${distInt.toDouble()/*2509.0*/.div(100)/*25.09*/.roundToInt()/*25*/.toDouble()/*25.0*/.div(
-                            10
-                        )/*2.5*/} Km"
-                }
+                val formattedStrings = listing.FormattedStrings()
 
-                holder.distanceTextView.text = string
+                holder.rentTextView.text =
+                    formattedStrings.getRentPerMonth(context?.getString(R.string.currency_symbol))
+                holder.bhkTextView.text = formattedStrings.getHouseSizeAndType()
+                holder.addressTextView.text =
+                    "${listing?.addressSubdivision}, ${listing?.addressLocalityName}"
+                holder.areaTextView.text = formattedStrings.getArea()
+                holder.furnishingTextView.text = formattedStrings.getFurnishingTypeSentenceCase()
+                holder.distanceTextView.text = formattedStrings.getRoundedDistanceWithUnit()
+
+                holder.parent.setOnClickListener(itemClickListener(listing.propertyId))
             }
-
-            holder.parent.setOnClickListener(itemClickListener(listing?.propertyId))
-
         }
 
         override fun getItemCount(): Int = data?.size ?: 0

@@ -76,7 +76,7 @@ class MapBrowseFragment : ControllerFragment(), ControllerFragment.ChildFragment
     fun setListingSkeletalMarkers() {
         if (map != null && listings != null) {
 
-            Thread{map!!.setOnMarkerClickListener(this)}
+            Thread { map!!.setOnMarkerClickListener(this) }
 
             val moveToAvgLatLang =
                 (context?.applicationContext as RentersApplication).getAppPreferences()
@@ -96,7 +96,7 @@ class MapBrowseFragment : ControllerFragment(), ControllerFragment.ChildFragment
                             latitude,
                             longitude
                         )
-                    ).title(it.address)
+                    ).title(it.addressLocalityName)
                         .alpha(2.34f)
                 )
                 marker?.tag = it.propertyId

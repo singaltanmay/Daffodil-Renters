@@ -161,7 +161,7 @@ class BrowseFragment : Fragment(), AdapterView.OnItemSelectedListener,
                 .setAction("Login") {
                     findNavController().navigate(R.id.action_browseFragment_to_userLoginFragment)
                 }
-                .setDuration(Snackbar.LENGTH_INDEFINITE)
+                .setDuration(Snackbar.LENGTH_LONG)
                 .show()
 
         }

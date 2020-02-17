@@ -1,20 +1,24 @@
 package com.daffodil.renters.ui.listing
 
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.daffodil.renters.R
 import com.daffodil.renters.api.RetrofitClient
-import com.daffodil.renters.model.ListingSkeletal
+import com.daffodil.renters.model.Listing
 import kotlinx.android.synthetic.main.fragment_listing.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+
 
 class ListingFragment : Fragment() {
 
@@ -37,32 +41,63 @@ class ListingFragment : Fragment() {
 
     }
 
-    private fun refreshViewsWithData(listing: ListingSkeletal) {
+    private fun refreshViewsWithData(listing: Listing) {
 
-        val bhkString = "${listing.bedrooms} ${listing.propertyType}"
+        val strings = listing.FormattedStrings()
 
-        Logv(bhkString)
+        listing_bhk_textview.text = strings.getHouseSizeAndType()
+        listing_house_num_textview.text = listing.addressBuildingName
+        listing_distance_textview.text = strings.getRoundedDistanceWithUnit()
+        listing_furnishing_type_textview.text = strings.getFurnishingTypeSentenceCase()
+        listing_area_textview.text = strings.getArea()
+        listing_rent_textview.text = strings.getRentPerMonth()
 
-        listing_bhk_textview.text = bhkString
+        listing_project_name_textview.text = listing.addressLocalityName
+        listing_bedrooms_num_textview.text = listing.bedrooms.toString()
+        listing_description_text_view.text = listing.description
+
+        listing_seller_name_textview.text = strings.getSellerFullNameSentenceCase()
+        listing_seller_type_textview.text = strings.getSellerTypeSentenceCase()
+
+        listing_seller_contact_material_button.setOnClickListener {
+            val phoneNumber = listing.seller?.phoneNumber
+            if (!phoneNumber.isNullOrEmpty()) {
+                val intent = Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phoneNumber, null))
+                startActivity(intent)
+            }
+        }
+
+        val lineCount = listing_description_text_view.lineCount
+        if (lineCount > 4) {
+            description_length_toggle.setOnClickListener {
+                listing_description_text_view.maxLines = lineCount
+                (it as Button).text = "Read Less"
+                it.setOnClickListener {
+                    listing_description_text_view.maxLines = 4
+                    (it as Button).text = "Read More"
+                }
+            }
+            description_length_toggle.visibility = View.VISIBLE
+        }
 
     }
 
     private fun loadProperty(id: Long) {
 
         val call = RetrofitClient.getInstance().getAPIClient().getListings()
-        call.enqueue(object : Callback<List<ListingSkeletal>> {
+        call.enqueue(object : Callback<List<Listing>> {
             override fun onResponse(
-                call: Call<List<ListingSkeletal>>,
-                response: Response<List<ListingSkeletal>>
+                call: Call<List<Listing>>,
+                response: Response<List<Listing>>
             ) {
                 val listings = response.body()
-                if ((listings != null && listings.size > 0)) {
-                    refreshViewsWithData(listings.get(0))
+                if ((listings != null && listings.isNotEmpty())) {
+                    refreshViewsWithData(listings[0])
                 }
                 Logv("Call successful. Items received: " + listings?.size)
             }
 
-            override fun onFailure(call: Call<List<ListingSkeletal>>, t: Throwable) {
+            override fun onFailure(call: Call<List<Listing>>, t: Throwable) {
                 Logv("Call failed to server ${t.message}")
             }
         })
