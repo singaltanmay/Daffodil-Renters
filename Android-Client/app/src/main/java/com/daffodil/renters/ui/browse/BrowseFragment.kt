@@ -1,28 +1,22 @@
 package com.daffodil.renters.ui.browse
 
-import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.View
+import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat
 import androidx.core.content.edit
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.daffodil.renters.R
 import com.daffodil.renters.application.RentersApplication
 import com.daffodil.renters.ui.NavigationHost
-import com.daffodil.renters.ui.settings.SettingsActivity
-import com.daffodil.renters.ui.user.UserCreationActivity
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-import com.google.android.material.navigation.NavigationView
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.browse_fragment.*
 
-class BrowseActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
+class BrowseFragment : Fragment(), AdapterView.OnItemSelectedListener,
     NavigationHost {
 
     /**
@@ -41,65 +35,20 @@ class BrowseActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
-        initToolbar()
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? = inflater.inflate(R.layout.browse_fragment, container, false)
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         if (savedInstanceState == null) initInitialFragment()
         setupFilterFab()
-
-    }
-
-    private fun initToolbar() {
-        setContentView(R.layout.browse_activity)
-
-        val actionBar = findViewById<Toolbar>(R.id.browse_toolbar)
-        setSupportActionBar(actionBar)
-
-        Thread {
-            actionBar.setTitleTextColor(
-                ContextCompat.getColor(
-                    this,
-                    R.color.design_default_color_surface
-                )
-            )
-            actionBar.navigationIcon =
-                ContextCompat.getDrawable(this, R.drawable.ic_menu_black_24dp)
-        }.start()
-
-        actionBar.setNavigationOnClickListener {
-
-            val navigationView = findViewById<NavigationView>(R.id.browse_navigation_drawer)
-            val drawerLayout = findViewById<DrawerLayout>(R.id.browse_parent_drawer_layout)
-
-            Thread { initNavigationDrawer(navigationView, drawerLayout) }.start()
-            drawerLayout.openDrawer(navigationView)
-        }
-
-    }
-
-    private fun initNavigationDrawer(navigationView: NavigationView, drawerLayout: DrawerLayout) {
-
-        Thread {
-            navigationView.getHeaderView(0).setOnClickListener {
-                drawerLayout.closeDrawer(navigationView)
-                startActivity(Intent(this, UserCreationActivity::class.java))
-            }
-        }.start()
-
-        Thread {
-            navigationView.setNavigationItemSelectedListener {
-                drawerLayout.closeDrawer(navigationView)
-                when (it.itemId) {
-                    R.id.navigate_settings -> {
-                        startActivity(Intent(this, SettingsActivity::class.java))
-                        true
-                    }
-                    else -> {
-                        false
-                    }
-                }
-            }
-        }.start()
+        promptUserWithSnackbarIfNotLoggedIn()
     }
 
     /**
@@ -120,7 +69,7 @@ class BrowseActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
      * Initialize the initial fragment based on previous display type selected by user.
      */
     private fun initInitialFragment() {
-        val fragment: BrowseFragmentBase
+        val fragment: ControllerFragment
 
         when (browseHomesDisplayType) {
             BROWSE_HOMES_DISPLAY_TYPE_LIST -> {
@@ -137,14 +86,15 @@ class BrowseActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
     }
 
     /**
-     * Setup top action bar by inflating menu
+     * Modify top action bar of parent activity by inflating custom menu
      */
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.run { inflate(R.menu.browse_top_app_bar, menu) }
-        val spinner = menu?.findItem(R.id.action_change_layout_spinner)?.actionView as Spinner
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.browse_top_app_bar, menu)
+
+        val spinner = menu.findItem(R.id.action_change_layout_spinner)?.actionView as Spinner
         val adapter = ArrayAdapter.createFromResource(
-            this,
+            context!!,
             R.array.layout_change_spinner_items, android.R.layout.simple_spinner_item
         )
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -153,14 +103,14 @@ class BrowseActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
 
         initDisplayChangerSpinner(spinner)
 
-        return true
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
     /**
      * What to do if no option selected on spinner
      */
     override fun onNothingSelected(parent: AdapterView<*>?) {
-        Toast.makeText(this, "Nothing selected", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "Nothing selected", Toast.LENGTH_SHORT).show()
     }
 
     /**
@@ -188,11 +138,11 @@ class BrowseActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
      * Setup the filter fab by setting click listener
      */
     private fun setupFilterFab() {
-        val fab = findViewById<ExtendedFloatingActionButton>(R.id.browse_filter_fab)
+        val fab: ExtendedFloatingActionButton = browse_filter_fab
         Thread {
             fab.setOnClickListener {
                 FilterHousesBottomDialogFragment().show(
-                    supportFragmentManager,
+                    activity!!.supportFragmentManager,
                     null
                 )
             }
@@ -200,17 +150,37 @@ class BrowseActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
     }
 
     /**
+     * Shows a checks if user is logged in and prompts user with a Snackbar if not logged in.
+     */
+    private fun promptUserWithSnackbarIfNotLoggedIn() {
+
+        if (!(context?.applicationContext as RentersApplication).isUserLoggedIn()) {
+
+
+            Snackbar.make(container, "Want a personalized experience?", Snackbar.LENGTH_SHORT)
+                .setAction("Login") {
+                    findNavController().navigate(R.id.action_browseFragment_to_userLoginFragment)
+                }
+                .setDuration(Snackbar.LENGTH_INDEFINITE)
+                .show()
+
+        }
+
+    }
+
+
+    /**
      * Get and Set the value of default display mode in shared preferences.
      */
     var browseHomesDisplayType: Int
         get() {
-            return (applicationContext as RentersApplication).getAppPreferences().getInt(
+            return (activity?.applicationContext as RentersApplication).getAppPreferences().getInt(
                 BROWSE_ACTIVITY_DISPALY_TYPE_KEY,
                 BROWSE_HOMES_DISPLAY_TYPE_LIST
             )
         }
         set(value) {
-            (applicationContext as RentersApplication).getAppPreferences()
+            (activity?.applicationContext as RentersApplication).getAppPreferences()
                 .edit { putInt(BROWSE_ACTIVITY_DISPALY_TYPE_KEY, value) }
         }
 
@@ -221,7 +191,7 @@ class BrowseActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
      * @param addToBackstack Whether or not the current fragment should be added to the backstack.
      */
     override fun navigateTo(fragment: Fragment, addToBackstack: Boolean) {
-        val transaction = supportFragmentManager
+        val transaction = activity!!.supportFragmentManager
             .beginTransaction()
             .replace(R.id.container, fragment)
 

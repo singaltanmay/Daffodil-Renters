@@ -12,7 +12,7 @@ import com.daffodil.renters.R
 import com.daffodil.renters.model.ListingSkeletal
 import kotlin.math.roundToInt
 
-class ListBrowseFragment : BrowseFragmentBase(), BrowseFragmentBase.ChildFragmentInteraction {
+class ListBrowseFragment : ControllerFragment(), ControllerFragment.ChildFragmentInteraction {
 
 
     private lateinit var parentView: View
@@ -29,15 +29,18 @@ class ListBrowseFragment : BrowseFragmentBase(), BrowseFragmentBase.ChildFragmen
         savedInstanceState: Bundle?
     ): View? {
         parentView = inflater.inflate(R.layout.recycler_view_layout, container, false)
-
-        initRecyclerView()
         return parentView
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initRecyclerView()
     }
 
     private fun initRecyclerView() {
         val recyclerView = parentView.findViewById<RecyclerView>(R.id.browse_recycler)
         recyclerView.layoutManager = LinearLayoutManager(context)
-        adapter = BrowseItemAdapter(null, context)
+        adapter = BrowseItemAdapter(null, context, adapterListener)
         recyclerView.adapter = adapter
     }
 
@@ -46,7 +49,17 @@ class ListBrowseFragment : BrowseFragmentBase(), BrowseFragmentBase.ChildFragmen
         adapter.notifyDataSetChanged()
     }
 
-    class BrowseItemAdapter(var data: List<ListingSkeletal>?, val context: Context?) :
+    val adapterListener: (propertyId: Long?) -> View.OnClickListener = { pid ->
+        View.OnClickListener {
+            super.viewListing(pid)
+        }
+    }
+
+    class BrowseItemAdapter(
+        var data: List<ListingSkeletal>?,
+        val context: Context?,
+        val itemClickListener: (Long?) -> View.OnClickListener
+    ) :
         RecyclerView.Adapter<BrowseItemAdapter.BrowseItemViewHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BrowseItemViewHolder {
@@ -77,16 +90,20 @@ class ListBrowseFragment : BrowseFragmentBase(), BrowseFragmentBase.ChildFragmen
                     string = "$distInt m"
                 } else {
                     // 2509
-                    string = "${distInt.toDouble()/*2509.0*/.div(100)/*25.09*/.roundToInt()/*25*/.toDouble()/*25.0*/.div(10)/*2.5*/} Km"
+                    string =
+                        "${distInt.toDouble()/*2509.0*/.div(100)/*25.09*/.roundToInt()/*25*/.toDouble()/*25.0*/.div(
+                            10
+                        )/*2.5*/} Km"
                 }
 
                 holder.distanceTextView.text = string
             }
 
+            holder.parent.setOnClickListener(itemClickListener(listing?.propertyId))
+
         }
 
         override fun getItemCount(): Int = data?.size ?: 0
-
 
         class BrowseItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 

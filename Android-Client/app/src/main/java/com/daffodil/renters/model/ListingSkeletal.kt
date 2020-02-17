@@ -4,7 +4,7 @@ import com.daffodil.renters.model.postables.Property
 
 open class ListingSkeletal {
 
-    var id: Long = 0
+    var propertyId: Long = 0
 
     var latitude: Double = 0.toDouble()
 
@@ -32,7 +32,7 @@ open class ListingSkeletal {
 
     var rent: Long = 0
 
-    var isRoommates: Boolean = false
+    var roommates: Boolean = false
 
     var distanceKm: Double = 0.0
 

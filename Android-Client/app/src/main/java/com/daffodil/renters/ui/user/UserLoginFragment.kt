@@ -2,31 +2,34 @@ package com.daffodil.renters.ui.user
 
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.daffodil.renters.R
 import kotlinx.android.synthetic.main.fragment_user_login.frag_user_login_cancel_button as cancelButton
 import kotlinx.android.synthetic.main.fragment_user_login.frag_user_login_next_button as loginButton
+import kotlinx.android.synthetic.main.fragment_user_login.frag_user_login_sing_up_button as signUpButton
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+//
+//// TODO: Rename parameter arguments, choose names that match
+//// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+//private const val ARG_PARAM1 = "param1"
+//private const val ARG_PARAM2 = "param2"
 
 class UserLoginFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-    private var listener: OnUserLoginListener? = null
+    //    // TODO: Rename and change types of parameters
+//    private var param1: String? = null
+//    private var param2: String? = null
+    private var listener: OnFragmentInteractionListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            //            param1 = it.getString(ARG_PARAM1)
+//            param2 = it.getString(ARG_PARAM2)
         }
     }
 
@@ -41,29 +44,34 @@ class UserLoginFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+        (activity as AppCompatActivity).supportActionBar?.hide()
         Thread { setupListeners() }.start()
     }
 
     private fun setupListeners() {
         cancelButton.setOnClickListener {
-            activity?.finish()
+            listener?.onCancel()
         }
         loginButton.setOnClickListener {
-            loginButtonPressed()
+            listener?.onLogin(-1)
         }
-    }
-
-    private fun loginButtonPressed() {
-        //TODO actually attempt login
+        signUpButton.setOnClickListener {
+            findNavController().navigate(R.id.action_userLoginFragment_to_userCreationFragment)
+        }
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is OnUserLoginListener) {
+        if (context is OnFragmentInteractionListener) {
             listener = context
         } else {
             throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        (activity as AppCompatActivity).supportActionBar?.show()
     }
 
     override fun onDetach() {
@@ -82,8 +90,9 @@ class UserLoginFragment : Fragment() {
      * (http://developer.android.com/training/basics/fragments/communicating.html)
      * for more information.
      */
-    interface OnUserLoginListener {
-        fun OnLogin(userId: Long)
+    interface OnFragmentInteractionListener {
+        fun onLogin(userId: Long)
+        fun onCancel()
     }
 
 }

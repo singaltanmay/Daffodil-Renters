@@ -1,13 +1,9 @@
 package com.daffodil.renters.model.postables
 
-data class Seller(
-    var id: Long?,
-    var firstName: String?,
-    var lastName: String?,
-    var phoneNumber: String?,
-    var sellerType: SELLER_TYPE? = SELLER_TYPE.OWNER,
-    var properties: List<Property>?
-) {
+class Seller : User() {
+
+    var sellerType: SELLER_TYPE? = SELLER_TYPE.OWNER
+    var properties: List<Property>? = null
 
     enum class SELLER_TYPE {
         OWNER,

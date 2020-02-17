@@ -11,9 +11,11 @@
         <item>Map</item>
     </string-array>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="login_hint_username">Username</string>
+    <string name="login_hint_email_id">Email ID</string>
     <string name="login_hint_password">Password</string>
+    <string name="sign_up_hint_phone_number">Phone Number</string>
+    <string name="sign_up_hint_last_name">Last Name</string>
+    <string name="sign_up_hint_first_name">First Name</string>
 
 </resources>
