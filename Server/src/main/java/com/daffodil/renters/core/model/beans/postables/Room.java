@@ -7,7 +7,7 @@ import lombok.Setter;
 import java.util.List;
 import java.util.Optional;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class Room {
 
     @Getter

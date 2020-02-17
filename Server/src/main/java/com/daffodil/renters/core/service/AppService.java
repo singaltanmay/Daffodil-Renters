@@ -48,11 +48,9 @@ public class AppService {
      */
     public ResponseEntity<?> getListing(Optional<Long> propertyId, Optional<Boolean> min) {
 
-        if (min.isPresent() && min.get()) {
-            List<ListingSkeletal> listingSkeletalList = getMinSkeletalListings(propertyId);
-            if (listingSkeletalList != null) {
-                return new ResponseEntity<>(listingSkeletalList, HttpStatus.OK);
-            }
+        List<ListingSkeletal> listingSkeletalList = getListings(propertyId, min.orElse(false));
+        if (listingSkeletalList != null) {
+            return new ResponseEntity<>(listingSkeletalList, HttpStatus.OK);
         }
 
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -62,7 +60,7 @@ public class AppService {
     /**
      * Gets a skeletal listing from property id by querying for parent building
      */
-    public List<ListingSkeletal> getMinSkeletalListings(Optional<Long> propertyId) {
+    private List<ListingSkeletal> getListings(Optional<Long> propertyId, boolean min) {
         List<ListingSkeletal> listings = new LinkedList<>();
 
         if (propertyId.isPresent()) {
@@ -70,9 +68,9 @@ public class AppService {
             Building building = buildingService.getBuildingByPropertyId(id);
             Property property = building.getProperties().map(it -> it.size() > 0 ? it.get(0) : null).orElse(propertyService.getPropertyById(id));
             property.setBuilding(Optional.of(building));
-            listings.addAll(getMinSkeletalListings(List.of(property), true));
+            listings.addAll(getListings(List.of(property), true, min));
         } else {
-            return getMinSkeletalListings(propertyService.getAllProperties(), false);
+            return getListings(propertyService.getAllProperties(), false, min);
         }
 
         return listings;
@@ -86,7 +84,7 @@ public class AppService {
      *                         known as otherwise the database will be queried for each property to find parent.
      * @return List of skeletal listings.
      */
-    private List<ListingSkeletal> getMinSkeletalListings(List<Property> properties, boolean buildingsPresent) {
+    private List<ListingSkeletal> getListings(List<Property> properties, boolean buildingsPresent, boolean minListing) {
 
         if (!buildingsPresent) {
             properties.forEach(p -> {
@@ -95,7 +93,7 @@ public class AppService {
             });
         }
 
-        GenerateListingsTask task = new GenerateListingsTask(properties, true);
+        GenerateListingsTask task = new GenerateListingsTask(properties, minListing);
         masterPool.invoke(task);
         return task.join();
     }

@@ -3,11 +3,12 @@ package com.daffodil.renters.core.model.beans.postables;
 import com.daffodil.renters.core.model.entities.SellerEntity;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 import java.util.Optional;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class Seller {
 
     @Getter
@@ -21,6 +22,7 @@ public class Seller {
     @Getter
     private Optional<SellerEntity.SELLER_TYPE> sellerType;
     @Getter
+    @Setter
     private Optional<List<Property>> properties;
 
     public Seller(Optional<Long> id, Optional<String> firstName, Optional<String> lastName, Optional<String> phoneNumber, Optional<SellerEntity.SELLER_TYPE> sellerType, Optional<List<Property>> properties) {

@@ -26,21 +26,37 @@ public class GenerateListingsTask extends RecursiveTask<List<ListingSkeletal>> {
         List<ListingSkeletal> listings = new LinkedList<>();
 
         if (minListing) {
-            List<MinListingFromPropertyCreator> taskList = gerenerateListingsTaskList();
+            List<MinListingFromPropertyCreator> taskList = generateMinListingsTaskList();
+            taskList.forEach(t -> t.fork());
+            taskList.forEach(t -> listings.add(t.join()));
+        } else {
+            List<ListingFromPropertyCreator> taskList = generateListingsTaskList();
             taskList.forEach(t -> t.fork());
             taskList.forEach(t -> listings.add(t.join()));
         }
-        //TODO else max listing
 
         return listings;
     }
 
-    private List<MinListingFromPropertyCreator> gerenerateListingsTaskList() {
+    private List<MinListingFromPropertyCreator> generateMinListingsTaskList() {
         List<MinListingFromPropertyCreator> list = new LinkedList<>();
 
         if (propertyList != null) {
             propertyList.forEach(p -> {
                 list.add(new MinListingFromPropertyCreator(p));
+            });
+        }
+
+        return list;
+    }
+
+    private List<ListingFromPropertyCreator> generateListingsTaskList() {
+
+        List<ListingFromPropertyCreator> list = new LinkedList<>();
+
+        if (propertyList != null) {
+            propertyList.forEach(p -> {
+                list.add(new ListingFromPropertyCreator(p));
             });
         }
 
