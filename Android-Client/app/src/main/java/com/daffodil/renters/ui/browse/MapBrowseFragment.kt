@@ -98,6 +98,7 @@ class MapBrowseFragment : ControllerFragment(), ControllerFragment.ChildFragment
                         )
                     ).title(it.addressLocalityName)
                         .alpha(2.34f)
+                        .snippet(it.FormattedStrings().getRoundedDistanceWithUnit()  + " from Daffodil Software")
                 )
                 marker?.tag = it.propertyId
                 if (moveToAvgLatLang) {

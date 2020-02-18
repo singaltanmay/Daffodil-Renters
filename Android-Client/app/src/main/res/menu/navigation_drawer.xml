@@ -6,4 +6,9 @@
             android:icon="@drawable/ic_settings_black_24dp"
             android:title="@string/navigation_settings_title" />
 
+    <item
+            android:id="@+id/buildingCreationFragment"
+            android:icon="@drawable/ic_domain_black_24dp"
+            android:title="@string/navigation_new_listing_title" />
+
 </menu>

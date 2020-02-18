@@ -25,5 +25,6 @@
     <string name="description_length_toggle_button">Read More</string>
     <string name="listing_section_contact_seller_title">Contact Seller</string>
     <string name="listing_seller_contact_material_button">Contact</string>
+    <string name="navigation_new_listing_title">New Listing</string>
 
 </resources>

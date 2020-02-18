@@ -67,8 +67,9 @@ class MapListingFragment : Fragment(), OnMapReadyCallback {
         map?.addMarker(
             MarkerOptions()
                 .position(latLng)
-                .title(title)
-                .alpha(1.56f)
+                .title("Listing")
+                .snippet(title)
+                .alpha(2.69f)
         )
         map?.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16f))
 
