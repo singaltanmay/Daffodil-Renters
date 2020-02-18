@@ -10,7 +10,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.daffodil.renters.R
 import com.daffodil.renters.api.RetrofitClient
 import com.daffodil.renters.model.Listing
@@ -59,6 +61,17 @@ class ListingFragment : Fragment() {
         listing_seller_name_textview.text = strings.getSellerFullNameSentenceCase()
         listing_seller_type_textview.text = strings.getSellerTypeSentenceCase()
 
+        listing_view_on_map_button.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_listingFragment_to_mapListingFragment,
+                bundleOf(
+                    MapListingFragment.KEY_LATITUDE to listing.latitude,
+                    MapListingFragment.KEY_LONGITUDE to listing.longitude,
+                    MapListingFragment.KEY_MARKER_TITLE to strings.getFullAddress()
+                )
+            )
+        }
+
         listing_seller_contact_material_button.setOnClickListener {
             val phoneNumber = listing.seller?.phoneNumber
             if (!phoneNumber.isNullOrEmpty()) {
@@ -69,7 +82,7 @@ class ListingFragment : Fragment() {
 
         val lineCount = listing_description_text_view.lineCount
         if (lineCount > 4) {
-            description_length_toggle.setOnClickListener {
+            description_length_toggle_button.setOnClickListener {
                 listing_description_text_view.maxLines = lineCount
                 (it as Button).text = "Read Less"
                 it.setOnClickListener {
@@ -77,7 +90,7 @@ class ListingFragment : Fragment() {
                     (it as Button).text = "Read More"
                 }
             }
-            description_length_toggle.visibility = View.VISIBLE
+            description_length_toggle_button.visibility = View.VISIBLE
         }
 
     }
@@ -104,8 +117,6 @@ class ListingFragment : Fragment() {
 
     }
 
-
     fun Logv(message: String) = Log.v(ListingFragment::class.java.simpleName, message)
-
 
 }

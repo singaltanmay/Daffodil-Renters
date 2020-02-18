@@ -22,19 +22,19 @@
                 app:key="@string/server_ip_address_key"
                 app:title="@string/server_ip_address_title"
                 app:summary="@string/server_ip_summary"
-                app:useSimpleSummaryProvider="true" />
+                app:useSimpleSummaryProvider="false" />
 
-        <ListPreference
+<!--        <ListPreference
                 app:defaultValue="reply"
                 app:entries="@array/reply_entries"
                 app:entryValues="@array/reply_values"
                 app:key="reply"
                 app:title="@string/reply_title"
-                app:useSimpleSummaryProvider="true" />
+                app:useSimpleSummaryProvider="true" />-->
 
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/sync_header">
+<!--    <PreferenceCategory app:title="@string/sync_header">
 
         <SwitchPreferenceCompat
                 app:key="sync"
@@ -47,6 +47,6 @@
                 app:summaryOn="@string/attachment_summary_on"
                 app:title="@string/attachment_title" />
 
-    </PreferenceCategory>
+    </PreferenceCategory>-->
 
 </PreferenceScreen>

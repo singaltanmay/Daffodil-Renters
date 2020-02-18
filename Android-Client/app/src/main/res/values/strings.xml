@@ -17,5 +17,13 @@
     <string name="sign_up_hint_phone_number">Phone Number</string>
     <string name="sign_up_hint_last_name">Last Name</string>
     <string name="sign_up_hint_first_name">First Name</string>
+    <string name="view_on_map_button">View on Map</string>
+    <string name="listing_section_overview_title">Overview</string>
+    <string name="listing_project_name_title">Project Name</string>
+    <string name="listing_bedrooms_num_title">Bedrooms</string>
+    <string name="listing_section_description_title">About the Property</string>
+    <string name="description_length_toggle_button">Read More</string>
+    <string name="listing_section_contact_seller_title">Contact Seller</string>
+    <string name="listing_seller_contact_material_button">Contact</string>
 
 </resources>

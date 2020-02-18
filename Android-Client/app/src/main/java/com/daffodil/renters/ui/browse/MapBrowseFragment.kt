@@ -32,7 +32,7 @@ class MapBrowseFragment : ControllerFragment(), ControllerFragment.ChildFragment
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_map_browse, container, false)
+        val view = inflater.inflate(R.layout.container_fragment, container, false)
 
         val mapFragment = initMap()
         mapFragment.getMapAsync(this)
@@ -46,7 +46,7 @@ class MapBrowseFragment : ControllerFragment(), ControllerFragment.ChildFragment
         activity?.supportFragmentManager
             ?.beginTransaction()
             ?.add(
-                R.id.map_container,
+                R.id.fragment_container,
                 supportMapFragment
             )?.commit()
 

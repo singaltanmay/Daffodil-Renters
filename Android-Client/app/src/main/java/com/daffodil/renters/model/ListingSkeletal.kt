@@ -73,6 +73,15 @@ open class ListingSkeletal {
                 "$addressState, " +
                 "$addressPinCode"
 
+        fun getFullAddressIndented(): String = "$addressBuildingName,\n" +
+                "$addressLocalityName,\n" +
+                "$addressSubdivision,\n" +
+                "$addressCity,\n" +
+                "$addressState,\n" +
+                "$addressPinCode"
+
+
+
         fun String.toSentenceCase() = this.toLowerCase().capitalize()
 
     }
