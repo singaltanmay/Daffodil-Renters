@@ -1,14 +1,14 @@
 package com.daffodil.renters.model.postables
 
-data class ParkingSpot(
-    var id: Long?,
-    var electric: Boolean?,
+open class ParkingSpot(
+    var id: Long? = null,
+    var electric: Boolean? = false,
     var parkingSize: PARKING_SIZE? = PARKING_SIZE.CAR,
     var parkingType: PARKING_TYPE? = PARKING_TYPE.GENERAL,
-    var price: Int?,
-    var building: Building?,
-    var property: Property?,
-    var occupant: Occupant?
+    var price: Int? = 0,
+    var building: Building? = null,
+    var property: Property? = null,
+    var occupant: Occupant? = null
 ) {
 
     enum class PARKING_SIZE {

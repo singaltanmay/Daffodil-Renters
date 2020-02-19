@@ -3,7 +3,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/nav_graph"
-        app:startDestination="@id/browseFragment">
+        app:startDestination="@id/parkingSpotInsertionFragment">
 
     <fragment
             android:id="@+id/userLoginFragment"
@@ -58,20 +58,29 @@
     <fragment
             android:id="@+id/listingFragment"
             android:name="com.daffodil.renters.ui.listing.ListingFragment"
-            android:label="Listing"
-            tools:layout="@layout/fragment_listing" >
+            android:label="All Listings"
+            tools:layout="@layout/fragment_listing">
         <action
                 android:id="@+id/action_listingFragment_to_mapListingFragment"
                 app:destination="@id/mapListingFragment" />
     </fragment>
     <fragment
             android:id="@+id/mapListingFragment"
-            tools:layout="@layout/container_fragment"
             android:name="com.daffodil.renters.ui.listing.MapListingFragment"
-            android:label="MapListingFragment" />
+            android:label="All Listings"
+            tools:layout="@layout/container_fragment" />
     <fragment
             android:id="@+id/buildingCreationFragment"
             android:name="com.daffodil.renters.ui.insertion.BuildingCreationFragment"
-            android:label="fragment_building_creation"
-            tools:layout="@layout/fragment_building_creation" />
+            android:label="New Building"
+            tools:layout="@layout/fragment_building_creation">
+        <action
+                android:id="@+id/action_buildingCreationFragment_to_parkingSpotInsertionFragment"
+                app:destination="@id/parkingSpotInsertionFragment" />
+    </fragment>
+    <fragment
+            android:id="@+id/parkingSpotInsertionFragment"
+            android:name="com.daffodil.renters.ui.insertion.ParkingSpotInsertionFragment"
+            android:label="Parking Spots"
+            tools:layout="@layout/fragment_parking_spot_insertion" />
 </navigation>
