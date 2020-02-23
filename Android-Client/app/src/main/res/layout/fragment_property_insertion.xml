@@ -40,6 +40,13 @@
                 android:inputType="numberDecimal" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Amenities" />
+
+        <include layout="@layout/amenities_chip_group" />
+
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.Renters.TextInputLayout"
             android:layout_width="match_parent"
