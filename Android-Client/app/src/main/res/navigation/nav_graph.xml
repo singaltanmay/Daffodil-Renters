@@ -3,7 +3,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/nav_graph"
-        app:startDestination="@id/parkingSpotInsertionFragment">
+        app:startDestination="@id/propertyInsertionFragment">
 
     <fragment
             android:id="@+id/userLoginFragment"
@@ -71,16 +71,24 @@
             tools:layout="@layout/container_fragment" />
     <fragment
             android:id="@+id/buildingCreationFragment"
-            android:name="com.daffodil.renters.ui.insertion.BuildingCreationFragment"
+            android:name="com.daffodil.renters.ui.insertion.BuildingInsertionFragment"
             android:label="New Building"
-            tools:layout="@layout/fragment_building_creation">
+            tools:layout="@layout/fragment_building_insertion">
         <action
                 android:id="@+id/action_buildingCreationFragment_to_parkingSpotInsertionFragment"
                 app:destination="@id/parkingSpotInsertionFragment" />
+        <action
+            android:id="@+id/action_buildingCreationFragment_to_propertyInsertionFragment"
+            app:destination="@id/propertyInsertionFragment" />
     </fragment>
     <fragment
             android:id="@+id/parkingSpotInsertionFragment"
             android:name="com.daffodil.renters.ui.insertion.ParkingSpotInsertionFragment"
             android:label="Parking Spots"
             tools:layout="@layout/fragment_parking_spot_insertion" />
+    <fragment
+        android:id="@+id/propertyInsertionFragment"
+        android:name="com.daffodil.renters.ui.insertion.PropertyInsertionFragment"
+        android:label="fragment_property_insertion"
+        tools:layout="@layout/fragment_property_insertion" />
 </navigation>
