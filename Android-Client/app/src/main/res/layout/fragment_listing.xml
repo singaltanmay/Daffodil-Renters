@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.listing.ListingFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp">
+
+        <TextView
+                android:id="@+id/listing_bhk_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:layout_marginStart="8dp"
+                android:textAppearance="?textAppearanceHeadline6"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="3 BHK Independent Floor" />
+
+        <TextView
+                android:id="@+id/listing_house_num_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/listing_bhk_textview"
+                tools:text="F - 27" />
+
+        <View
+                android:id="@+id/listing_house_num_distance_divider"
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="8dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintBottom_toBottomOf="@+id/listing_house_num_textview"
+                app:layout_constraintStart_toEndOf="@+id/listing_house_num_textview"
+                app:layout_constraintTop_toTopOf="@+id/listing_house_num_textview" />
+
+        <TextView
+                android:id="@+id/listing_distance_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:textAppearance="?textAppearanceCaption"
+                app:layout_constraintBottom_toBottomOf="@+id/listing_house_num_distance_divider"
+                app:layout_constraintStart_toEndOf="@+id/listing_house_num_distance_divider"
+                app:layout_constraintTop_toTopOf="@+id/listing_house_num_distance_divider"
+                tools:text="1.27 Km" />
+
+        <TextView
+                android:id="@+id/listing_area_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:layout_marginStart="8dp"
+                android:textAppearance="?textAppearanceCaption"
+                app:layout_constraintBottom_toBottomOf="@+id/listing_furnishing_type_textview"
+                app:layout_constraintStart_toEndOf="@+id/listing_area_furnishing_type_divider"
+                app:layout_constraintTop_toTopOf="@+id/listing_furnishing_type_textview"
+                tools:text="350 sq. ft" />
+
+        <View
+                android:id="@+id/listing_area_furnishing_type_divider"
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="8dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintBottom_toBottomOf="@+id/listing_furnishing_type_textview"
+                app:layout_constraintStart_toEndOf="@+id/listing_furnishing_type_textview"
+                app:layout_constraintTop_toTopOf="@+id/listing_furnishing_type_textview" />
+
+
+        <TextView
+                android:id="@+id/listing_furnishing_type_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:textAppearance="?textAppearanceCaption"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/listing_house_num_textview"
+                tools:text="Fully Furnished" />
+
+        <TextView
+                android:id="@+id/listing_rent_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:layout_marginStart="8dp"
+                android:textAppearance="?textAppearanceSubtitle1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/listing_furnishing_type_textview"
+                tools:text="₹ 56239 /month" />
+
+        <com.google.android.material.button.MaterialButton
+                android:id="@+id/listing_view_on_map_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:drawableTop="@drawable/ic_pin_drop_black_24dp"
+                android:drawableTint="@color/design_default_color_secondary_variant"
+                android:text="@string/view_on_map_button"
+                android:textAppearance="?textAppearanceButton"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/listing_bhk_textview" />
+
+        <View
+                android:id="@+id/view"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/listing_rent_textview" />
+
+        <TextView
+                android:id="@+id/listing_section_overview_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/listing_section_overview_title"
+                android:textAppearance="?textAppearanceSubtitle1"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view" />
+
+        <TextView
+                android:id="@+id/listing_project_name_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/listing_project_name_title"
+                android:textAppearance="?textAppearanceCaption"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/listing_section_overview_title" />
+
+        <TextView
+                android:id="@+id/listing_project_name_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:textAppearance="?textAppearanceBody2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/listing_project_name_title"
+                tools:text="3D Buildon C - 114, Rosewood" />
+
+        <TextView
+                android:id="@+id/listing_bedrooms_num_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/listing_bedrooms_num_title"
+                android:textAppearance="?textAppearanceCaption"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/listing_project_name_textview" />
+
+        <TextView
+                android:id="@+id/listing_bedrooms_num_textview"
+                android:layout_width="54dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/listing_bedrooms_num_title"
+                tools:text="2" />
+
+
+        <View
+                android:id="@+id/view2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/listing_bedrooms_num_textview" />
+
+
+        <TextView
+                android:id="@+id/listing_section_description_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/listing_section_description_title"
+                android:textAppearance="?textAppearanceSubtitle1"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view2" />
+
+        <androidx.core.widget.NestedScrollView
+                android:id="@+id/fn9wgp4a"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxHeight="300dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/listing_section_description_title">
+
+            <TextView
+                    android:id="@+id/listing_description_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    tools:text="The Amaryllis is 40 acres of luxury living in Central Delhi, being developed by Unity Group. The entire project is planned to be developed in different phases, with the first phase possession commencing from 2020. This is set to be the most iconic high rise residential development in this part of Delhi and very strategically located from various key places in Central Delhi. It is located approx. 3.9 Kms from Connaught Place, 4.9 Kms from Rashtrapati Bhawan and 5.9 Kms from India Gate." />
+        </androidx.core.widget.NestedScrollView>
+
+        <com.google.android.material.button.MaterialButton
+                android:id="@+id/description_length_toggle_button"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/description_length_toggle_button"
+                android:textColor="@color/design_default_color_secondary_variant"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fn9wgp4a" />
+
+
+        <View
+                android:id="@+id/view3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/description_length_toggle_button" />
+
+        <TextView
+                android:id="@+id/listing_section_contact_seller_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/listing_section_contact_seller_title"
+                android:textAppearance="?textAppearanceSubtitle1"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view3" />
+
+        <com.google.android.material.card.MaterialCardView
+                android:id="@+id/materialCardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/listing_section_contact_seller_title">
+
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                <TextView
+                        android:id="@+id/listing_seller_name_textview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:textAppearance="?textAppearanceBody1"
+                        tools:text="Rajeev Singh" />
+
+                <TextView
+                        android:id="@+id/listing_seller_type_textview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/listing_seller_name_textview"
+                        android:layout_alignParentStart="true"
+                        tools:text="Agent" />
+
+                <com.google.android.material.button.MaterialButton
+                        android:id="@+id/listing_seller_contact_material_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:text="@string/listing_seller_contact_material_button"
+                        android:textAllCaps="true"
+                        android:textAppearance="?textAppearanceCaption" />
+
+            </RelativeLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <!--    <TextView
+                android:text=""
+                android:textAppearance="?textAppearanceCaption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+        <TextView
+                tools:text=""
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>-->
+
+</ScrollView>

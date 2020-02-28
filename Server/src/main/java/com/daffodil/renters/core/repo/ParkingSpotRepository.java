@@ -8,7 +8,7 @@ import java.util.List;
 public interface ParkingSpotRepository extends CrudRepository<ParkingSpotEntity, Long> {
 
 
-    List<ParkingSpotEntity> findParkingSpotByHouseId(long houseId);
-
-    List<ParkingSpotEntity> findParkingSpotByOccupantId(long occupantId);
+//    List<ParkingSpotEntity> findParkingSpotByHouseId(long houseId);
+//
+//    List<ParkingSpotEntity> findParkingSpotByOccupantId(long occupantId);
 }

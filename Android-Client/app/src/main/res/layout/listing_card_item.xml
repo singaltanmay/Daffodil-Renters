@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:padding="16dp">
+
+        <TextView
+                android:id="@+id/rent_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:textAppearance="?textAppearanceHeadline6"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="₹ 56239" />
+
+        <TextView
+                android:id="@+id/bhk_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:textAppearance="?textAppearanceSubtitle1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rent_text_view"
+                tools:text="3 BHK Independent Floor" />
+
+        <TextView
+                android:id="@+id/address_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="@android:color/transparent"
+                android:textAppearance="?textAppearanceBody1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/bhk_text_view"
+                tools:text="Sector 30, Uniworld Unitech Garden City" />
+
+        <TextView
+                android:id="@+id/area_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:textAppearance="?textAppearanceCaption"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/address_text_view"
+                tools:text="350 sq. ft" />
+
+
+        <TextView
+                android:id="@+id/furnishing_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:textAppearance="?textAppearanceCaption"
+                app:layout_constraintStart_toEndOf="@id/area_text_view"
+                app:layout_constraintTop_toBottomOf="@id/address_text_view"
+                tools:layout_editor_absoluteX="16dp"
+                tools:text="Fully Furnished" />
+
+        <TextView
+                android:id="@+id/distanceTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/bhk_text_view"
+                tools:text="200 m" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

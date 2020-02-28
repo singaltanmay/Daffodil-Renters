@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.insertion.PropertyInsertionFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:orientation="vertical">
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.Renters.TextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            app:endIconMode="clear_text">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Unit Name" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.Renters.TextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            app:endIconMode="clear_text"
+            app:suffixText="sq. ft.">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Area"
+                android:inputType="numberDecimal" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Amenities" />
+
+        <include layout="@layout/amenities_chip_group" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.Renters.TextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            app:endIconMode="clear_text"
+            app:prefixText="@string/currency_symbol"
+            app:suffixText="/ month">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Rent"
+                android:inputType="numberDecimal" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.Renters.TextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            app:endIconMode="clear_text"
+            app:prefixText="@string/currency_symbol">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Security Deposit"
+                android:inputType="numberDecimal" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.Renters.TextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            app:endIconMode="clear_text"
+            app:prefixText="@string/currency_symbol">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Brokerage"
+                android:inputType="numberDecimal" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.Renters.TextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            app:endIconMode="clear_text"
+            app:suffixText="months">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Lock-In Period"
+                android:inputType="numberDecimal" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Property Type" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Apartment" />
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Independent Floor" />
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Independent House" />
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PG" />
+
+        </com.google.android.material.chip.ChipGroup>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Furnishing" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fully Furnished" />
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Semi Furnished" />
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Unfurnished" />
+
+        </com.google.android.material.chip.ChipGroup>
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Roommates allowed" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.Renters.TextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            app:endIconMode="clear_text">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Description"
+                android:minLines="5" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/building_creation_next_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_margin="16dp"
+            android:text="Next" />
+
+    </LinearLayout>
+
+</ScrollView>

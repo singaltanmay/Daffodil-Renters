@@ -12,14 +12,14 @@ import java.util.List;
 
 public interface OccupantRepository extends CrudRepository<OccupantEntity, Long> {
 
-    List<OccupantEntity> findByRoomId(long roomId);
-
-    Iterable<OccupantEntity> findOccupantByRoomId(long roomId);
-
-    @Transactional
-    @Modifying
-    @Query("UPDATE OccupantEntity o SET o.firstName = :f_na, o.lastName = :l_na, o.phoneNumber = :ph, o.dateMovedIn = :dmi, o.timeLastRentPaid = :tlrp WHERE o.id = :id")
-    void updateOccupantById(@Param("id") long occupantId, @Param("f_na") String firstName, @Param("l_na") String lastName, @Param("ph") String phoneNumber, @Param("dmi") Date dateMovedIn, @Param("tlrp") Date timeLastRentPaid);
-
-    void deleteByRoomId(long roomId);
+//    List<OccupantEntity> findByRoomId(long roomId);
+//
+//    Iterable<OccupantEntity> findOccupantByRoomId(long roomId);
+//
+//    @Transactional
+//    @Modifying
+//    @Query("UPDATE OccupantEntity o SET o.firstName = :f_na, o.lastName = :l_na, o.phoneNumber = :ph, o.dateMovedIn = :dmi, o.timeLastRentPaid = :tlrp WHERE o.id = :id")
+//    void updateOccupantById(@Param("id") long occupantId, @Param("f_na") String firstName, @Param("l_na") String lastName, @Param("ph") String phoneNumber, @Param("dmi") Date dateMovedIn, @Param("tlrp") Date timeLastRentPaid);
+//
+//    void deleteByRoomId(long roomId);
 }

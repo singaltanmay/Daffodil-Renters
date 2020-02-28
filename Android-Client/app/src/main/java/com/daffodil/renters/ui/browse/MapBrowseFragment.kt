@@ -6,19 +6,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.daffodil.renters.R
-import com.daffodil.renters.model.House
+import com.daffodil.renters.application.RentersApplication
+import com.daffodil.renters.model.ListingSkeletal
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 
-class MapBrowseFragment : BrowseFragmentBase(), BrowseFragmentBase.ChildFragmentInteraction,
-    OnMapReadyCallback {
+class MapBrowseFragment : ControllerFragment(), ControllerFragment.ChildFragmentInteraction,
+    OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     private var map: GoogleMap? = null
-    private var houses: List<House>? = null
+    private var listings: List<ListingSkeletal>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +32,7 @@ class MapBrowseFragment : BrowseFragmentBase(), BrowseFragmentBase.ChildFragment
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_map_browse, container, false)
+        val view = inflater.inflate(R.layout.container_fragment, container, false)
 
         val mapFragment = initMap()
         mapFragment.getMapAsync(this)
@@ -44,7 +46,7 @@ class MapBrowseFragment : BrowseFragmentBase(), BrowseFragmentBase.ChildFragment
         activity?.supportFragmentManager
             ?.beginTransaction()
             ?.add(
-                R.id.map_container,
+                R.id.fragment_container,
                 supportMapFragment
             )?.commit()
 
@@ -62,47 +64,67 @@ class MapBrowseFragment : BrowseFragmentBase(), BrowseFragmentBase.ChildFragment
      */
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
+
+        // Coordinates of daffodil software
         val latLng = LatLng(
-            28.465080, 77.056168
+            28.465082, 77.056162
         )
         map?.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12.5f))
-        setHouseMarkers()
+        setListingSkeletalMarkers()
     }
 
-    fun setHouseMarkers() {
-        if (map != null && houses != null) {
+    fun setListingSkeletalMarkers() {
+        if (map != null && listings != null) {
+
+            Thread { map!!.setOnMarkerClickListener(this) }
+
+            val moveToAvgLatLang =
+                (context?.applicationContext as RentersApplication).getAppPreferences()
+                    .getBoolean("MAP_INIT_AVG_LATLANG", false)
 
             var avgLat: Double? = null
             var avgLong: Double? = null
 
-            val size = houses!!.size
+            val size = listings!!.size
 
-            houses?.forEach {
+            listings?.forEach {
                 val latitude = it.latitude
                 val longitude = it.longitude
-                map?.addMarker(
-                        MarkerOptions().position(
-                            LatLng(
-                                latitude,
-                                longitude
-                            )
-                        ).title(it.address)
-                            .alpha(2.34f)
-                    )
-                if (avgLat == null) avgLat = (latitude / size)
-                else avgLat?.plus(latitude / size)
-                if (avgLong == null) avgLong = (longitude / size)
-                else avgLong?.plus(longitude / size)
+                val marker = map?.addMarker(
+                    MarkerOptions().position(
+                        LatLng(
+                            latitude,
+                            longitude
+                        )
+                    ).title(it.addressLocalityName)
+                        .alpha(2.34f)
+                        .snippet(it.FormattedStrings().getRoundedDistanceWithUnit()  + " from Daffodil Software")
+                )
+                marker?.tag = it.propertyId
+                if (moveToAvgLatLang) {
+                    if (avgLat == null) avgLat = (latitude / size)
+                    else avgLat?.plus(latitude / size)
+                    if (avgLong == null) avgLong = (longitude / size)
+                    else avgLong?.plus(longitude / size)
                 }
+            }
 
-            if (avgLat != null && avgLong != null)
+            if (moveToAvgLatLang && avgLat != null && avgLong != null)
                 map?.moveCamera(CameraUpdateFactory.newLatLng(LatLng(avgLat!!, avgLong!!)))
 
         }
     }
 
-    override fun onDataLoaded(houses: List<House>?) {
-        this.houses = houses
-        setHouseMarkers()
+    override fun onMarkerClick(p0: Marker?): Boolean {
+        val id = p0?.tag as Long?
+        if (id != null) {
+            super.viewListing(id)
+            return true
+        } else return false
+    }
+
+    override fun onDataLoaded(listings: List<ListingSkeletal>?) {
+        this.listings = listings
+        setListingSkeletalMarkers()
     }
 }

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+
+    <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Vehicle Type" />
+
+            <com.google.android.material.chip.ChipGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:selectionRequired="true"
+                    app:singleSelection="true">
+
+                <com.google.android.material.chip.Chip
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="General" />
+
+                <com.google.android.material.chip.Chip
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Reserved" />
+
+                <com.google.android.material.chip.Chip
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Handicapped" />
+
+                <com.google.android.material.chip.Chip
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Emergency Vehicle" />
+
+            </com.google.android.material.chip.ChipGroup>
+
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Vehicle Size" />
+
+            <com.google.android.material.chip.ChipGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:selectionRequired="true"
+                    app:singleSelection="true">
+
+                <com.google.android.material.chip.Chip
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Bicycle" />
+
+                <com.google.android.material.chip.Chip
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Scooter" />
+
+                <com.google.android.material.chip.Chip
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Car" />
+
+                <com.google.android.material.chip.Chip
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Mini-truck" />
+
+            </com.google.android.material.chip.ChipGroup>
+
+            <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Has EV Charging point" />
+
+            <CheckBox
+                    android:id="@+id/parking_spot_item_free_parking_checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="Free Parking" />
+
+            <EditText
+                    android:id="@+id/parking_spot_item_monthly_charges_edit_text"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Monthly Charges"
+                    android:inputType="number" />
+
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</FrameLayout>

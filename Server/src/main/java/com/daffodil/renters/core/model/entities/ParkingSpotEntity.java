@@ -1,16 +1,13 @@
 package com.daffodil.renters.core.model.entities;
 
-import com.daffodil.renters.core.model.beans.ParkingSpot;
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.LinkedList;
-import java.util.List;
 
 @Entity
 @Table(name = "parking_spot")
 public class ParkingSpotEntity {
-
 
     public enum PARKING_SIZE {
         BICYCLE,
@@ -18,7 +15,6 @@ public class ParkingSpotEntity {
         CAR,
         MINI_TRUCK;
     }
-
 
     public enum PARKING_TYPE {
         GENERAL,
@@ -28,11 +24,13 @@ public class ParkingSpotEntity {
     }
 
     @Getter
+    @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     @Getter
+    @Setter
     private boolean electric;
 
     @Getter
@@ -46,31 +44,58 @@ public class ParkingSpotEntity {
     private PARKING_TYPE parkingType = PARKING_TYPE.GENERAL;
 
     @Getter
+    @Setter
     private int price;
 
     @Getter
+    @Setter
     @ManyToOne
-    private HouseEntity house;
+    private BuildingEntity building;
 
     @Getter
+    @Setter
+    @ManyToOne
+    private PropertyEntity property;
+
+    @Getter
+    @Setter
     @ManyToOne
     private OccupantEntity occupant;
 
-    public ParkingSpotEntity(HouseEntity house) {
-        this.house = house;
+    // Called by building entity on shared parking spots belonging to no property specifically
+    public void performPostParentCreationMappings(BuildingEntity entity) {
+        this.building = entity;
+    }
+
+    // Called by PropertyEntity on parking spots reserved for a property but not for any occupant
+    public void performPostParentCreationMappings(PropertyEntity entity) {
+        this.property = entity;
+        this.building = this.property.getBuilding();
+    }
+
+    // Called by OccupantEntity on parking spots rented by owners
+    public void performPostParentCreationMappings(OccupantEntity entity) {
+        this.occupant = entity;
+        this.property = this.occupant.getRoom().getProperty();
+        this.building = this.property.getBuilding();
+    }
+
+    public ParkingSpotEntity(BuildingEntity building) {
+        this.building = building;
     }
 
     protected ParkingSpotEntity() {
     }
 
-    public ParkingSpotEntity setId(long id) {
+    public ParkingSpotEntity(long id, boolean electric, PARKING_SIZE parkingSize, PARKING_TYPE parkingType, int price, BuildingEntity building, PropertyEntity property, OccupantEntity occupant) {
         this.id = id;
-        return this;
-    }
-
-    public ParkingSpotEntity setElectric(boolean electric) {
         this.electric = electric;
-        return this;
+        setParkingSize(parkingSize);
+        setParkingType(parkingType);
+        this.price = price;
+        this.building = building;
+        this.property = property;
+        this.occupant = occupant;
     }
 
     public ParkingSpotEntity setParkingSize(PARKING_SIZE parkingSize) {
@@ -84,21 +109,6 @@ public class ParkingSpotEntity {
         if (parkingType != null) {
             this.parkingType = parkingType;
         }
-        return this;
-    }
-
-    public ParkingSpotEntity setPrice(int price) {
-        this.price = price;
-        return this;
-    }
-
-    public ParkingSpotEntity setHouse(HouseEntity house) {
-        this.house = house;
-        return this;
-    }
-
-    public ParkingSpotEntity setOccupant(OccupantEntity occupant) {
-        this.occupant = occupant;
         return this;
     }
 }

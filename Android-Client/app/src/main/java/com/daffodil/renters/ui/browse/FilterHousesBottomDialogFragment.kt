@@ -16,7 +16,7 @@ class FilterHousesBottomDialogFragment : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(
-            R.layout.filter_houses_bottom_sheet_dialog_layout,
+            R.layout.filter_listings_bottom_sheet_dialog_layout,
             container,
             false
         )

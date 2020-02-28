@@ -1,11 +1,30 @@
 <resources>
     <string name="app_name">Renters</string>
-    <string name="view_type_list">List</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="title_activity_settings">Settings</string>
+    <string name="currency_symbol">₹</string>
+    <string name="filter_fab_title">Filter</string>
+    <string name="navigation_settings_title">Settings</string>
+
+    <string-array name="layout_change_spinner_items">
+        <item>List</item>
+        <item>Map</item>
+    </string-array>
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_maps">Map</string>
+    <string name="login_hint_email_id">Email ID</string>
+    <string name="login_hint_password">Password</string>
+    <string name="sign_up_hint_phone_number">Phone Number</string>
+    <string name="sign_up_hint_last_name">Last Name</string>
+    <string name="sign_up_hint_first_name">First Name</string>
+    <string name="view_on_map_button">View on Map</string>
+    <string name="listing_section_overview_title">Overview</string>
+    <string name="listing_project_name_title">Project Name</string>
+    <string name="listing_bedrooms_num_title">Bedrooms</string>
+    <string name="listing_section_description_title">About the Property</string>
+    <string name="description_length_toggle_button">Read More</string>
+    <string name="listing_section_contact_seller_title">Contact Seller</string>
+    <string name="listing_seller_contact_material_button">Contact</string>
+    <string name="navigation_new_listing_title">New Listing</string>
 
-
-    <!-- TODO: Remove or change this placeholder text -->
 </resources>

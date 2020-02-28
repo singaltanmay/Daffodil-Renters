@@ -9,4 +9,37 @@
     <string name="default_ip_address">@string/iphone_6s_hotspot</string>
     <string name="default_port_number">8080</string>
 
+
+    <!-- Preference Titles -->
+    <string name="networking_config_header">Networking</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="server_ip_address_title">Server IP address</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+
+    <!-- Preference keys -->
+    <string name="server_ip_address_key">servipkey</string>
+    <string name="server_ip_summary">Set the IP address used by the app to connect to API. Restart the app to apply changes.</string>
+
+
+    <!-- Reply Preference -->
+    <string-array name="reply_entries">
+        <item>Reply</item>
+        <item>Reply to all</item>
+    </string-array>
+
+    <string-array name="reply_values">
+        <item>reply</item>
+        <item>reply_all</item>
+    </string-array>
+
+
 </resources>

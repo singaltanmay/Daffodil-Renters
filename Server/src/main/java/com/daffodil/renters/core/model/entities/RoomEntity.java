@@ -1,11 +1,8 @@
 package com.daffodil.renters.core.model.entities;
 
-import com.daffodil.renters.core.model.beans.Occupant;
-import com.daffodil.renters.core.model.beans.Room;
 import lombok.Getter;
 
 import javax.persistence.*;
-import java.util.LinkedList;
 import java.util.List;
 
 @Entity
@@ -16,9 +13,11 @@ public class RoomEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+
     @Getter
     private long capacity;
-    @Getter
+
+    // Used to set variable rent in case of shared properties
     private long rent;
 
     // Children
@@ -29,20 +28,25 @@ public class RoomEntity {
     // Parent
     @Getter
     @ManyToOne
-    private HouseEntity house;
+    private PropertyEntity property;
 
-    private void mapAllOccupants() {
-        List<OccupantEntity> occupants = this.getOccupants();
-        if (occupants != null) {
-            for (OccupantEntity oc : occupants) {
-                mapOccupant(oc);
-            }
-        }
+    public void performPostParentCreationMappings(PropertyEntity propertyEntity) {
+        this.property = propertyEntity;
+        triggerOccupantsPostParentCreationMapping();
     }
 
-    private void mapOccupant(OccupantEntity entity) {
-        if (entity != null) {
-            entity.setRoom(RoomEntity.this);
+    private void triggerOccupantsPostParentCreationMapping() {
+        List<OccupantEntity> occupants = this.occupants;
+        new Thread(() -> {
+            if (occupants != null) {
+                occupants.forEach(RoomEntity.this::triggerOccupantMappings);
+            }
+        }).start();
+    }
+
+    private void triggerOccupantMappings(OccupantEntity occupant) {
+        if (occupant != null) {
+            occupant.performPostParentCreationMappings(RoomEntity.this);
         }
     }
 
@@ -54,13 +58,21 @@ public class RoomEntity {
     protected RoomEntity() {
     }
 
+    public long getRent() {
+        if (property != null) {
+            long propertyRent = property.getRent();
+            long numberOfRooms = property.getNumberOfRooms();
+            if (numberOfRooms > 0) return propertyRent / numberOfRooms;
+            else return propertyRent;
+        } else return 0;
+    }
+
     public int getNumberOfOccupants() {
         return occupants.size();
     }
 
     public RoomEntity setOccupants(List<OccupantEntity> occupants) {
         this.occupants = occupants;
-        mapAllOccupants();
         return this;
     }
 
@@ -79,8 +91,9 @@ public class RoomEntity {
         return this;
     }
 
-    public RoomEntity setHouse(HouseEntity house) {
-        this.house = house;
+    public RoomEntity setProperty(PropertyEntity property) {
+        this.property = property;
         return this;
     }
+
 }

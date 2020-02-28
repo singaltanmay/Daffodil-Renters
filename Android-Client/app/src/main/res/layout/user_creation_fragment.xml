@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:minHeight="500dp"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:paddingTop="16dp">
+
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:paddingBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/frag_user_creation_done_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:orientation="vertical">
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/firstNameTextInputLayout"
+                    style="@style/Widget.Renters.TextInputLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:hint="@string/sign_up_hint_first_name"
+                    app:endIconMode="clear_text"
+                    app:errorEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/firstNameTextInputEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapWords"
+                        android:maxLines="1" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/lastNameTextInputLayout"
+                    style="@style/Widget.Renters.TextInputLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/sign_up_hint_last_name"
+                    app:endIconMode="clear_text"
+                    app:errorEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/lastNameTextInputEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapWords"
+                        android:maxLines="1" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/phoneNumberTextInputLayout"
+                    style="@style/Widget.Renters.TextInputLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/sign_up_hint_phone_number"
+                    app:endIconMode="clear_text"
+                    app:errorEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/phoneNumberTextInputEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="phone"
+                        android:maxLines="1" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/emailIdTextInputLayout"
+                    style="@style/Widget.Renters.TextInputLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/login_hint_email_id"
+                    app:endIconMode="clear_text"
+                    app:errorEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/emailIdTextInputEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textEmailAddress"
+                        android:maxLines="1" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/passwordTextInputLayout"
+                    style="@style/Widget.Renters.TextInputLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/login_hint_password"
+                    app:endIconMode="password_toggle"
+                    app:errorEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/passwordTextInputEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:maxLines="1" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:labelFor="@id/frag_user_creation_sign_up_type_chip_group"
+                    android:padding="8dp"
+                    android:text="Sign up as"
+                    android:textAppearance="?textAppearanceSubtitle1" />
+
+            <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/frag_user_creation_sign_up_type_chip_group"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    app:selectionRequired="true">
+
+                <com.google.android.material.chip.Chip
+                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="Renter" />
+
+                <com.google.android.material.chip.Chip
+                        android:id="@+id/frag_user_creation_sign_up_type_seller_chip"
+                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Seller" />
+
+            </com.google.android.material.chip.ChipGroup>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <com.google.android.material.button.MaterialButton
+            android:id="@+id/frag_user_creation_done_button"
+            style="@style/Widget.Renters.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Done"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+            android:id="@+id/frag_user_creation_cancel_button"
+            style="@style/Widget.Renters.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="Cancel"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/frag_user_creation_done_button" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

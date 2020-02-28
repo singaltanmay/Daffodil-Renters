@@ -57,25 +57,24 @@ public class OccupantEntity {
         return calendar.getTime();
     }
 
-    public void mapAllParkingSpots() {
+    public void performPostParentCreationMappings(RoomEntity roomEntity) {
+        this.room = roomEntity;
+        triggerParkingSpotsPostParentCreationMapping();
+
+    }
+
+    public void triggerParkingSpotsPostParentCreationMapping() {
         List<ParkingSpotEntity> parkingSpotEntities = this.parkingSpots;
         if (parkingSpotEntities != null) {
             for (ParkingSpotEntity parkSpotE : parkingSpotEntities) {
-                mapParkingSpot(parkSpotE);
+                triggerParkingSpotMappings(parkSpotE);
             }
         }
     }
 
-    public void mapParkingSpot(ParkingSpotEntity parkingSpotEntity) {
+    public void triggerParkingSpotMappings(ParkingSpotEntity parkingSpotEntity) {
         if (parkingSpotEntity != null) {
-            parkingSpotEntity.setOccupant(OccupantEntity.this);
-            RoomEntity roomEntity = OccupantEntity.this.getRoom();
-            if (roomEntity != null) {
-                HouseEntity houseEntity = roomEntity.getHouse();
-                if (houseEntity != null) {
-                    parkingSpotEntity.setHouse(houseEntity);
-                }
-            }
+            parkingSpotEntity.performPostParentCreationMappings(OccupantEntity.this);
         }
     }
 
@@ -88,7 +87,7 @@ public class OccupantEntity {
 
     public OccupantEntity setParkingSpots(List<ParkingSpotEntity> parkingSpots) {
         this.parkingSpots = parkingSpots;
-        mapAllParkingSpots();
+//        triggerParkingSpotsPostParentCreationMapping();
         return this;
     }
 
@@ -130,4 +129,5 @@ public class OccupantEntity {
         this.room = room;
         return this;
     }
+
 }
