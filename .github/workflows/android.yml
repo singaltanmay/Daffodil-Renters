@@ -17,5 +17,9 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
+    - name: Move to Android-Client directory
+      run: cd Android-Client 
+    - name: Make gradlew executable
+      run: chmod +x ./gradlew
     - name: Build with Gradle
-      run: cd Android-Client && ./gradlew build
+      run: ./gradlew build
