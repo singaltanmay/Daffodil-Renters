@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "786944e1-d25b-445e-9809-a281997bacb8",
+		"_postman_id": "7f57663d-ac31-4009-a7a2-7fc6294f51c9",
 		"name": "Daffodil-Renters",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -52,6 +52,41 @@
 								"daffodil",
 								"api",
 								"listing"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Filtered listings",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"latitude\":28.358732,\n\t\"longitude\":77.156245,\n\t\"rangeKm\":10\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/daffodil/api/listing?min=true",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"daffodil",
+								"api",
+								"listing"
+							],
+							"query": [
+								{
+									"key": "min",
+									"value": "true"
+								}
 							]
 						}
 					},
