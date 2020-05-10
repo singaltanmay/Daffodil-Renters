@@ -1,14 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
     <TextView
+            android:id="@+id/sort_sheet_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:padding="16dp"
+            android:text="Sort"
+            android:textAppearance="?textAppearanceHeadline5" />
+
+    <View
+            android:id="@+id/sort_sheet_title_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="4dp"
+            android:background="@android:color/darker_gray" />
+
+    <com.google.android.material.button.MaterialButtonToggleGroup
+            android:layout_width="match_parent"
+            android:id="@+id/sort_sheet_sort_options_button_toggle_group"
+            android:padding="8dp"
+            android:layout_height="wrap_content">
+
+        <com.google.android.material.button.MaterialButton
+                android:id="@+id/sort_sheet_pincode_button"
+                style="@style/Widget.Renters.ToggleButton.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pin Code" />
+
+    </com.google.android.material.button.MaterialButtonToggleGroup>
+
+    <TextView
             android:id="@+id/filter_sheet_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:padding="16dp"
             android:text="Filter"
             android:textAppearance="?textAppearanceHeadline5"
@@ -20,8 +52,8 @@
             android:id="@+id/filter_sheet_title_divider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@android:color/darker_gray"
             android:layout_margin="4dp"
+            android:background="@android:color/darker_gray"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/filter_sheet_title" />
 
@@ -32,4 +64,4 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/filter_sheet_title_divider" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

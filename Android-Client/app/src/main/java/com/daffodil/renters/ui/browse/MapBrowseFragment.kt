@@ -127,4 +127,8 @@ class MapBrowseFragment : ControllerFragment(), ControllerFragment.ChildFragment
         this.listings = listings
         setListingSkeletalMarkers()
     }
+
+    override fun sortDataPinCode(doSort : Boolean) {
+
+    }
 }

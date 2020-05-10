@@ -3,7 +3,7 @@
 
     <string name="title_activity_settings">Settings</string>
     <string name="currency_symbol">₹</string>
-    <string name="filter_fab_title">Filter</string>
+    <string name="filter_fab_title">Sort | Filter</string>
     <string name="navigation_settings_title">Settings</string>
 
     <string-array name="layout_change_spinner_items">

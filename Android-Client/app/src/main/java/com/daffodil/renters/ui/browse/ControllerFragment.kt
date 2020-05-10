@@ -38,6 +38,7 @@ open class ControllerFragment : Fragment() {
 
     interface ChildFragmentInteraction {
         fun onDataLoaded(listings: List<ListingSkeletal>?)
+        fun sortDataPinCode(doSort : Boolean)
     }
 
     fun viewListing(propertyId: Long?) {

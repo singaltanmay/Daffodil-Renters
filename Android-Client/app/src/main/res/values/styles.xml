@@ -51,6 +51,9 @@
         <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
 
+    <style name="Widget.Renters.ToggleButton.TextButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:layout_margin">8dp</item>
+    </style>
 
     <style name="Widget.Renters.Chip.AmenitiesChip" parent="Widget.MaterialComponents.Chip.Entry">
         <item name="android:layout_width">wrap_content</item>

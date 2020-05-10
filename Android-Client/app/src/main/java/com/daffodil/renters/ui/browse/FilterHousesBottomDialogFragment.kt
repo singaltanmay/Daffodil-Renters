@@ -4,11 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.daffodil.renters.R
+import com.daffodil.renters.application.RentersApplication
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.android.material.button.MaterialButtonToggleGroup
+import kotlinx.android.synthetic.main.filter_listings_bottom_sheet_dialog_layout.*
 
-class FilterHousesBottomDialogFragment : BottomSheetDialogFragment() {
-
+class FilterHousesBottomDialogFragment(val childFragmentInteraction: ControllerFragment.ChildFragmentInteraction?) : BottomSheetDialogFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -24,6 +27,16 @@ class FilterHousesBottomDialogFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // Do stuff here
+
+        val materialButtonToggleGroup =
+            sort_sheet_sort_options_button_toggle_group as MaterialButtonToggleGroup
+        materialButtonToggleGroup.addOnButtonCheckedListener { group, checkedId, isChecked ->
+            when (checkedId) {
+                R.id.sort_sheet_pincode_button -> {
+                    childFragmentInteraction?.sortDataPinCode(isChecked)
+                }
+            }
+        }
+
     }
 }
