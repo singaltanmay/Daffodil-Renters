@@ -54,6 +54,13 @@ class ListBrowseFragment : ControllerFragment(), ControllerFragment.ChildFragmen
         }
     }
 
+    override fun sortDataPinCode(doSort: Boolean) {
+        if (doSort) {
+            adapter.data?.sortedBy { it.addressPinCode?.toLongOrNull() }
+            adapter.notifyDataSetChanged()
+        }
+    }
+
     class BrowseItemAdapter(
         var data: List<ListingSkeletal>?,
         val context: Context?,

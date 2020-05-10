@@ -104,6 +104,7 @@ public class BuildingService {
             //Names of all the columns in the table
             String COLUMN_LATITUDE = "b.latitude";
             String COLUMN_LONGITUDE = "b.longitude";
+            String COLUMN_PINCODE = "b.addressPinCode"; /*address_pin_code*/
 
             boolean isFilterable = isListingFilterable(filter);
             AtomicBoolean notFirstParam = new AtomicBoolean(false);
@@ -112,6 +113,16 @@ public class BuildingService {
 
             if (isFilterable) {
                 builder.append(" WHERE ");
+
+                if (filter.pincode.isPresent()) {
+
+                    if (notFirstParam.get()) {
+                        builder.append(" AND ");
+                    } else notFirstParam.set(true);
+
+                    builder.append(COLUMN_PINCODE + " = " + "'" + filter.pincode.get() + "'");
+
+                }
 
                 if (filter.latitude.isPresent() && filter.longitude.isPresent()) {
 

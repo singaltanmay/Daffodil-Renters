@@ -43,7 +43,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/daffodil/api/listing",
+							"raw": "localhost:8080/daffodil/api/listing?min=false",
 							"host": [
 								"localhost"
 							],
@@ -52,6 +52,12 @@
 								"daffodil",
 								"api",
 								"listing"
+							],
+							"query": [
+								{
+									"key": "min",
+									"value": "false"
+								}
 							]
 						}
 					},
@@ -64,7 +70,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"latitude\":28.358732,\n\t\"longitude\":77.156245,\n\t\"rangeKm\":10\n}",
+							"raw": "{\n\t\"latitude\":28.358732,\n\t\"longitude\":77.156245,\n\t\"rangeKm\":10,\n\t\"pincode\":122001\n}",
 							"options": {
 								"raw": {
 									"language": "json"

@@ -32,6 +32,7 @@ class BrowseFragment : Fragment(), AdapterView.OnItemSelectedListener,
     val BROWSE_HOMES_DISPLAY_TYPE_MAP = 1
 
     var spinnerEnabled = false
+    lateinit var childFrag: ControllerFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,19 +70,18 @@ class BrowseFragment : Fragment(), AdapterView.OnItemSelectedListener,
      * Initialize the initial fragment based on previous display type selected by user.
      */
     private fun initInitialFragment() {
-        val fragment: ControllerFragment
 
         when (browseHomesDisplayType) {
             BROWSE_HOMES_DISPLAY_TYPE_LIST -> {
-                fragment = ListBrowseFragment()
+                childFrag = ListBrowseFragment()
             }
             BROWSE_HOMES_DISPLAY_TYPE_MAP -> {
-                fragment = MapBrowseFragment()
+                childFrag = MapBrowseFragment()
             }
-            else -> fragment = ListBrowseFragment()
+            else -> childFrag = ListBrowseFragment()
         }
 
-        navigateTo(fragment)
+        navigateTo(childFrag)
 
     }
 
@@ -141,7 +141,7 @@ class BrowseFragment : Fragment(), AdapterView.OnItemSelectedListener,
         val fab: ExtendedFloatingActionButton = browse_filter_fab
         Thread {
             fab.setOnClickListener {
-                FilterHousesBottomDialogFragment().show(
+                FilterHousesBottomDialogFragment(childFrag.childInteraction).show(
                     activity!!.supportFragmentManager,
                     null
                 )
@@ -167,7 +167,6 @@ class BrowseFragment : Fragment(), AdapterView.OnItemSelectedListener,
         }
 
     }
-
 
     /**
      * Get and Set the value of default display mode in shared preferences.
@@ -201,4 +200,5 @@ class BrowseFragment : Fragment(), AdapterView.OnItemSelectedListener,
 
         transaction.commit()
     }
+
 }

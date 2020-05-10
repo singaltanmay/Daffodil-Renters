@@ -75,6 +75,8 @@ public class ListingSkeletal {
         public Optional<Double> longitude = Optional.empty();
         public Optional<Double> rangeKm = Optional.empty();
 
+        public Optional<String> pincode = Optional.empty();
+
         public Filter() {
         }
 

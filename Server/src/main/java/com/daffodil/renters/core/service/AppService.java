@@ -108,12 +108,15 @@ public class AppService {
     public ResponseEntity<?> getFilteredListings(Listing.Filter filter, Optional<Boolean> min) {
 
         /**
-         * Tell all children that a deep search is not required
+         * Indicate to all children that a deep search is not required
          */
         if (min.isPresent() && min.get()) filter.minListing = true;
 
         if (filter.minListing) {
 
+            /**
+             * Launch a FilteredQueryTask
+             */
             FilteredQueryTask queryTask = new FilteredQueryTask(filter, getServiceBundle());
             List<ListingSkeletal> skeletals = masterPool.invoke(queryTask);
             return new ResponseEntity<>(skeletals, HttpStatus.OK);

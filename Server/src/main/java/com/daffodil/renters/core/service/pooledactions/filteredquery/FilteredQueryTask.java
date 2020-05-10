@@ -28,7 +28,11 @@ public class FilteredQueryTask extends RecursiveTask<List<ListingSkeletal>> {
 
         BuildingFilteredQuery task = new BuildingFilteredQuery(filter, serviceBundle);
         task.fork();
-        List<GenerateListingsTask> listingsTasks = listingsTasks(task.join());
+        // This is a list of all the filtered buildings
+        List<Building> filteredBuildings = task.join();
+
+        // Convert all buildings (with children) into listings
+        List<GenerateListingsTask> listingsTasks = listingsTasks(filteredBuildings);
 
         listingsTasks.forEach(t -> t.fork());
         listingsTasks.forEach(t -> skeletals.addAll(t.join()));
