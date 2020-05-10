@@ -18,4 +18,4 @@ jobs:
       with:
         java-version: 1.8
     - name: Build with Gradle
-      run: ./Android-Client/gradlew build
+      run: cd Android-Client && ./gradlew build
