@@ -1,0 +1,65 @@
+{
+	"info": {
+		"_postman_id": "786944e1-d25b-445e-9809-a281997bacb8",
+		"name": "Daffodil-Renters",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Client API",
+			"item": [
+				{
+					"name": "Create new building",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\n        \"a_building\":\"H-23\",\n            \"a_locality\":\"Unitech Uniworld City South\",\n            \"a_subdiv\":\"Sector 30\",\n            \"a_city\":\"Gurgaon\",\n            \"a_state\":\"Haryana\",\n            \"a_pincode\":\"122001\",\n            \"constructed\":\"2010-10-12\",\n            \"latitude\":28.358732,\n            \"longitude\":77.156245,\n            \"properties\":[{\n        \"unit\":\"3-B\",\n                \"description\":\"Lorem ipsum\",\n                \"propertyType\":\"APARTMENT\",\n                \"furnishingType\":\"UNFURNISHED\",\n                \"area\":\"3000\",\n                \"rent\":\"55000\",\n                \"brokerage\":\"30000\",\n                \"securityDeposit\":\"120000\",\n                \"roommates\":\"true\",\n                \"lockInPeriod\":\"4\",\n                \"listedOn\":\"2019-06-14\",\n                \"rooms\":[{\n            \"capacity\":2,\n                    \"occupants\":[{\n                \"firstName\":\"Shiv\",\n                        \"lastName\":\"Sharma\",\n                        \"phoneNumber\":\"+919836452738\",\n                        \"parkingSpots\":[{\n                    \"electric\":true,\n                            \"parkingSize\":\"SCOOTER\",\n                            \"parkingType\":\"RESERVED\",\n                            \"price\":1500\n\n                },\n                {\n                    \"parkingSize\":\"MINI_TRUCK\",\n                        \"parkingType\":\"RESERVED\",\n                        \"price\":2357\n                }]\n            },\n            {\n                \"firstName\":\"Kanika\",\n                    \"lastName\":\"Shethi\",\n                    \"phoneNumber\":\"+919543234567\"\n            }]\n        },\n        {\n            \"capacity\":1,\n                \"occupants\":[{\n            \"firstName\":\"Ashok\",\n                    \"lastName\":\"Yadav\",\n                    \"phoneNumber\":\"+4498263514\"\n        }]\n        },\n        {\n            \"capacity\":3,\n                \"occupants\":[{\n            \"firstName\":\"Vipin\",\n                    \"lastName\":\"Kumaar\",\n                    \"phoneNumber\":\"+123476768\",\n                    \"rent\":15000\n        }]\n        }],\n        \"seller\":{\n            \"firstName\":\"Kanika\",\n                    \"lastName\":\"Shethi\",\n                    \"phoneNumber\":\"9726318273\",\n                    \"sellerType\":\"AGENT\"\n        },\n        \"amenities\":{\n            \"gym\":true\n        },\n        \"parkingSpots\":[{\n            \"electric\":true\n        }]\n    }],\n        \"shared_p_spots\":[{\n        \"parkingType\":\"EMERGENCY_VEHICLE\",\n                \"parkingSize\":\"MINI_TRUCK\"\n    },\n        {\n            \"parkingType\":\"HANDICAPPED\",\n                \"parkingSize\":\"CAR\"\n        },\n        {\n            \"parkingType\":\"HANDICAPPED\",\n                \"parkingSize\":\"CAR\"\n        },\n        {\n            \"parkingSize\":\"CAR\"\n        },\n        {\n            \"parkingSize\":\"CAR\"\n        },\n        {\n            \"parkingSize\":\"BICYCLE\"\n        },\n        {\n            \"parkingSize\":\"BICYCLE\"\n        },\n        {\n            \"parkingSize\":\"BICYCLE\"\n        }]\n    }\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/daffodil/api/building",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"daffodil",
+								"api",
+								"building"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all listings",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/daffodil/api/listing",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"daffodil",
+								"api",
+								"listing"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
