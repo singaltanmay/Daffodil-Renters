@@ -20,4 +20,4 @@ jobs:
     - name: Make gradlew executable
       run: chmod +x ./Android-Client/gradlew
     - name: Build with Gradle
-      run: ./Android-Client/gradlew build Android-Client/
+      run: cd Android-Client && ./gradlew build
